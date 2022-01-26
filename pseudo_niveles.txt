@@ -1,0 +1,124 @@
+// identificadores para cada tipo de juego
+audio <- 0
+visual <- 1
+		// enteros para poder usarse como índices de arreglo
+
+
+
+// cuántos de cada tipo lleva elegidos
+// índice 0: audio, índice 1: visual
+gamesPlayed <- [0, 0]
+		// no se usará ahorita en demo
+		// se aprovechará hasta que ya tengamos los tres niveles de cada tipo disenados
+
+
+
+				// function chooseLevel
+					// elegir que juego quiere según los botones
+					// ES POSIBLE QUE AMBOS BOTONES SEAN IGUALES CUANDO TENGAMOS QUE OBLIGARLO
+
+					// aumentar gamesPlayed
+					// mostrar el juego correspondiente
+
+				// params
+					// boton1 y boton2 representan las opciones que le estamos dando
+					// los posibles valores son 0 (audio) o 1 (visual)
+					// es posible recibir uno de cada uno, o dos iguales
+
+				// return
+					// que juego eligió el usuario en los botones
+
+int chooseLevel(int boton1, int boton2) {
+
+	// mostrar al usuario imágenes según opciones
+	// agarrar decisión del usuario
+	juegoElegido <- showButtons(boton1, boton2)
+
+	// en demo no se aprovechará
+	// en juego final servirá para cargar nivel correcto una vez sepamos el tipo
+	gamesPlayed[juegoElegido]++
+
+	// mostrar juego correspondiente
+	showGameType(juegoElegido)
+
+	return juegoElegido
+}
+
+
+
+
+
+		// en los primeros dos siempre elige el usuario
+
+// primer juego
+displayMensaje("Me pregunto si hay pistas aqui")
+primerJuego <- chooseLevel(audio, visual)
+
+// segundo juego
+displayMensaje("Debemos buscar más pistas")
+segundoJuego <- chooseLevel(audio, visual)
+
+		// tercer juego
+		// empezamos a dirigirlo
+
+// ya ha jugado dos juegos iguales
+if (primerJuego == segundoJuego) {
+
+	// lo obligamos a que pruebe el otro tipo
+	if (primerJuego == audio) {
+		obligatorio <- visual
+	} else {
+		obligatorio <- audio
+	}
+
+	// lo obligamos
+	displayMensaje("Probemos algo nuevo")
+	chooseLevel(obligatorio, obligatorio)
+
+	// lo volvemos a obligar
+	displayMensaje("Eso funcionó, volvamos a probar")
+	chooseLevel(obligatorio, obligatorio)
+
+	// puede elegir su quinto juego
+	displayMessage("Dónde estará la última pista?")
+	chooseLevel(audio, visual)
+
+
+// llevamos uno de cada uno
+} else  {
+
+	// el usuario elige su tercer juego
+	displayMessage("Necesitamos más pistas!")
+	tercerJuego <- chooseLevel(audio, visual)
+
+
+	if (primerJuego == tercerJuego) {
+		// puede elegir su cuarto juego
+		displayMessage("Necesitamos más pistas!")
+		cuartoJuego <- chooseLevel(audio, visual)
+
+		if (primerJuego == cuartoJuego) {
+
+			// obligamos a que su último juego sea igual que el segundo
+			displayMessage("Creo saber dónde está la última pista!")
+			chooseLevel(segundoJuego, segundoJuego)
+		
+		} else {
+			
+			// puede elegir su último juego
+			displayMessage("Dónde estará la última pista?")
+			chooseLevel(audio, visual)
+		
+		}
+
+
+	} else {
+		// obligamos a que su cuarto juego sea el mismo que el primero
+		displayMessage("Prueba buscar pistas por acá")
+		chooseLevel(primerJuego, primerJuego)
+
+		// puede elegir su quinto juego
+		displayMessage("Dónde estará la última pista?")
+		chooseLevel(audio, video)									
+	}
+}
