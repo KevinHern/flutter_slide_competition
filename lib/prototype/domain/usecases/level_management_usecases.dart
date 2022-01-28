@@ -10,6 +10,10 @@ class LevelManagementUseCases {
     return this.levelManagementRepository.obtainForcedPuzzle();
   }
 
+  PuzzleType getForcedPuzzleTypeNonFuture () {
+    return this.levelManagementRepository.obtainForcedPuzzleNonFuture();
+  }
+
   Future<bool> isNextLevelForcedPuzzle(
       {required PuzzleType currentPuzzle}) async {
     return this

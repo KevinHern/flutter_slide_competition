@@ -36,9 +36,8 @@ class SpatialPuzzleWidget extends StatelessWidget {
       children: [
         Container(
           color: Colors.lightGreen,
-          child: Text(
-            "*Insert Spatial Puzzle image here*",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          child: Image.asset(
+              'assets/puzzle_spatial.png'
           ),
         ),
         const SizedBox(

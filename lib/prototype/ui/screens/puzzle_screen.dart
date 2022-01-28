@@ -24,6 +24,15 @@ import 'package:provider/provider.dart';
 // Utils
 import 'package:flutter_slide_competition/prototype/ui/utils/my_utils.dart';
 
+List<String> texts = [
+  "",
+  "A ghostly voice: Welcome! Long time since I saw a person around here, feel free to look around",
+  "There is a lot to explore in this mansion!",
+  "Why don't you take a look over here?",
+  "You are really good at looking for clues!",
+  "I feel like we are close to solve this mystery!"
+];
+
 class PuzzleScreen extends StatelessWidget {
   const PuzzleScreen({Key? key}) : super(key: key);
 
@@ -63,24 +72,46 @@ class PuzzleBody extends StatelessWidget {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      color: Colors.blueGrey,
+      color: Colors.transparent,
+
       child: Center(
         child: ChangeNotifierProvider<ValueNotifier<int>>(
           create: (context) => ValueNotifier(1),
-          child: Column(
-            children: [
-              const PuzzleHeader(),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.65,
-                child: Center(
-                  child: SwitchBody(
-                    puzzleRepository: this.puzzleRepository,
-                    levelManagementRepository: this.levelManagementRepository,
-                  ),
+          child: Stack (
+            children : [
+
+              /* Consumer utilizado para obtener en que nivel estamos */
+              /* Muestra imagen de fondo */
+              Consumer<ValueNotifier<int>>(
+                  builder: (_, i, __) => SizedBox(
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: Image.asset('assets/creepy_room' + i.value.toString() + '.jpg'),
+                  )
+              ),
+
+              /* Positioned usado para forzar a que se dibuje encima */
+              /* Muestra titulo y contenido */
+              Positioned(
+                top: 150,
+                width: MyUtils.getContainerWidth(context: context),
+                child: Column(
+                  children: [
+                    const PuzzleHeader(),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.65,
+                      child: Center(
+                        child: SwitchBody(
+                          puzzleRepository: this.puzzleRepository,
+                          levelManagementRepository: this.levelManagementRepository,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            ]
+          )
         ),
       ),
     );
@@ -94,16 +125,60 @@ class PuzzleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Text(
-        'Room #' +
-            Provider.of<ValueNotifier<int>>(context, listen: true)
-                .value
-                .toString(),
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 36,
-        ),
-      ),
+
+      child: Column (
+        children: [
+          Stack(
+            children: [
+              Text(
+                'Room #' +
+                    Provider.of<ValueNotifier<int>>(context, listen: true)
+                        .value
+                        .toString(),
+                style: TextStyle(
+                  fontSize: 36,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 6
+                    ..color = Colors.black,
+                ),
+              ),
+              // Solid text as fill.
+              Text(
+                'Room #' +
+                    Provider.of<ValueNotifier<int>>(context, listen: true)
+                        .value
+                        .toString(),
+                style: const TextStyle(
+                  fontSize: 36,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.all(5.0),
+            alignment: Alignment.bottomCenter,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: <Color>[
+                  Colors.black12,
+                  Colors.black45,
+                  Colors.black87
+                ],
+              ),
+            ),
+            child: Text(texts[Provider.of<ValueNotifier<int>>(context, listen: true).value],
+              style: const TextStyle(
+                fontSize: 28,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ]
+      )
     );
   }
 }

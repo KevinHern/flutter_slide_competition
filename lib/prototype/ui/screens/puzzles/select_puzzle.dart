@@ -57,19 +57,37 @@ class SelectPuzzleScreen extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
-              onPressed: () => _fetchThisPuzzle(
-                  navigationManager: navigationManager,
-                  puzzleType: PuzzleType.SOUND),
-              child: Text('Sound Puzzle'),
-              style: ElevatedButton.styleFrom(),
+            SizedBox(
+              height: 300,
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () => _fetchThisPuzzle(
+                    navigationManager: navigationManager,
+                    puzzleType: PuzzleType.SOUND),
+                child: Image.asset(
+                  'assets/guitar.jpg'
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                ),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () => _fetchThisPuzzle(
-                  navigationManager: navigationManager,
-                  puzzleType: PuzzleType.SPATIAL),
-              child: Text('Spatial Puzzle'),
-              style: ElevatedButton.styleFrom(),
+            SizedBox(
+              height: 300,
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () => _fetchThisPuzzle(
+                    navigationManager: navigationManager,
+                    puzzleType: PuzzleType.SPATIAL),
+                child: Image.asset(
+                    'assets/statue.jpg'
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                ),
+              ),
             ),
           ],
         );

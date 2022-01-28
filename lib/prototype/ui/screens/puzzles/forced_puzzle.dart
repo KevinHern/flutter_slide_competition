@@ -33,6 +33,8 @@ class ForcedPuzzleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PuzzleType tipo = this.levelManagementUseCases.getForcedPuzzleTypeNonFuture();
+
     return Consumer<NavigationManager>(
       builder: (_, navigationManager, __) {
         return ElevatedButton(
@@ -57,15 +59,21 @@ class ForcedPuzzleScreen extends StatelessWidget {
                 puzzleType: forcedPuzzleType);
 
             // Update Previous Puzzle
-            this
-                .levelManagementUseCases
+            this.levelManagementUseCases
                 .updatePreviousPuzzle(puzzleType: forcedPuzzleType);
 
             // Update UI
             navigationManager.update();
           },
-          child: Text('Take me to the Puzzle!'),
-          style: ElevatedButton.styleFrom(),
+          child: Image.asset(
+              (tipo == PuzzleType.SOUND) ? 'assets/guitar.jpg' : 'assets/statue.jpg',
+              width: 200,
+              height: 300,
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.transparent,
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          ),
         );
       },
     );

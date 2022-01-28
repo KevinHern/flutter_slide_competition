@@ -38,7 +38,15 @@ class WelcomeBody extends StatelessWidget {
       children: [
         Container(
           color: Colors.lightGreen,
-          child: const Text('*Insert intro images*'),
+          child: Image.asset(
+            'assets/mansion.jpg'
+          )
+        ),
+        const Text("I heard some rumors about some about something strange happening in this abandoned mansion, so I decided to investigate...",
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.black,
+          ),
         ),
         const SizedBox(
           height: 20,

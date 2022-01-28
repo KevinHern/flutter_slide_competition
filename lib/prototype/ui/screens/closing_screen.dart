@@ -38,7 +38,15 @@ class ClosingBody extends StatelessWidget {
       children: [
         Container(
           color: Colors.lightGreen,
-          child: const Text('*Insert conclusion images*'),
+            child: Image.asset(
+                'assets/happy_ghost.jpg'
+            )
+        ),
+        const Text("I didn't even remember that humans were so much fun! Please come again soon and bring your friends to explore!",
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.black,
+          ),
         ),
         const SizedBox(
           height: 20,

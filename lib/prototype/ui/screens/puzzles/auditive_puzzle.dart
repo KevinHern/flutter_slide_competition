@@ -36,9 +36,8 @@ class AuditivePuzzleWidget extends StatelessWidget {
       children: [
         Container(
           color: Colors.lightBlueAccent,
-          child: Text(
-            "*Insert Auditive Puzzle image here*",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          child: Image.asset(
+              'assets/puzzle_sound.png'
           ),
         ),
         const SizedBox(

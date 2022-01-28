@@ -32,6 +32,24 @@ class LevelManagementRepositoryImpl implements LevelManagementRepository {
       throw Exception();
   }
 
+
+
+  // check me
+  PuzzleType obtainForcedPuzzleNonFuture() {
+    // If we ran out of puzzles (== 3) or the previous Puzzle is the same type,
+    // then return the opposite puzzle
+    if (this._levelManager.totalSound == 3 ||
+        this._levelManager.previousPuzzle == PuzzleType.SOUND) {
+      return PuzzleType.SPATIAL;
+    } else if (this._levelManager.totalSpatial == 3 ||
+        this._levelManager.previousPuzzle == PuzzleType.SPATIAL) {
+      return PuzzleType.SOUND;
+    } else
+      throw Exception();
+  }
+
+
+
   @override
   Future<int> totalCompletedLevels() {
     // Obtains the total 'completed levels' counter
