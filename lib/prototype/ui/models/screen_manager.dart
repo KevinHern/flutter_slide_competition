@@ -8,6 +8,8 @@ enum ScreenType {
   FORCED_PUZZLE,
   AUDITIVE_PUZZLE,
   SPATIAL_PUZZLE,
+  PRE_PUZZLE,
+  POST_PUZZLE,
 }
 
 class NavigationManager extends ChangeNotifier {

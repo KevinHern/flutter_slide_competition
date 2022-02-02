@@ -16,6 +16,8 @@ import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/auditive_
 import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/forced_puzzle.dart';
 import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/select_puzzle.dart';
 import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/spatial_puzzle.dart';
+import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/pre_puzzle.dart';
+//import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/post_puzzle.dart';
 
 // State Management
 import 'package:flutter_slide_competition/prototype/ui/models/screen_manager.dart';
@@ -93,7 +95,7 @@ class PuzzleBody extends StatelessWidget {
               /* Positioned usado para forzar a que se dibuje encima */
               /* Muestra titulo y contenido */
               Positioned(
-                top: 150,
+                top: MyUtils.getPositionedTop(context: context),
                 width: MyUtils.getContainerWidth(context: context),
                 child: Column(
                   children: [
@@ -156,27 +158,6 @@ class PuzzleHeader extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            padding: const EdgeInsets.all(5.0),
-            alignment: Alignment.bottomCenter,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: <Color>[
-                  Colors.black12,
-                  Colors.black45,
-                  Colors.black87
-                ],
-              ),
-            ),
-            child: Text(texts[Provider.of<ValueNotifier<int>>(context, listen: true).value],
-              style: const TextStyle(
-                fontSize: 28,
-                color: Colors.white,
-              ),
-            ),
-          ),
         ]
       )
     );
@@ -196,7 +177,7 @@ class SwitchBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<NavigationManager>(
       create: (context) =>
-          NavigationManager(currentScreen: ScreenType.SELECT_PUZZLE),
+          NavigationManager(currentScreen: ScreenType.PRE_PUZZLE),
       child: Consumer<NavigationManager>(
         builder: (_, navigationManager, __) {
           switch (navigationManager.getCurrentScreen) {
@@ -227,6 +208,13 @@ class SwitchBody extends StatelessWidget {
               return SpatialPuzzleWidget(
                 puzzle: navigationManager.getPuzzle as SpatialPuzzle,
                 levelManagementRepository: this.levelManagementRepository,
+              );
+
+            // Pantalla pre seleccion
+            case ScreenType.PRE_PUZZLE:
+              return PrePuzzleScreen(
+                  puzzleRepository: this.puzzleRepository,
+                  levelManagementRepository: this.levelManagementRepository,
               );
 
             // Display an extra screen in case something breaks with the Navigation Manager

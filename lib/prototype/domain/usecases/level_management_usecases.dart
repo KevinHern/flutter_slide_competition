@@ -28,6 +28,14 @@ class LevelManagementUseCases {
     return result;
   }
 
+  // Obtener cuando niveles se han completado
+  Future<int> getCompletedLevels() async {
+    return this.levelManagementRepository.totalCompletedLevels();
+  }
+  int getCompletedLevelsNonFuture() {
+    return this.levelManagementRepository.totalCompletedLevelsNonFuture();
+  }
+
   void increaseCounter({required PuzzleType puzzleType}) async {
     this
         .levelManagementRepository
@@ -36,5 +44,13 @@ class LevelManagementUseCases {
 
   void updatePreviousPuzzle({required PuzzleType puzzleType}) {
     this.levelManagementRepository.setPreviousPuzzle(puzzleType: puzzleType);
+  }
+
+  // Valor temporal que será usado por la pantalla PRE
+  void updateTempType({required PuzzleType puzzleType}) {
+    this.levelManagementRepository.setTempType(puzzleType: puzzleType);
+  }
+  PuzzleType getTempType() {
+    return this.levelManagementRepository.getTempType();
   }
 }

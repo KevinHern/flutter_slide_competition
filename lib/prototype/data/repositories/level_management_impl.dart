@@ -32,9 +32,6 @@ class LevelManagementRepositoryImpl implements LevelManagementRepository {
       throw Exception();
   }
 
-
-
-  // check me
   PuzzleType obtainForcedPuzzleNonFuture() {
     // If we ran out of puzzles (== 3) or the previous Puzzle is the same type,
     // then return the opposite puzzle
@@ -48,12 +45,14 @@ class LevelManagementRepositoryImpl implements LevelManagementRepository {
       throw Exception();
   }
 
-
-
   @override
   Future<int> totalCompletedLevels() {
     // Obtains the total 'completed levels' counter
     return Future.value(this._levelManager.totalCompleted);
+  }
+
+  int totalCompletedLevelsNonFuture() {
+    return this._levelManager.totalCompleted;
   }
 
   @override
@@ -66,5 +65,13 @@ class LevelManagementRepositoryImpl implements LevelManagementRepository {
   void setPreviousPuzzle({required PuzzleType puzzleType}) {
     // Updates the previous puzzle tracking variable
     this._levelManager.previousPuzzle = puzzleType;
+  }
+
+  // Valor temporal que será usado por la pantalla PRE
+  void setTempType({required PuzzleType puzzleType}) {
+    this._levelManager.tempType = puzzleType;
+  }
+  PuzzleType getTempType() {
+    return this._levelManager.tempType;
   }
 }

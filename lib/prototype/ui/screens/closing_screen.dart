@@ -37,6 +37,7 @@ class ClosingBody extends StatelessWidget {
     return Column(
       children: [
         Container(
+          height: 400,
           color: Colors.lightGreen,
             child: Image.asset(
                 'assets/happy_ghost.jpg'

@@ -53,15 +53,7 @@ class AuditivePuzzleWidget extends StatelessWidget {
                   // Jump to End Screen
                   Navigator.of(context).popAndPushNamed('/end');
                 } else {
-                  // Check if the next level is forced
-                  bool nextLevelForced = await this
-                      .levelManagementUseCases
-                      .isNextLevelForcedPuzzle(currentPuzzle: PuzzleType.SOUND);
-
-                  // Get the proper screen
-                  navigationManager.setCurrentScreen = (nextLevelForced)
-                      ? ScreenType.FORCED_PUZZLE
-                      : ScreenType.SELECT_PUZZLE;
+                  navigationManager.setCurrentScreen = ScreenType.PRE_PUZZLE;
 
                   // Obtain puzzle
                   navigationManager.setPuzzle = Puzzle();
@@ -70,6 +62,9 @@ class AuditivePuzzleWidget extends StatelessWidget {
                   this
                       .levelManagementUseCases
                       .updatePreviousPuzzle(puzzleType: PuzzleType.SOUND);
+
+                  // Guarda un valor temporal que será usado por la pantalla PRE
+                  this.levelManagementUseCases.updateTempType(puzzleType: PuzzleType.SOUND);
 
                   // Update UI
                   navigationManager.update();

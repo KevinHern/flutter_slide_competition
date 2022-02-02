@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'dart:developer';
 
 class MyUtils {
   static EdgeInsetsGeometry setScreenPadding({required BuildContext context}) {
     final double width = MediaQuery.of(context).size.width;
+
+    log("width: $width");
 
     if (width >= 1200) {
       return EdgeInsets.symmetric(
@@ -30,6 +33,20 @@ class MyUtils {
       return width * 0.85;
     } else {
       return width * 0.9;
+    }
+  }
+
+  static double getPositionedTop({required BuildContext context}) {
+    final double width = MediaQuery.of(context).size.width;
+
+    if (width >= 1600) {
+      return 60;
+    } else if (width >= 1450) {
+      return 90;
+    } else if (width > 1250) {
+      return 120;
+    }  else {
+      return 150;
     }
   }
 }

@@ -37,6 +37,7 @@ class WelcomeBody extends StatelessWidget {
     return Column(
       children: [
         Container(
+          height: 400,        // FIX ME!
           color: Colors.lightGreen,
           child: Image.asset(
             'assets/mansion.jpg'
