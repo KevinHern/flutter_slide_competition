@@ -43,37 +43,35 @@ class ClosingBody extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      child: Column(
-          children: [
-            SizedBox(
-              height: MyUtils.getTopSpacerSize(context: context) * 2,
-            ),
-            PrettyText("I didn't remember that humans were so much fun! Come to explore again whenever you want and bring your friends too!",
-              size: 32,
-              background: Colors.black26,
-            ),
-            SizedBox(
-              height: MyUtils.getTopSpacerSize(context: context) * 7,
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).popAndPushNamed('/'),
-              child: const Text(
-                  "PLAY AGAIN",
-                  style: TextStyle(
-                    fontSize: 24,
-                  )
+      child: SingleChildScrollView(
+        child: Column(children: [
+          SizedBox(
+            height: MyUtils.getTopSpacerSize(context: context) * 2,
+          ),
+          PrettyText(
+            "I didn't remember that humans were so much fun! Come to explore again whenever you want and bring your friends too!",
+            size: 32,
+            background: Colors.black26,
+          ),
+          SizedBox(
+            height: MyUtils.getTopSpacerSize(context: context) * 7,
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).popAndPushNamed('/'),
+            child: const Text("PLAY AGAIN",
+                style: TextStyle(
+                  fontSize: 24,
+                )),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.indigo,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
               ),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.indigo,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-              ),
-            )
-          ]
+            ),
+          )
+        ]),
       ),
-
     );
   }
 }

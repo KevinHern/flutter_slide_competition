@@ -43,12 +43,13 @@ class WelcomeBody extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      child: Column(
-        children: [
+      child: SingleChildScrollView(
+        child: Column(children: [
           SizedBox(
             height: MyUtils.getTopSpacerSize(context: context) * 2,
           ),
-          PrettyText("I heard some rumors about something strange happening in this abandoned mansion, so I decided to investigate...",
+          PrettyText(
+            "I heard some rumors about something strange happening in this abandoned mansion, so I decided to investigate...",
             size: 32,
             background: Colors.black45,
           ),
@@ -57,12 +58,10 @@ class WelcomeBody extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).popAndPushNamed('/puzzle'),
-            child: const Text(
-                "ENTER THE MANSION",
+            child: const Text("ENTER THE MANSION",
                 style: TextStyle(
                   fontSize: 24,
-                )
-            ),
+                )),
             style: ElevatedButton.styleFrom(
               primary: Colors.indigo,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
@@ -71,7 +70,7 @@ class WelcomeBody extends StatelessWidget {
               ),
             ),
           )
-        ]
+        ]),
       ),
     );
   }

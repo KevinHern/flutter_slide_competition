@@ -38,41 +38,39 @@ class PostPuzzleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<NavigationManager>(
       builder: (_, navigationManager, __) {
-        return Column(
-            children: [
-              // Texto con sombra
-              PrettyText(
-                "Congratulations! You have finished exploring the mansion and uncovered all of its secrets. Will you tell the world about them?\n\nINFO ADICIONAL - esta pantalla solo aparece después del room 5, necesitan las demás su propia pantalla POST, aparte de la PRE que aparece antes de cada room?",
-              ),
+        return SingleChildScrollView(
+          child: Column(children: [
+            // Texto con sombra
+            PrettyText(
+              "Congratulations! You have finished exploring the mansion and uncovered all of its secrets. Will you tell the world about them?\n\nINFO ADICIONAL - esta pantalla solo aparece después del room 5, necesitan las demás su propia pantalla POST, aparte de la PRE que aparece antes de cada room?",
+            ),
 
-              // Espaciador
-              const SizedBox(
-                height: 20,
-              ),
+            // Espaciador
+            const SizedBox(
+              height: 20,
+            ),
 
-              // Botón para finalizar
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.of(context).popAndPushNamed('/end');
-                },
-                child: const Text(
-                    "END GAME",
-                    style: TextStyle(
-                      fontSize: 24,
-                    )
+            // Botón para finalizar
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.of(context).popAndPushNamed('/end');
+              },
+              child: const Text("END GAME",
+                  style: TextStyle(
+                    fontSize: 24,
+                  )),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blueGrey,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blueGrey,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-              )
-            ]
+              ),
+            )
+          ]),
         );
       },
     );
   }
 }
-

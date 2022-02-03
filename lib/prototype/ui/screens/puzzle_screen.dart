@@ -94,39 +94,41 @@ class PuzzleBody extends StatelessWidget {
         create: (context) => ValueNotifier(1),
 
         // Consumer para obtener el nivel y usarlo para imagen de fondo
-        child: Consumer <ValueNotifier<int>> (
+        child: Consumer<ValueNotifier<int>>(
           builder: (_, i, __) => Container(
-
             // Decoration usado para imagen de fondo
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/creepy_room' + i.value.toString() + '.jpg'),
+                image: AssetImage(
+                    'assets/creepy_room' + i.value.toString() + '.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
 
             // Contenido
-            child: Column(
-              children: [
-                // Espaciador
-                SizedBox(
-                  height: MyUtils.getTopSpacerSize(context: context),
-                ),
-
-                // Titulo del room
-                const PuzzleHeader(),
-
-                // SwitchBody (pre, select, forced, auditive, spatial)
-                SizedBox(
-                  height: MyUtils.getSwitchBodyHeight(context: context),
-                  child: SwitchBody(
-                    puzzleRepository: this.puzzleRepository,
-                    levelManagementRepository: this.levelManagementRepository,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // Espaciador
+                  SizedBox(
+                    height: MyUtils.getTopSpacerSize(context: context),
                   ),
-                )
-              ],
-            )
-          )
+
+                  // Titulo del room
+                  const PuzzleHeader(),
+
+                  // SwitchBody (pre, select, forced, auditive, spatial)
+                  SizedBox(
+                    height: MyUtils.getSwitchBodyHeight(context: context),
+                    child: SwitchBody(
+                      puzzleRepository: this.puzzleRepository,
+                      levelManagementRepository: this.levelManagementRepository,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -140,13 +142,15 @@ class PuzzleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
-      child:
-        PrettyText(
-          'Room #' + Provider.of<ValueNotifier<int>>(context, listen: true).value.toString(),
-          size: 36,
-          thickness: 6,
-          background: Colors.transparent,
-        ),
+      child: PrettyText(
+        'Room #' +
+            Provider.of<ValueNotifier<int>>(context, listen: true)
+                .value
+                .toString(),
+        size: 36,
+        thickness: 6,
+        background: Colors.transparent,
+      ),
     );
   }
 }
@@ -200,8 +204,8 @@ class SwitchBody extends StatelessWidget {
             // Pantalla pre seleccion
             case ScreenType.PRE_PUZZLE:
               return PrePuzzleScreen(
-                  puzzleRepository: this.puzzleRepository,
-                  levelManagementRepository: this.levelManagementRepository,
+                puzzleRepository: this.puzzleRepository,
+                levelManagementRepository: this.levelManagementRepository,
               );
 
             // Pantalla post juego

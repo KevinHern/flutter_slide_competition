@@ -54,44 +54,42 @@ class SelectPuzzleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<NavigationManager>(
       builder: (_, navigationManager, __) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              height: 300,
-              width: 200,
-              child: ElevatedButton(
-                onPressed: () => _fetchThisPuzzle(
-                    navigationManager: navigationManager,
-                    puzzleType: PuzzleType.SOUND
-                ),
-                child: Image.asset(
-                  'assets/guitar.jpg'
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 300,
-              width: 200,
-              child: ElevatedButton(
-                onPressed: () => _fetchThisPuzzle(
-                    navigationManager: navigationManager,
-                    puzzleType: PuzzleType.SPATIAL
-                ),
-                child: Image.asset(
-                    'assets/statue.jpg'
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        return SingleChildScrollView(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: 300,
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () => _fetchThisPuzzle(
+                      navigationManager: navigationManager,
+                      puzzleType: PuzzleType.SOUND),
+                  child: Image.asset('assets/guitar.jpg'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 300,
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () => _fetchThisPuzzle(
+                      navigationManager: navigationManager,
+                      puzzleType: PuzzleType.SPATIAL),
+                  child: Image.asset('assets/statue.jpg'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
