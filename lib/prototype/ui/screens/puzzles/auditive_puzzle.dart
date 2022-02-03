@@ -15,6 +15,9 @@ import 'package:flutter_slide_competition/prototype/domain/usecases/level_manage
 // State Management
 import 'package:provider/provider.dart';
 
+// UI
+import 'package:flutter_slide_competition/prototype/ui/utils/pretty_text.dart';
+
 class AuditivePuzzleWidget extends StatelessWidget {
   final AuditivePuzzle puzzle;
 
@@ -35,10 +38,13 @@ class AuditivePuzzleWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
-          color: Colors.lightBlueAccent,
-          child: Image.asset(
-              'assets/puzzle_sound.png'
-          ),
+          color: Colors.blueGrey,
+          height: 400,
+          width: 600,
+          child: PrettyText("Placeholder - Auditivo"),
+          // child: Image.asset(
+          //     'assets/puzzle_sound.png'
+          // ),
         ),
         const SizedBox(
           height: 15,
@@ -46,12 +52,26 @@ class AuditivePuzzleWidget extends StatelessWidget {
         Consumer<NavigationManager>(
           builder: (_, navigationManager, __) {
             return ElevatedButton(
-              child: Text("Next Level!"),
+              child: const Text(
+                  "NEXT LEVEL",
+                  style: TextStyle(
+                    fontSize: 24,
+                  )
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blueGrey,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+              ),
               onPressed: () async {
                 // Check if they already completed 5 puzzles
                 if (await levelManagementUseCases.isGameComplete()) {
                   // Jump to End Screen
-                  Navigator.of(context).popAndPushNamed('/end');
+                  //Navigator.of(context).popAndPushNamed('/end');
+                  navigationManager.setCurrentScreen = ScreenType.POST_PUZZLE;
+                  navigationManager.update();
                 } else {
                   navigationManager.setCurrentScreen = ScreenType.PRE_PUZZLE;
 

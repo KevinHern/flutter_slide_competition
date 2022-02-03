@@ -36,17 +36,54 @@ class MyUtils {
     }
   }
 
-  static double getPositionedTop({required BuildContext context}) {
+  static double getTopSpacerSize({required BuildContext context}) {
+    final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
 
-    if (width >= 1600) {
-      return 60;
-    } else if (width >= 1450) {
-      return 90;
-    } else if (width > 1250) {
-      return 120;
-    }  else {
-      return 150;
+    log("height: $height");
+
+    if (width <= 600) {
+      return 20;
+    } else if (width <= 1000) {
+      return 40;
     }
+
+    if (height >= 900) {
+      return 60;
+    } else if (height >= 700) {
+      return 40;
+    } else {
+      return 20;
+    }
+  }
+
+  static double getSwitchBodyHeight({required BuildContext context}) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
+    if ((width * height) <= (650 * 650)) {
+      return height * 0.45;
+    } else if ((width * height) <= (850 * 850)) {
+      return height * 0.50;
+    } else if ((width * height) <= (1050 * 1050)) {
+      return height * 0.55;
+    }
+
+    return height * 0.60;
+  }
+
+  static double getPrettyTextFontSize({required BuildContext context}) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
+    if ((width * height) <= (650 * 650)) {
+      return 14;
+    } else if ((width * height) <= (850 * 850)) {
+      return 16;
+    } else if ((width * height) <= (1050 * 1050)) {
+      return 18;
+    }
+
+    return 20;
   }
 }

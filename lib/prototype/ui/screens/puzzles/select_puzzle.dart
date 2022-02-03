@@ -63,7 +63,8 @@ class SelectPuzzleScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => _fetchThisPuzzle(
                     navigationManager: navigationManager,
-                    puzzleType: PuzzleType.SOUND),
+                    puzzleType: PuzzleType.SOUND
+                ),
                 child: Image.asset(
                   'assets/guitar.jpg'
                 ),
@@ -79,7 +80,8 @@ class SelectPuzzleScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => _fetchThisPuzzle(
                     navigationManager: navigationManager,
-                    puzzleType: PuzzleType.SPATIAL),
+                    puzzleType: PuzzleType.SPATIAL
+                ),
                 child: Image.asset(
                     'assets/statue.jpg'
                 ),

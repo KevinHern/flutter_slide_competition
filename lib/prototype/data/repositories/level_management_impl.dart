@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
 import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
 
@@ -22,27 +24,35 @@ class LevelManagementRepositoryImpl implements LevelManagementRepository {
   Future<PuzzleType> obtainForcedPuzzle() {
     // If we ran out of puzzles (== 3) or the previous Puzzle is the same type,
     // then return the opposite puzzle
-    if (this._levelManager.totalSound == 3 ||
-        this._levelManager.previousPuzzle == PuzzleType.SOUND) {
+    // todo: refactor para que quede más elegante, se eliminó bug en versión anterior
+    if (this._levelManager.totalSound == 3) {
       return Future.value(PuzzleType.SPATIAL);
-    } else if (this._levelManager.totalSpatial == 3 ||
-        this._levelManager.previousPuzzle == PuzzleType.SPATIAL) {
+    } else if (this._levelManager.totalSpatial == 3) {
       return Future.value(PuzzleType.SOUND);
-    } else
+    } else if (this._levelManager.previousPuzzle == PuzzleType.SOUND) {
+      return Future.value(PuzzleType.SPATIAL);
+    } else if (this._levelManager.previousPuzzle == PuzzleType.SPATIAL) {
+      return Future.value(PuzzleType.SOUND);
+    } else {
       throw Exception();
+    }
   }
 
   PuzzleType obtainForcedPuzzleNonFuture() {
     // If we ran out of puzzles (== 3) or the previous Puzzle is the same type,
     // then return the opposite puzzle
-    if (this._levelManager.totalSound == 3 ||
-        this._levelManager.previousPuzzle == PuzzleType.SOUND) {
+    // todo: refactor para que quede más elegante, se eliminó bug en versión anterior
+    if (this._levelManager.totalSound == 3) {
       return PuzzleType.SPATIAL;
-    } else if (this._levelManager.totalSpatial == 3 ||
-        this._levelManager.previousPuzzle == PuzzleType.SPATIAL) {
+    } else if (this._levelManager.totalSpatial == 3) {
       return PuzzleType.SOUND;
-    } else
+    } else if (this._levelManager.previousPuzzle == PuzzleType.SOUND) {
+      return PuzzleType.SPATIAL;
+    } else if (this._levelManager.previousPuzzle == PuzzleType.SPATIAL) {
+      return PuzzleType.SOUND;
+    } else {
       throw Exception();
+    }
   }
 
   @override

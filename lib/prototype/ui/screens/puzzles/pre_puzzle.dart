@@ -14,10 +14,11 @@ import 'package:flutter_slide_competition/prototype/domain/usecases/puzzle_selec
 
 // State Management
 import 'package:flutter_slide_competition/prototype/ui/models/screen_manager.dart';
+import 'package:flutter_slide_competition/prototype/ui/utils/my_utils.dart';
 import 'package:provider/provider.dart';
 
 // Utils
-import 'package:flutter_slide_competition/prototype/ui/utils/my_utils.dart';
+import 'package:flutter_slide_competition/prototype/ui/utils/pretty_text.dart';
 
 List<String> texts = [
 """
@@ -82,7 +83,7 @@ class PrePuzzleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // texts[levelManagementUseCases.getCompletedLevelsNonFuture()]
+    double fontSize = MyUtils.getPrettyTextFontSize(context: context);
 
     return Consumer<NavigationManager>(
       builder: (_, navigationManager, __) {
@@ -91,11 +92,12 @@ class PrePuzzleScreen extends StatelessWidget {
             // Texto con sombra
             PrettyText(
               texts[levelManagementUseCases.getCompletedLevelsNonFuture()],
+              size: fontSize,
             ),
 
             // Espaciador
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: fontSize,
             ),
 
             // Botón para continuar
@@ -134,20 +136,19 @@ class PrePuzzleScreen extends StatelessWidget {
                   navigationManager.update();
                 }
               },
-              child:
-                const Text("CONTINUE",
-                  style: TextStyle(
-                    fontSize: 24,
-                  )
+              child: Text(
+                "CONTINUE",
+                style: TextStyle(
+                  fontSize: fontSize + 4,
+                )
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blueGrey,
+                padding: EdgeInsets.symmetric(horizontal: fontSize * 1.5, vertical: fontSize * 0.75),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-              style:
-                ElevatedButton.styleFrom(
-                  primary: Colors.black54,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+              ),
             )
           ]
         );
@@ -156,46 +157,3 @@ class PrePuzzleScreen extends StatelessWidget {
   }
 }
 
-class PrettyText extends StatelessWidget {
-  final String text;
-  final double size;
-  final double thickness;
-
-  PrettyText(this.text, {this.size = 20, this.thickness = 3});
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 80, vertical: 20),
-      decoration: const BoxDecoration(
-        color: Colors.black54,
-      ),
-      child: Stack(
-        children: [
-          // Orilla negra
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: size,
-              foreground: Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = thickness
-                ..color = Colors.black,
-            ),
-          ),
-
-          // Relleno blanco
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: size,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

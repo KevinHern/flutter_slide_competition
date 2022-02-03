@@ -31,49 +31,64 @@ class ForcedPuzzleScreen extends StatelessWidget {
         levelManagementRepository: levelManagementRepository);
   }
 
+  void _fetchThisPuzzle(
+      {required NavigationManager navigationManager,
+        required PuzzleType puzzleType}) async {
+    // Get the puzzle itself
+    navigationManager.setPuzzle =
+    await this.puzzleFetchUseCase.fetchPuzzle(puzzleType: puzzleType);
+
+    // Set the current screen
+    navigationManager.setCurrentScreen = (puzzleType == PuzzleType.SOUND)
+        ? ScreenType.AUDITIVE_PUZZLE
+        : ScreenType.SPATIAL_PUZZLE;
+
+    // Update Puzzle counter
+    levelManagementUseCases.increaseCounter(puzzleType: puzzleType);
+
+    // todo: revisar, solo estaba presente en FORCED, no en SELECT, quitarlo no causo diferencia
+    // Update Previous Puzzle
+    //this.levelManagementUseCases.updatePreviousPuzzle(puzzleType: puzzleType);
+
+    // Update UI
+    navigationManager.update();
+  }
+
   @override
   Widget build(BuildContext context) {
     PuzzleType tipo = this.levelManagementUseCases.getForcedPuzzleTypeNonFuture();
 
     return Consumer<NavigationManager>(
       builder: (_, navigationManager, __) {
-        return ElevatedButton(
-          onPressed: () async {
-            // Obtain the forced Puzzle
-            PuzzleType forcedPuzzleType =
-                await this.levelManagementUseCases.getForcedPuzzleType();
 
-            // Set the puzzle to solve
-            navigationManager.setPuzzle = await this
-                .puzzleFetchUseCase
-                .fetchPuzzle(puzzleType: forcedPuzzleType);
-
-            // Set the screen to the respective puzzle
-            navigationManager.setCurrentScreen =
-                (forcedPuzzleType == PuzzleType.SOUND)
-                    ? ScreenType.AUDITIVE_PUZZLE
-                    : ScreenType.SPATIAL_PUZZLE;
-
-            // Update Puzzle counter
-            levelManagementUseCases.increaseCounter(
-                puzzleType: forcedPuzzleType);
-
-            // Update Previous Puzzle
-            this.levelManagementUseCases
-                .updatePreviousPuzzle(puzzleType: forcedPuzzleType);
-
-            // Update UI
-            navigationManager.update();
-          },
-          child: Image.asset(
-              (tipo == PuzzleType.SOUND) ? 'assets/guitar.jpg' : 'assets/statue.jpg',
-              width: 200,
+        // Row aunque tenga un solo elemento, para consistencia con SELECT
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
               height: 300,
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.transparent,
-            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          ),
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () async {
+                  // Obtain the forced Puzzle
+                  PuzzleType forcedPuzzleType = await this.levelManagementUseCases.getForcedPuzzleType();
+                  _fetchThisPuzzle(
+                      navigationManager: navigationManager,
+                      puzzleType: forcedPuzzleType
+                  );
+                },
+
+                child: Image.asset(
+                  (tipo == PuzzleType.SOUND) ? 'assets/guitar.jpg' : 'assets/statue.jpg',
+                ),
+
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                ),
+              ),
+            ),
+          ]
         );
       },
     );

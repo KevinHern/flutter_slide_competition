@@ -17,7 +17,7 @@ import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/forced_pu
 import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/select_puzzle.dart';
 import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/spatial_puzzle.dart';
 import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/pre_puzzle.dart';
-//import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/post_puzzle.dart';
+import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/post_puzzle.dart';
 
 // State Management
 import 'package:flutter_slide_competition/prototype/ui/models/screen_manager.dart';
@@ -25,6 +25,7 @@ import 'package:provider/provider.dart';
 
 // Utils
 import 'package:flutter_slide_competition/prototype/ui/utils/my_utils.dart';
+import 'package:flutter_slide_competition/prototype/ui/utils/pretty_text.dart';
 
 List<String> texts = [
   "",
@@ -68,51 +69,63 @@ class PuzzleBody extends StatelessWidget {
       LevelManagementRepositoryImpl(levelManager: LevelManager());
   PuzzleBody({Key? key}) : super(key: key);
 
+  // Container
+  //   ChangeNotifierProvider
+  //     Consumer
+  //       Container
+  //         BoxDecoration
+  //           AssetImage
+  //         Column
+  //           PuzzleHeader
+  //             SizedBox
+  //               SwitchBody
+
   @override
   Widget build(BuildContext context) {
     // The container is the background!
     return Container(
+      // Llena el espacio que se le permite
+      // En PuzzleScreen se usar setScreenPadding para limitarlo
       height: double.infinity,
       width: double.infinity,
       color: Colors.transparent,
 
-      child: Center(
-        child: ChangeNotifierProvider<ValueNotifier<int>>(
-          create: (context) => ValueNotifier(1),
-          child: Stack (
-            children : [
+      child: ChangeNotifierProvider<ValueNotifier<int>>(
+        create: (context) => ValueNotifier(1),
 
-              /* Consumer utilizado para obtener en que nivel estamos */
-              /* Muestra imagen de fondo */
-              Consumer<ValueNotifier<int>>(
-                  builder: (_, i, __) => SizedBox(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Image.asset('assets/creepy_room' + i.value.toString() + '.jpg'),
-                  )
+        // Consumer para obtener el nivel y usarlo para imagen de fondo
+        child: Consumer <ValueNotifier<int>> (
+          builder: (_, i, __) => Container(
+
+            // Decoration usado para imagen de fondo
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/creepy_room' + i.value.toString() + '.jpg'),
+                fit: BoxFit.cover,
               ),
+            ),
 
-              /* Positioned usado para forzar a que se dibuje encima */
-              /* Muestra titulo y contenido */
-              Positioned(
-                top: MyUtils.getPositionedTop(context: context),
-                width: MyUtils.getContainerWidth(context: context),
-                child: Column(
-                  children: [
-                    const PuzzleHeader(),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.65,
-                      child: Center(
-                        child: SwitchBody(
-                          puzzleRepository: this.puzzleRepository,
-                          levelManagementRepository: this.levelManagementRepository,
-                        ),
-                      ),
-                    )
-                  ],
+            // Contenido
+            child: Column(
+              children: [
+                // Espaciador
+                SizedBox(
+                  height: MyUtils.getTopSpacerSize(context: context),
                 ),
-              ),
-            ]
+
+                // Titulo del room
+                const PuzzleHeader(),
+
+                // SwitchBody (pre, select, forced, auditive, spatial)
+                SizedBox(
+                  height: MyUtils.getSwitchBodyHeight(context: context),
+                  child: SwitchBody(
+                    puzzleRepository: this.puzzleRepository,
+                    levelManagementRepository: this.levelManagementRepository,
+                  ),
+                )
+              ],
+            )
           )
         ),
       ),
@@ -127,39 +140,13 @@ class PuzzleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
-
-      child: Column (
-        children: [
-          Stack(
-            children: [
-              Text(
-                'Room #' +
-                    Provider.of<ValueNotifier<int>>(context, listen: true)
-                        .value
-                        .toString(),
-                style: TextStyle(
-                  fontSize: 36,
-                  foreground: Paint()
-                    ..style = PaintingStyle.stroke
-                    ..strokeWidth = 6
-                    ..color = Colors.black,
-                ),
-              ),
-              // Solid text as fill.
-              Text(
-                'Room #' +
-                    Provider.of<ValueNotifier<int>>(context, listen: true)
-                        .value
-                        .toString(),
-                style: const TextStyle(
-                  fontSize: 36,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ]
-      )
+      child:
+        PrettyText(
+          'Room #' + Provider.of<ValueNotifier<int>>(context, listen: true).value.toString(),
+          size: 36,
+          thickness: 6,
+          background: Colors.transparent,
+        ),
     );
   }
 }
@@ -215,6 +202,13 @@ class SwitchBody extends StatelessWidget {
               return PrePuzzleScreen(
                   puzzleRepository: this.puzzleRepository,
                   levelManagementRepository: this.levelManagementRepository,
+              );
+
+            // Pantalla post juego
+            case ScreenType.POST_PUZZLE:
+              return PostPuzzleScreen(
+                puzzleRepository: this.puzzleRepository,
+                levelManagementRepository: this.levelManagementRepository,
               );
 
             // Display an extra screen in case something breaks with the Navigation Manager
