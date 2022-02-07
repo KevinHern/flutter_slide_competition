@@ -76,6 +76,10 @@ flutter:
     - assets/creepy_room5.jpg
     - assets/puzzle_spatial.png
     - assets/puzzle_sound.png
+    - assets/icons/up_arrow.png
+    - assets/icons/right_arrow.png
+    - assets/icons/down_arrow.png
+    - assets/icons/left_arrow.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

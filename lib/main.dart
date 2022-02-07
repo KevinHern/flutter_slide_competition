@@ -1,5 +1,6 @@
 // Basic Imports
 import 'package:flutter/material.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/board_test.dart';
 
 // Screens
 import 'package:flutter_slide_competition/prototype/ui/screens/puzzle_screen.dart';
@@ -23,7 +24,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const WelcomeScreen(),
+        //'/': (context) => const WelcomeScreen(),
+        '/': (context) => const BoardTestScreen(
+              scale: 2,
+            ),
         '/puzzle': (context) => const PuzzleScreen(),
         '/end': (context) => const ClosingScreen(),
       },
