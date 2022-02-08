@@ -1,49 +1,17 @@
+// Basic Imports
 import 'package:flutter/material.dart';
-
-class PuzzleButton extends StatelessWidget {
-  final double scale, height, width;
-  final String iconName;
-  final Function onPressed;
-  final Color color;
-
-  const PuzzleButton(
-      {required this.scale,
-      required this.height,
-      required this.width,
-      required this.iconName,
-      required this.color,
-      required this.onPressed,
-      Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: this.height * this.scale,
-      width: this.width * this.scale,
-      padding: const EdgeInsets.all(0),
-      child: ElevatedButton(
-        child: Image.asset('icons/' + this.iconName + '_arrow.png'),
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(0),
-          primary: Colors.transparent,
-          shadowColor: this.color,
-          onPrimary: this.color,
-        ),
-        onPressed: () => this.onPressed(),
-      ),
-    );
-  }
-}
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/puzzle_button.dart';
 
 class DPad extends StatelessWidget {
   final double scale;
   final double height = 40, width = 40;
   final double padding = 5;
   final Color color;
+  final bool isActive;
   final Function upPress, rightPress, downPress, leftPress;
   const DPad(
       {required this.scale,
+      required this.isActive,
       required this.upPress,
       required this.rightPress,
       required this.downPress,
@@ -69,9 +37,9 @@ class DPad extends StatelessWidget {
               scale: this.scale,
               height: this.height,
               width: this.width,
-              iconName: 'left',
+              iconName: 'left_arrow',
               color: this.color,
-              onPressed: () => this.leftPress(),
+              onPressed: (this.isActive) ? () => this.leftPress() : null,
             ),
             SizedBox(
               height: this.padding * this.scale,
@@ -91,9 +59,9 @@ class DPad extends StatelessWidget {
               scale: this.scale,
               height: this.height,
               width: this.width,
-              iconName: 'up',
+              iconName: 'up_arrow',
               color: this.color,
-              onPressed: () => this.upPress(),
+              onPressed: (this.isActive) ? () => this.upPress() : null,
             ),
             SizedBox(
               height: this.padding * this.scale,
@@ -109,9 +77,9 @@ class DPad extends StatelessWidget {
               scale: this.scale,
               height: this.height,
               width: this.width,
-              iconName: 'down',
+              iconName: 'down_arrow',
               color: this.color,
-              onPressed: () => this.downPress(),
+              onPressed: (this.isActive) ? () => this.downPress() : null,
             ),
           ],
         ),
@@ -131,9 +99,9 @@ class DPad extends StatelessWidget {
               scale: this.scale,
               height: this.height,
               width: this.width,
-              iconName: 'right',
+              iconName: 'right_arrow',
               color: this.color,
-              onPressed: () => this.rightPress(),
+              onPressed: () => (this.isActive) ? () => this.rightPress() : null,
             ),
             SizedBox(
               height: this.padding * this.scale,
