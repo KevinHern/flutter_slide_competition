@@ -1,6 +1,7 @@
-import 'dart:html';
-
+// Basic Imports
 import 'package:flutter/material.dart';
+
+// Models
 import 'package:flutter_slide_competition/prototype/data/models/puzzle.dart';
 
 enum ScreenType {

@@ -1,4 +1,7 @@
+// Models
 import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
+
+// Repositories
 import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
 
 class LevelManagementUseCases {
@@ -10,7 +13,7 @@ class LevelManagementUseCases {
     return this.levelManagementRepository.obtainForcedPuzzle();
   }
 
-  PuzzleType getForcedPuzzleTypeNonFuture () {
+  PuzzleType getForcedPuzzleTypeNonFuture() {
     return this.levelManagementRepository.obtainForcedPuzzleNonFuture();
   }
 
@@ -32,6 +35,7 @@ class LevelManagementUseCases {
   Future<int> getCompletedLevels() async {
     return this.levelManagementRepository.totalCompletedLevels();
   }
+
   int getCompletedLevelsNonFuture() {
     return this.levelManagementRepository.totalCompletedLevelsNonFuture();
   }
@@ -50,6 +54,7 @@ class LevelManagementUseCases {
   void updateTempType({required PuzzleType puzzleType}) {
     this.levelManagementRepository.setTempType(puzzleType: puzzleType);
   }
+
   PuzzleType getTempType() {
     return this.levelManagementRepository.getTempType();
   }

@@ -1,6 +1,7 @@
-import 'dart:developer';
-
+// Models
 import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
+
+// Contracts
 import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
 
 class LevelManagementRepositoryImpl implements LevelManagementRepository {
@@ -81,6 +82,7 @@ class LevelManagementRepositoryImpl implements LevelManagementRepository {
   void setTempType({required PuzzleType puzzleType}) {
     this._levelManager.tempType = puzzleType;
   }
+
   PuzzleType getTempType() {
     return this._levelManager.tempType;
   }
