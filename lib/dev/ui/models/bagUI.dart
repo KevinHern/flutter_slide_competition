@@ -11,5 +11,8 @@ class BagUI extends ChangeNotifier {
     this._bag = bag;
   }
 
+  // getters
+  Bag get bag => this._bag;
+
   void update() => notifyListeners();
 }
