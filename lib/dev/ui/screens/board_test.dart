@@ -24,11 +24,6 @@ class BoardTestScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Container(
-              //   color: Colors.lightBlue,
-              //   height: 400,
-              //   width: 400,
-              // ),
               const SizedBox(
                 height: 50,
               ),
@@ -130,9 +125,7 @@ class BoardTestScreen extends StatelessWidget {
                     );
                     // TODO: Quitar estas piezas, agregadas solo para probar
 
-                    return Container (
-                      child: BoardGrid(board: boardUI.board),
-                    );
+                    return BoardGrid(board: boardUI.board);
                   }
                 ),
               ),

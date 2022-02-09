@@ -79,7 +79,7 @@ class Board {
     return true;
   }
 
-  void PrettyPrint() {
+  void prettyPrint() {
     log("Board --------------------");
     for (var r = 0; r < BOARD_SIZE; r++) {
       String rowStr = "";
