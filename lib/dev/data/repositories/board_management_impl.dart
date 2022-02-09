@@ -190,14 +190,25 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         // horizontal
         if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
           return (col == 6 && (row == 3 || row == 4));
-        // vertical
+
+          // vertical
         } else if (piece.rotation == PieceRotation.LEFT || piece.rotation == PieceRotation.RIGHT) {
           return (col == 7 && row == 3);
         }
       }
         break;
-      case PieceShape.L:
-        return (col == 6 && row == 3);
+      case PieceShape.L: {
+        if (col == 6 && row == 3) {
+          switch (piece.rotation) {
+            case PieceRotation.UP: return (_board.board[7][3] is NullPiece);
+            case PieceRotation.DOWN: return true;
+            case PieceRotation.LEFT: return true;
+            case PieceRotation.RIGHT: return (_board.board[7][4] is NullPiece);
+          }
+        } else {
+          return false;
+        }
+      }
     }
 
     // Caso no esperado
@@ -207,6 +218,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   @override
   void createAudioLevelOne() {
     // TODO: implement createAudioLevelOne
+    createSpatialLevelOne();
   }
 
   @override
@@ -542,6 +554,65 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
   @override
   void pieceCleanup({required Piece piece}) {
-    // TODO: implement pieceCleanup
+    // posicion actual de pieza
+    int row = piece.y;
+    int col = piece.x;
+
+    switch (piece.shape) {
+
+      case PieceShape.DOT: {
+        _board.board[row][col] = NullPiece();
+      }
+      break;
+      case PieceShape.SQUARE: {
+        _board.board[row][col] = NullPiece();
+        _board.board[row][col + 1] = NullPiece();
+        _board.board[row + 1][col] = NullPiece();
+        _board.board[row + 1][col + 1] = NullPiece();
+      }
+      break;
+      case PieceShape.LINE: {
+        // horizontal
+        if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
+          _board.board[row][col] = NullPiece();
+          _board.board[row][col + 1] = NullPiece();
+
+        // vertical
+        } else if (piece.rotation == PieceRotation.LEFT || piece.rotation == PieceRotation.RIGHT) {
+          _board.board[row][col] = NullPiece();
+          _board.board[row + 1][col] = NullPiece();
+        }
+      }
+      break;
+      case PieceShape.L: {
+        switch (piece.rotation) {
+
+          case PieceRotation.UP: {
+            _board.board[row][col] = NullPiece();
+            _board.board[row + 1][col] = NullPiece();
+            _board.board[row + 1][col + 1] = NullPiece();
+          }
+            break;
+          case PieceRotation.DOWN: {
+            _board.board[row][col] = NullPiece();
+            _board.board[row][col + 1] = NullPiece();
+            _board.board[row + 1][col + 1] = NullPiece();
+          }
+            break;
+          case PieceRotation.LEFT: {
+            _board.board[row][col + 1] = NullPiece();
+            _board.board[row + 1][col] = NullPiece();
+            _board.board[row + 1][col + 1] = NullPiece();
+          }
+            break;
+          case PieceRotation.RIGHT: {
+            _board.board[row][col] = NullPiece();
+            _board.board[row][col + 1] = NullPiece();
+            _board.board[row + 1][col] = NullPiece();
+          }
+            break;
+        }
+      }
+    }
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 enum PieceRotation { UP, DOWN, LEFT, RIGHT }
 enum PieceType { AUDIO, SPATIAL, DUMMY, FIXED }
 enum PieceShape { DOT, SQUARE, LINE, L }
@@ -19,6 +17,7 @@ class Piece {
 
   Piece({required PieceRotation rotation}) {
     this._rotation = rotation;
+    this._shape = PieceShape.DOT;
   }
 
   Piece.withDetails({
