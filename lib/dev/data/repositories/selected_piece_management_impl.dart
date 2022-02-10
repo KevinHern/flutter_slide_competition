@@ -5,10 +5,12 @@ import 'package:flutter_slide_competition/dev/data/models/selected_piece_manager
 // Contracts
 import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece_management_contract.dart';
 
-class PieceManagementRepositoryImpl implements SelectedPieceManagementRepository {
+class PieceManagementRepositoryImpl
+    implements SelectedPieceManagementRepository {
   late final SelectedPieceManager _selectedPieceManager;
 
-  PieceManagementRepositoryImpl({required SelectedPieceManager selectedPieceManager}) {
+  PieceManagementRepositoryImpl(
+      {required SelectedPieceManager selectedPieceManager}) {
     this._selectedPieceManager = selectedPieceManager;
   }
 
@@ -19,7 +21,7 @@ class PieceManagementRepositoryImpl implements SelectedPieceManagementRepository
 
   @override
   void selectPiece({required Piece piece}) {
-    unselectWhenNewIsSelected();
+    //unselectWhenNewIsSelected();
     this._selectedPieceManager.updateSelectedPiece(piece: piece);
   }
 
@@ -27,5 +29,4 @@ class PieceManagementRepositoryImpl implements SelectedPieceManagementRepository
   int unselectWhenNewIsSelected() {
     return this._selectedPieceManager.unselectSelectedPiece();
   }
-
 }
