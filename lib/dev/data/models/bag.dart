@@ -3,7 +3,7 @@ import 'piece.dart';
 class Bag {
   final List<Piece> puzzlePieces;
 
-  Bag({this.puzzlePieces = const []});
+  Bag({required this.puzzlePieces});
 
   void addPiece({required Piece puzzlePiece}) {
     this.puzzlePieces.add(puzzlePiece);

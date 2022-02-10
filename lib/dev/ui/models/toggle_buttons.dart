@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class ToggleRotation extends ChangeNotifier {
-  late final bool _canRotate;
+  late bool _canRotate;
 
   ToggleRotation({required bool canRotate}) {
     this._canRotate = canRotate;
