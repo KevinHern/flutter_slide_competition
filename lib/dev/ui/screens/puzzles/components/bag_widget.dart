@@ -191,6 +191,7 @@ class BagWidget extends StatelessWidget {
                         this.selectedPieceManagementUseCases.selectPiece(
                             puzzlePiece: bagOfPieces.pieces[index]);
 
+                        // Update the reference of the UI of which piece has been selected
                         Provider.of<SelectedPieceManagerUI>(context,
                                     listen: false)
                                 .selectPiece =
