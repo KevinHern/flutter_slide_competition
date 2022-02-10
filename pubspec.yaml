@@ -82,6 +82,14 @@ flutter:
     - assets/icons/left_arrow.png
     - assets/icons/rotate_right.png
     - assets/icons/rotate_left.png
+    - assets/icons/dot.png
+    - assets/icons/line-H.png
+    - assets/icons/line-V.png
+    - assets/icons/L-up.png
+    - assets/icons/L-down.png
+    - assets/icons/L-left.png
+    - assets/icons/L-right.png
+    - assets/icons/square.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
