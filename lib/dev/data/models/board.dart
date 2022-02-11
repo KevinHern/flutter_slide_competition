@@ -6,6 +6,7 @@ enum BoardDirection {UP, DOWN, LEFT, RIGHT}
 class Board {
   static const int BOARD_SIZE = 8;
 
+  late List<Piece> puzzlePieces;
   late List<List<Piece>> board;
 
   // Board de 8x8 casillas
@@ -19,11 +20,14 @@ class Board {
                  growable: false),
          growable: false
      );
+     puzzlePieces = [];
   }
 
   bool addPiece({required Piece piece, required int row, required int col}) {
     piece.x = col;
     piece.y = row;
+
+    puzzlePieces.add(piece);
 
     // LOS NIVELES SERÁN DISEÑADOS A MANO
     // VERIFICACIONES AL MÍNIMO

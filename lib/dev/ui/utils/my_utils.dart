@@ -5,7 +5,7 @@ class MyUtils {
   static EdgeInsetsGeometry setScreenPadding({required BuildContext context}) {
     final double width = MediaQuery.of(context).size.width;
 
-    log("width: $width");
+    //log("width: $width");
 
     if (width >= 1200) {
       return EdgeInsets.symmetric(
@@ -40,7 +40,7 @@ class MyUtils {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
 
-    log("height: $height");
+    //log("height: $height");
 
     if (width <= 600) {
       return 20;

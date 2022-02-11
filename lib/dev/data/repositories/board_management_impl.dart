@@ -251,7 +251,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  bool movePiece({required BoardDirection direction, required Piece piece}) {
+  Piece movePiece({required BoardDirection direction, required Piece piece}) {
 
     // Es un movimiento válido dentro del tablero?
     // salir del tablero NO cae en esta categoría
@@ -259,7 +259,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
       // Movimiento válido, mover pieza
       moveReferencesOnBoard(direction: direction, piece: piece);
-      return true;
+      return NullPiece();
 
     // Es un movimiento de salida del tablero?
     } else if (direction == BoardDirection.RIGHT && checkExit(piece: piece)) {
@@ -267,12 +267,12 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
       // Movimiento válido, sacar pieza y poner en bolsa
       // TODO: Poner pieza en bolsa
       pieceCleanup(piece: piece);
-      return true;
+      return piece;
 
     }
 
     // Cualquier otro caso, no se pudo realizar el movimiento
-    return false;
+    return NullPiece();
   }
 
   @override
@@ -549,6 +549,13 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
           break;
         }
       }
+    }
+
+    switch (direction) {
+      case BoardDirection.UP:     { piece.y = piece.y - 1; } break;
+      case BoardDirection.DOWN:   { piece.y = piece.y + 1; } break;
+      case BoardDirection.LEFT:   { piece.x = piece.x - 1; } break;
+      case BoardDirection.RIGHT:  { piece.x = piece.x + 1; } break;
     }
   }
 

@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         //'/': (context) => const WelcomeScreen(),
         '/': (context) => const UnitTestMenu(),
         '/bag_test': (context) => BagTestScreen(),
-        '/board_test': (context) => const BoardTestScreen(
+        '/board_test': (context) => BoardTestScreen(
               scale: 2,
             ),
         '/puzzle': (context) => const PuzzleScreen(),

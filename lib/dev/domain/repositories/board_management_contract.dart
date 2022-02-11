@@ -9,13 +9,8 @@ abstract class BoardManagementRepository {
   void createSpatialLevelOne ();
   void createSpatialLevelTwo ();
   void createSpatialLevelThree ();
-  // instanciar board
-  // colocar manualmente Piece
-  // exit
 
-  // field Board
-
-  bool movePiece ({required BoardDirection direction, required Piece piece});
+  Piece movePiece ({required BoardDirection direction, required Piece piece});
   bool checkCollision ({required BoardDirection direction, required Piece piece});
   void moveReferencesOnBoard ({required BoardDirection direction, required Piece piece});
   bool checkExit ({required Piece piece});

@@ -101,7 +101,7 @@ class DPad extends StatelessWidget {
               width: this.width,
               iconName: 'right_arrow',
               color: this.color,
-              onPressed: () => (this.isActive) ? () => this.rightPress() : null,
+              onPressed: (this.isActive) ? () => this.rightPress() : null,
             ),
             SizedBox(
               height: this.padding * this.scale,
