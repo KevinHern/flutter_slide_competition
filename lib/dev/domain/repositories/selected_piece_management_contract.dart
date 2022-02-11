@@ -11,4 +11,6 @@ abstract class SelectedPieceManagementRepository {
 
   // Obtiene referencia a la pieza seleccionada
   Piece getSelectedPiece ();
+
+  int getByPosition ({required int row, required int col});
 }

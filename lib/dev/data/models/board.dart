@@ -9,6 +9,8 @@ class Board {
   late List<Piece> puzzlePieces;
   late List<List<Piece>> board;
 
+  Piece nullPiece = Piece.createNullPiece();
+
   // Board de 8x8 casillas
   // Se usa la clase dummy NullPiece para rellenar, por el null safety
   Board() {
@@ -16,7 +18,7 @@ class Board {
          BOARD_SIZE,
              (_) => List.generate(
                  BOARD_SIZE,
-                     (__) => NullPiece(),
+                     (__) => nullPiece,
                  growable: false),
          growable: false
      );
@@ -89,7 +91,7 @@ class Board {
       String rowStr = "";
       for (var c = 0; c < BOARD_SIZE; c++) {
         String singleStr = "";
-        if (board[r][c] is NullPiece) {
+        if (board[r][c].isNullPiece) {
           singleStr = " ";
         } else {
           switch(board[r][c].shape) {

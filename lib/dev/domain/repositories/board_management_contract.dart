@@ -15,4 +15,6 @@ abstract class BoardManagementRepository {
   void moveReferencesOnBoard ({required BoardDirection direction, required Piece piece});
   bool checkExit ({required Piece piece});
   void pieceCleanup ({required Piece piece});
+
+  Piece getBasePieceByPosition ({required int row, required int col});
 }

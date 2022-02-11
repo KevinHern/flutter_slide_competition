@@ -82,13 +82,12 @@ class BoardTestBody extends StatelessWidget {
   final SelectedPieceManagementRepository selectedPieceManagementRepository;
   final BoardManagementRepository boardManagementRepository;
 
-  const BoardTestBody(
-      {
-        required this.scale,
-        required this.selectedPieceManagementRepository,
-        required this.boardManagementRepository,
-        Key? key
-      }) : super(key: key);
+  const BoardTestBody({
+    required this.scale,
+    required this.selectedPieceManagementRepository,
+    required this.boardManagementRepository,
+    Key? key
+  }) : super(key: key);
 
   void _moveUp(BuildContext context) {
     final Piece piece = SelectedPieceManagementUseCases(
@@ -140,6 +139,11 @@ class BoardTestBody extends StatelessWidget {
 
   void _addPieceTest(BuildContext context) {
     Board b = Provider.of<BoardUI>(context, listen: false).board;
+
+    if (b.puzzlePieces.isNotEmpty) {
+      return;
+    }
+
     Piece p = Piece.withDetails(
       rotation: PieceRotation.RIGHT,
       type: PieceType.SPATIAL,
@@ -149,15 +153,36 @@ class BoardTestBody extends StatelessWidget {
 
     b.addPiece(
       piece: p,
-      row: 4,
-      col: 5,
+      row: 1,
+      col: 1,
     );
 
     SelectedPieceManagementUseCases(
         selectedPieceManagementRepository: selectedPieceManagementRepository
     ).selectPiece(puzzlePiece: b.puzzlePieces[0]);
 
-    //Provider.of<BoardUI>(context, listen: false).update();
+    b.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 4,
+    );
+
+    b.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 6,
+    );
+
   }
 
   @override
@@ -172,6 +197,7 @@ class BoardTestBody extends StatelessWidget {
             children: [
               BoardGrid(
                 board: Provider.of<BoardUI>(context, listen: true).board,
+                selectedManager: selectedPieceManagementRepository,
               ),
               DPad(
                 scale: scale,
@@ -187,79 +213,4 @@ class BoardTestBody extends StatelessWidget {
       ),
     );
   }}
-
-
-                  // // TODO: Quitar estas piezas, agregadas solo para probar
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.UP,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.DOT,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 1,
-                  //     col: 1);
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.UP,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.DOT,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 0,
-                  //     col: 0);
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.UP,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.SQUARE,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 1,
-                  //     col: 1);
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.UP,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.LINE,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 0,
-                  //     col: 4);
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.LEFT,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.LINE,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 0,
-                  //     col: 7);
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.UP,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.L,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 5,
-                  //     col: 0);
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.DOWN,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.L,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 4,
-                  //     col: 1);
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.RIGHT,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.L,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 4,
-                  //     col: 5);
-                  // boardUI.board.addPiece(
-                  //     piece: Piece.withDetails(
-                  //         rotation: PieceRotation.LEFT,
-                  //         type: PieceType.SPATIAL,
-                  //         shape: PieceShape.L,
-                  //         location: PieceLocation.BOARD),
-                  //     row: 5,
-                  //     col: 6);
-                  // // TODO: Quitar estas piezas, agregadas solo para probar
+  

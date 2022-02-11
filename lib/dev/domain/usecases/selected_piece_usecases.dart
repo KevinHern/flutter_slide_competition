@@ -21,4 +21,8 @@ class SelectedPieceManagementUseCases {
   int unselectPiece() {
     return this.selectedPieceManagementRepository.unselectWhenNewIsSelected();
   }
+
+  int getByPositionOnGrid({required int row, required int col}) {
+    return this.selectedPieceManagementRepository.getByPosition(row: row, col: col);
+  }
 }

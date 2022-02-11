@@ -29,4 +29,9 @@ class PieceManagementRepositoryImpl
   int unselectWhenNewIsSelected() {
     return this._selectedPieceManager.unselectSelectedPiece();
   }
+
+  @override
+  int getByPosition({required int row, required int col}) {
+    return this._selectedPieceManager.getPieceByPosition(row: row, col: col);
+  }
 }

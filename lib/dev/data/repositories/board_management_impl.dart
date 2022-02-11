@@ -7,6 +7,7 @@ import 'package:flutter_slide_competition/dev/domain/repositories/board_manageme
 
 class BoardManagementRepositoryImpl implements BoardManagementRepository {
   late final Board _board;
+  Piece nullPiece = Piece.createNullPiece();
 
   BoardManagementRepositoryImpl({required Board board}) {
     this._board = board;
@@ -22,16 +23,16 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
       case PieceShape.DOT: {
         switch (direction) {
           case BoardDirection.UP: {
-            return (row > 0 && _board.board[row - 1][col] is NullPiece);
+            return (row > 0 && _board.board[row - 1][col].isNullPiece);
           }
           case BoardDirection.DOWN: {
-            return (row < 7 && _board.board[row + 1][col] is NullPiece);
+            return (row < 7 && _board.board[row + 1][col].isNullPiece);
           }
           case BoardDirection.LEFT: {
-            return (col > 0 && _board.board[row][col - 1] is NullPiece);
+            return (col > 0 && _board.board[row][col - 1].isNullPiece);
           }
           case BoardDirection.RIGHT: {
-            return (col < 7 && _board.board[row][col + 1] is NullPiece);
+            return (col < 7 && _board.board[row][col + 1].isNullPiece);
           }
         } // end switch direction
       } // end case DOT
@@ -39,16 +40,16 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
       case PieceShape.SQUARE: {
         switch (direction) {
           case BoardDirection.UP:{
-            return (row > 0 && _board.board[row - 1][col] is NullPiece && _board.board[row - 1][col + 1] is NullPiece);
+            return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
           }
           case BoardDirection.DOWN: {
-            return (row < 6 && _board.board[row + 2][col] is NullPiece && _board.board[row + 2][col + 1] is NullPiece);
+            return (row < 6 && _board.board[row + 2][col].isNullPiece && _board.board[row + 2][col + 1].isNullPiece);
           }
           case BoardDirection.LEFT: {
-            return (col > 0 && _board.board[row][col - 1] is NullPiece && _board.board[row + 1][col - 1] is NullPiece);
+            return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
           }
           case BoardDirection.RIGHT: {
-            return (col < 6 && _board.board[row][col + 2] is NullPiece && _board.board[row + 1][col + 2] is NullPiece);
+            return (col < 6 && _board.board[row][col + 2].isNullPiece && _board.board[row + 1][col + 2].isNullPiece);
           }
         } // end switch direction
       } // end case SQUARE
@@ -57,32 +58,32 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
           switch (direction) {
             case BoardDirection.UP:{
-              return (row > 0 && _board.board[row - 1][col] is NullPiece && _board.board[row - 1][col + 1] is NullPiece);
+              return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
             }
             case BoardDirection.DOWN: {
-              return (row < 7 && _board.board[row + 1][col] is NullPiece && _board.board[row + 1][col + 1] is NullPiece);
+              return (row < 7 && _board.board[row + 1][col].isNullPiece && _board.board[row + 1][col + 1].isNullPiece);
             }
             case BoardDirection.LEFT: {
-              return (col > 0 && _board.board[row][col - 1] is NullPiece);
+              return (col > 0 && _board.board[row][col - 1].isNullPiece);
             }
             case BoardDirection.RIGHT: {
-              return (col < 6 && _board.board[row][col + 2] is NullPiece);
+              return (col < 6 && _board.board[row][col + 2].isNullPiece);
             }
           } // end switch direction para piezas horizontales
 
         } else if (piece.rotation == PieceRotation.LEFT || piece.rotation == PieceRotation.RIGHT) {
           switch (direction) {
             case BoardDirection.UP:{
-              return (row > 0 && _board.board[row - 1][col] is NullPiece);
+              return (row > 0 && _board.board[row - 1][col].isNullPiece);
             }
             case BoardDirection.DOWN: {
-              return (row < 6 && _board.board[row + 2][col] is NullPiece);
+              return (row < 6 && _board.board[row + 2][col].isNullPiece);
             }
             case BoardDirection.LEFT: {
-              return (col > 0 && _board.board[row][col - 1] is NullPiece && _board.board[row + 1][col - 1] is NullPiece);
+              return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
             }
             case BoardDirection.RIGHT: {
-              return (col < 7 && _board.board[row][col + 1] is NullPiece && _board.board[row + 1][col + 1] is NullPiece);
+              return (col < 7 && _board.board[row][col + 1].isNullPiece && _board.board[row + 1][col + 1].isNullPiece);
             }
           } // end switch direction para piezas verticales
         }
@@ -95,16 +96,16 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
             switch (direction) {
               case BoardDirection.UP:{
-                return (row > 0 && _board.board[row - 1][col] is NullPiece && _board.board[row][col + 1] is NullPiece);
+                return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row][col + 1].isNullPiece);
               }
               case BoardDirection.DOWN: {
-                return (row < 6 && _board.board[row + 2][col] is NullPiece && _board.board[row + 2][col + 1] is NullPiece);
+                return (row < 6 && _board.board[row + 2][col].isNullPiece && _board.board[row + 2][col + 1].isNullPiece);
               }
               case BoardDirection.LEFT: {
-                return (col > 0 && _board.board[row][col - 1] is NullPiece && _board.board[row + 1][col - 1] is NullPiece);
+                return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
               }
               case BoardDirection.RIGHT: {
-                return (col < 6 && _board.board[row][col + 1] is NullPiece && _board.board[row + 1][col + 2] is NullPiece);
+                return (col < 6 && _board.board[row][col + 1].isNullPiece && _board.board[row + 1][col + 2].isNullPiece);
               }
             } // end switch direction
 
@@ -114,16 +115,16 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
             switch (direction) {
               case BoardDirection.UP:{
-                return (row > 0 && _board.board[row - 1][col] is NullPiece && _board.board[row - 1][col + 1] is NullPiece);
+                return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
               }
               case BoardDirection.DOWN: {
-                return (row < 6 && _board.board[row + 1][col] is NullPiece && _board.board[row + 2][col + 1] is NullPiece);
+                return (row < 6 && _board.board[row + 1][col].isNullPiece && _board.board[row + 2][col + 1].isNullPiece);
               }
               case BoardDirection.LEFT: {
-                return (col > 0 && _board.board[row][col - 1] is NullPiece && _board.board[row + 1][col] is NullPiece);
+                return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col].isNullPiece);
               }
               case BoardDirection.RIGHT: {
-                return (col < 6 && _board.board[row][col + 2] is NullPiece && _board.board[row + 1][col + 2] is NullPiece);
+                return (col < 6 && _board.board[row][col + 2].isNullPiece && _board.board[row + 1][col + 2].isNullPiece);
               }
             } // end switch direction
 
@@ -133,16 +134,16 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
             switch (direction) {
               case BoardDirection.UP:{
-                return (row > 0 && _board.board[row][col] is NullPiece && _board.board[row - 1][col + 1] is NullPiece);
+                return (row > 0 && _board.board[row][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
               }
               case BoardDirection.DOWN: {
-                return (row < 6 && _board.board[row + 2][col] is NullPiece && _board.board[row + 2][col + 1] is NullPiece);
+                return (row < 6 && _board.board[row + 2][col].isNullPiece && _board.board[row + 2][col + 1].isNullPiece);
               }
               case BoardDirection.LEFT: {
-                return (col > 0 && _board.board[row][col] is NullPiece && _board.board[row + 1][col - 1] is NullPiece);
+                return (col > 0 && _board.board[row][col].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
               }
               case BoardDirection.RIGHT: {
-                return (col < 6 && _board.board[row][col + 2] is NullPiece && _board.board[row + 1][col + 2] is NullPiece);
+                return (col < 6 && _board.board[row][col + 2].isNullPiece && _board.board[row + 1][col + 2].isNullPiece);
               }
             } // end switch direction
 
@@ -152,16 +153,16 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
             switch (direction) {
               case BoardDirection.UP:{
-                return (row > 0 && _board.board[row - 1][col] is NullPiece && _board.board[row - 1][col + 1] is NullPiece);
+                return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
               }
               case BoardDirection.DOWN: {
-                return (row < 6 && _board.board[row + 2][col] is NullPiece && _board.board[row + 1][col + 1] is NullPiece);
+                return (row < 6 && _board.board[row + 2][col].isNullPiece && _board.board[row + 1][col + 1].isNullPiece);
               }
               case BoardDirection.LEFT: {
-                return (col > 0 && _board.board[row][col - 1] is NullPiece && _board.board[row + 1][col - 1] is NullPiece);
+                return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
               }
               case BoardDirection.RIGHT: {
-                return (col < 6 && _board.board[row][col + 2] is NullPiece && _board.board[row + 1][col + 1] is NullPiece);
+                return (col < 6 && _board.board[row][col + 2].isNullPiece && _board.board[row + 1][col + 1].isNullPiece);
               }
             } // end switch direction
 
@@ -200,10 +201,10 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
       case PieceShape.L: {
         if (col == 6 && row == 3) {
           switch (piece.rotation) {
-            case PieceRotation.UP: return (_board.board[7][3] is NullPiece);
+            case PieceRotation.UP: return (_board.board[7][3].isNullPiece);
             case PieceRotation.DOWN: return true;
             case PieceRotation.LEFT: return true;
-            case PieceRotation.RIGHT: return (_board.board[7][4] is NullPiece);
+            case PieceRotation.RIGHT: return (_board.board[7][4].isNullPiece);
           }
         } else {
           return false;
@@ -259,7 +260,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
       // Movimiento válido, mover pieza
       moveReferencesOnBoard(direction: direction, piece: piece);
-      return NullPiece();
+      return nullPiece;
 
     // Es un movimiento de salida del tablero?
     } else if (direction == BoardDirection.RIGHT && checkExit(piece: piece)) {
@@ -272,7 +273,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
     }
 
     // Cualquier otro caso, no se pudo realizar el movimiento
-    return NullPiece();
+    return nullPiece;
   }
 
   @override
@@ -286,22 +287,22 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         switch (direction) {
           case BoardDirection.UP: {
             _board.board[row - 1][col] = _board.board[row][col];
-            _board.board[row][col] = NullPiece();
+            _board.board[row][col] = nullPiece;
           }
           break;
           case BoardDirection.DOWN: {
             _board.board[row + 1][col] = _board.board[row][col];
-            _board.board[row][col] = NullPiece();
+            _board.board[row][col] = nullPiece;
           }
           break;
           case BoardDirection.LEFT: {
             _board.board[row][col - 1] = _board.board[row][col];
-            _board.board[row][col] = NullPiece();
+            _board.board[row][col] = nullPiece;
           }
           break;
           case BoardDirection.RIGHT: {
             _board.board[row][col + 1] = _board.board[row][col];
-            _board.board[row][col] = NullPiece();
+            _board.board[row][col] = nullPiece;
           }
           break;
         } // end switch direction
@@ -313,29 +314,29 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
           case BoardDirection.UP:{
             _board.board[row - 1][col] = _board.board[row][col];
             _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-            _board.board[row + 1][col] = NullPiece();
-            _board.board[row + 1][col + 1] = NullPiece();
+            _board.board[row + 1][col] = nullPiece;
+            _board.board[row + 1][col + 1] = nullPiece;
           }
           break;
           case BoardDirection.DOWN: {
             _board.board[row + 2][col] = _board.board[row][col];
             _board.board[row + 2][col + 1] = _board.board[row][col + 1];
-            _board.board[row][col] = NullPiece();
-            _board.board[row][col + 1] = NullPiece();
+            _board.board[row][col] = nullPiece;
+            _board.board[row][col + 1] = nullPiece;
           }
           break;
           case BoardDirection.LEFT: {
             _board.board[row][col - 1] = _board.board[row][col];
             _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-            _board.board[row][col + 1] = NullPiece();
-            _board.board[row + 1][col + 1] = NullPiece();
+            _board.board[row][col + 1] = nullPiece;
+            _board.board[row + 1][col + 1] = nullPiece;
           }
           break;
           case BoardDirection.RIGHT: {
             _board.board[row][col + 2] = _board.board[row][col];
             _board.board[row + 1][col + 2] = _board.board[row + 1][col];
-            _board.board[row][col] = NullPiece();
-            _board.board[row + 1][col] = NullPiece();
+            _board.board[row][col] = nullPiece;
+            _board.board[row + 1][col] = nullPiece;
           }
           break;
         } // end switch direction
@@ -348,25 +349,25 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
             case BoardDirection.UP:{
               _board.board[row - 1][col] = _board.board[row][col];
               _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-              _board.board[row][col] = NullPiece();
-              _board.board[row][col + 1] = NullPiece();
+              _board.board[row][col] = nullPiece;
+              _board.board[row][col + 1] = nullPiece;
             }
             break;
             case BoardDirection.DOWN: {
               _board.board[row + 1][col] = _board.board[row][col];
               _board.board[row + 1][col + 1] = _board.board[row][col + 1];
-              _board.board[row][col] = NullPiece();
-              _board.board[row][col + 1] = NullPiece();
+              _board.board[row][col] = nullPiece;
+              _board.board[row][col + 1] = nullPiece;
             }
             break;
             case BoardDirection.LEFT: {
               _board.board[row][col - 1] = _board.board[row][col];
-              _board.board[row][col + 1] = NullPiece();
+              _board.board[row][col + 1] = nullPiece;
             }
             break;
             case BoardDirection.RIGHT: {
               _board.board[row][col + 2] = _board.board[row][col];
-              _board.board[row][col] = NullPiece();
+              _board.board[row][col] = nullPiece;
             }
             break;
           } // end switch direction
@@ -375,26 +376,26 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
           switch (direction) {
             case BoardDirection.UP:{
               _board.board[row - 1][col] = _board.board[row][col];
-              _board.board[row + 1][col] = NullPiece();
+              _board.board[row + 1][col] = nullPiece;
             }
             break;
             case BoardDirection.DOWN: {
               _board.board[row + 2][col] = _board.board[row][col];
-              _board.board[row][col] = NullPiece();
+              _board.board[row][col] = nullPiece;
             }
             break;
             case BoardDirection.LEFT: {
               _board.board[row][col - 1] = _board.board[row][col];
               _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-              _board.board[row][col] = NullPiece();
-              _board.board[row + 1][col] = NullPiece();
+              _board.board[row][col] = nullPiece;
+              _board.board[row + 1][col] = nullPiece;
             }
             break;
             case BoardDirection.RIGHT: {
               _board.board[row][col + 1] = _board.board[row][col];
               _board.board[row + 1][col + 1] = _board.board[row + 1][col];
-              _board.board[row][col] = NullPiece();
-              _board.board[row + 1][col] = NullPiece();
+              _board.board[row][col] = nullPiece;
+              _board.board[row + 1][col] = nullPiece;
             }
             break;
           } // end switch direction
@@ -410,29 +411,29 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
               case BoardDirection.UP:{
                 _board.board[row - 1][col] = _board.board[row][col];
                 _board.board[row][col + 1] = _board.board[row + 1][col + 1];
-                _board.board[row + 1][col] = NullPiece();
-                _board.board[row + 1][col + 1] = NullPiece();
+                _board.board[row + 1][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.DOWN: {
                 _board.board[row + 2][col] = _board.board[row + 1][col];
                 _board.board[row + 2][col + 1] = _board.board[row + 1][col + 1];
-                _board.board[row][col] = NullPiece();
-                _board.board[row + 1][col + 1] = NullPiece();
+                _board.board[row][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.LEFT: {
                 _board.board[row][col - 1] = _board.board[row][col];
                 _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-                _board.board[row][col] = NullPiece();
-                _board.board[row + 1][col + 1] = NullPiece();
+                _board.board[row][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.RIGHT: {
                 _board.board[row][col + 1] = _board.board[row][col];
                 _board.board[row + 1][col + 2] = _board.board[row + 1][col + 1];
-                _board.board[row][col] = NullPiece();
-                _board.board[row + 1][col] = NullPiece();
+                _board.board[row][col] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
               }
               break;
             } // end switch direction
@@ -446,29 +447,29 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
               case BoardDirection.UP:{
                 _board.board[row - 1][col] = _board.board[row][col];
                 _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-                _board.board[row][col] = NullPiece();
-                _board.board[row + 1][col + 1] = NullPiece();
+                _board.board[row][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.DOWN: {
                 _board.board[row + 1][col] = _board.board[row][col];
                 _board.board[row + 2][col + 1] = _board.board[row + 1][col + 1];
-                _board.board[row][col] = NullPiece();
-                _board.board[row][col + 1] = NullPiece();
+                _board.board[row][col] = nullPiece;
+                _board.board[row][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.LEFT: {
                 _board.board[row][col - 1] = _board.board[row][col];
                 _board.board[row + 1][col] = _board.board[row + 1][col + 1];
-                _board.board[row][col + 1] = NullPiece();
-                _board.board[row + 1][col + 1] = NullPiece();
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.RIGHT: {
                 _board.board[row][col + 2] = _board.board[row][col + 1];
                 _board.board[row + 1][col + 2] = _board.board[row + 1][col + 1];
-                _board.board[row][col] = NullPiece();
-                _board.board[row + 1][col + 1] = NullPiece();
+                _board.board[row][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
             } // end switch direction
@@ -482,29 +483,29 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
               case BoardDirection.UP:{
                 _board.board[row - 1][col + 1] = _board.board[row][col + 1];
                 _board.board[row][col] = _board.board[row + 1][col];
-                _board.board[row + 1][col] = NullPiece();
-                _board.board[row + 1][col + 1] = NullPiece();
+                _board.board[row + 1][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.DOWN: {
                 _board.board[row + 2][col] = _board.board[row + 1][col];
                 _board.board[row + 2][col + 1] = _board.board[row + 1][col + 1];
-                _board.board[row][col + 1] = NullPiece();
-                _board.board[row + 1][col] = NullPiece();
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
               }
               break;
               case BoardDirection.LEFT: {
                 _board.board[row][col] = _board.board[row][col + 1];
                 _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-                _board.board[row][col + 1] = NullPiece();
-                _board.board[row + 1][col + 1] = NullPiece();
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.RIGHT: {
                 _board.board[row][col + 2] = _board.board[row][col + 1];
                 _board.board[row + 1][col + 2] = _board.board[row + 1][col + 1];
-                _board.board[row][col + 1] = NullPiece();
-                _board.board[row + 1][col] = NullPiece();
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
               }
               break;
             } // end switch direction
@@ -518,29 +519,29 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
               case BoardDirection.UP:{
                 _board.board[row - 1][col] = _board.board[row][col];
                 _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-                _board.board[row][col + 1] = NullPiece();
-                _board.board[row + 1][col] = NullPiece();
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
               }
               break;
               case BoardDirection.DOWN: {
                 _board.board[row + 1][col + 1] = _board.board[row][col + 1];
                 _board.board[row + 2][col] = _board.board[row + 1][col];
-                _board.board[row][col] = NullPiece();
-                _board.board[row][col + 1] = NullPiece();
+                _board.board[row][col] = nullPiece;
+                _board.board[row][col + 1] = nullPiece;
               }
               break;
               case BoardDirection.LEFT: {
                 _board.board[row][col - 1] = _board.board[row][col];
                 _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-                _board.board[row][col + 1] = NullPiece();
-                _board.board[row + 1][col] = NullPiece();
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
               }
               break;
               case BoardDirection.RIGHT: {
                 _board.board[row][col + 2] = _board.board[row][col + 1];
                 _board.board[row + 1][col + 1] = _board.board[row + 1][col];
-                _board.board[row][col] = NullPiece();
-                _board.board[row + 1][col] = NullPiece();
+                _board.board[row][col] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
               }
               break;
             } // end switch direction
@@ -568,26 +569,26 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
     switch (piece.shape) {
 
       case PieceShape.DOT: {
-        _board.board[row][col] = NullPiece();
+        _board.board[row][col] = nullPiece;
       }
       break;
       case PieceShape.SQUARE: {
-        _board.board[row][col] = NullPiece();
-        _board.board[row][col + 1] = NullPiece();
-        _board.board[row + 1][col] = NullPiece();
-        _board.board[row + 1][col + 1] = NullPiece();
+        _board.board[row][col] = nullPiece;
+        _board.board[row][col + 1] = nullPiece;
+        _board.board[row + 1][col] = nullPiece;
+        _board.board[row + 1][col + 1] = nullPiece;
       }
       break;
       case PieceShape.LINE: {
         // horizontal
         if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
-          _board.board[row][col] = NullPiece();
-          _board.board[row][col + 1] = NullPiece();
+          _board.board[row][col] = nullPiece;
+          _board.board[row][col + 1] = nullPiece;
 
         // vertical
         } else if (piece.rotation == PieceRotation.LEFT || piece.rotation == PieceRotation.RIGHT) {
-          _board.board[row][col] = NullPiece();
-          _board.board[row + 1][col] = NullPiece();
+          _board.board[row][col] = nullPiece;
+          _board.board[row + 1][col] = nullPiece;
         }
       }
       break;
@@ -595,31 +596,36 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         switch (piece.rotation) {
 
           case PieceRotation.UP: {
-            _board.board[row][col] = NullPiece();
-            _board.board[row + 1][col] = NullPiece();
-            _board.board[row + 1][col + 1] = NullPiece();
+            _board.board[row][col] = nullPiece;
+            _board.board[row + 1][col] = nullPiece;
+            _board.board[row + 1][col + 1] = nullPiece;
           }
             break;
           case PieceRotation.DOWN: {
-            _board.board[row][col] = NullPiece();
-            _board.board[row][col + 1] = NullPiece();
-            _board.board[row + 1][col + 1] = NullPiece();
+            _board.board[row][col] = nullPiece;
+            _board.board[row][col + 1] = nullPiece;
+            _board.board[row + 1][col + 1] = nullPiece;
           }
             break;
           case PieceRotation.LEFT: {
-            _board.board[row][col + 1] = NullPiece();
-            _board.board[row + 1][col] = NullPiece();
-            _board.board[row + 1][col + 1] = NullPiece();
+            _board.board[row][col + 1] = nullPiece;
+            _board.board[row + 1][col] = nullPiece;
+            _board.board[row + 1][col + 1] = nullPiece;
           }
             break;
           case PieceRotation.RIGHT: {
-            _board.board[row][col] = NullPiece();
-            _board.board[row][col + 1] = NullPiece();
-            _board.board[row + 1][col] = NullPiece();
+            _board.board[row][col] = nullPiece;
+            _board.board[row][col + 1] = nullPiece;
+            _board.board[row + 1][col] = nullPiece;
           }
             break;
         }
       }
     }
+  }
+
+  @override
+  Piece getBasePieceByPosition({required int row, required int col}) {
+    return _board.board[row][col];
   }
 }

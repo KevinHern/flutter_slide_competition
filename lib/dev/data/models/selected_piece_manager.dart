@@ -12,8 +12,10 @@ class SelectedPieceManager {
 
   // Obtiene *alguna* pieza según el index dado
   Piece getPiece({required int index}) => this.puzzlePieces[index];
+
   // Obtiene *la pieza* seleccionada
   Piece getSelectedPiece() => this.puzzlePieces[selectedIndex];
+
   // Deselecciona *la pieza* seleccionada
   int unselectSelectedPiece() {
     this.puzzlePieces[selectedIndex].isSelected = false;
@@ -25,11 +27,27 @@ class SelectedPieceManager {
   // Busca *alguna* pieza
   int getIndexOfPiece({required Piece piece}) =>
       this.puzzlePieces.indexOf(piece);
+
   // Busca *la pieza* seleccionada, actualizando el indice en el proceso
   int updateSelectedPiece({required Piece piece}) {
     int i = this.puzzlePieces.indexOf(piece);
     this.selectedIndex = i;
     this.puzzlePieces[selectedIndex].isSelected = true;
+
+    print(i);
+
     return i;
+  }
+
+  int getPieceByPosition({required int row, required int col}) {
+    for (Piece item in puzzlePieces) {
+      if (item.x == col && item.y == row) {
+        return updateSelectedPiece(piece: item);
+      }
+    }
+
+
+
+    return -1;
   }
 }
