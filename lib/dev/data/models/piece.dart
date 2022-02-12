@@ -18,8 +18,7 @@ class Piece {
   late Color _color;
   bool _isSelected = false;        // al momento de crearse no hay nada seleccionado
 
-  // todo: sound
-  // todo: onTap
+  // todo: sound y onTap en siguiente fase
 
   Piece({required PieceRotation rotation}) {
     this._rotation = rotation;

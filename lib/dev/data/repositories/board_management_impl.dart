@@ -625,7 +625,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  Piece getBasePieceByPosition({required int row, required int col}) {
+  Piece getBasePiece({required int row, required int col}) {
     return _board.board[row][col];
   }
 }

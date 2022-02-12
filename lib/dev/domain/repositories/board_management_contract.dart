@@ -16,5 +16,5 @@ abstract class BoardManagementRepository {
   bool checkExit ({required Piece piece});
   void pieceCleanup ({required Piece piece});
 
-  Piece getBasePieceByPosition ({required int row, required int col});
+  Piece getBasePiece ({required int row, required int col});
 }

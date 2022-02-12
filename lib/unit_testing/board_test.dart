@@ -9,13 +9,12 @@ import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece
 import 'package:flutter_slide_competition/dev/domain/usecases/dpad_usecases.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/selected_piece_usecases.dart';
 import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
+import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/board_grid.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/dpad.dart';
 import 'package:provider/provider.dart';
 
 import '../dev/ui/utils/my_utils.dart';
-
-import 'dart:developer';
 
 class BoardTestScreen extends StatelessWidget {
   final double scale;
@@ -42,7 +41,7 @@ class BoardTestScreen extends StatelessWidget {
     return Scaffold(
       body: BoardProviders(
         board: this.board,
-        selectedPieceManager: this.selectedPieceManager,
+        //selectedPieceManager: this.selectedPieceManager,
         child: BoardTestBody(
           scale: 2.5,
           selectedPieceManagementRepository: selectedPieceManagementRepository,
@@ -55,10 +54,10 @@ class BoardTestScreen extends StatelessWidget {
 
 class BoardProviders extends StatelessWidget {
   final Board board;
-  final SelectedPieceManager selectedPieceManager;
+  //final SelectedPieceManager selectedPieceManager;
   final Widget child;
 
-  const BoardProviders({required this.board, required this.selectedPieceManager, required this.child});
+  const BoardProviders({required this.board, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +66,9 @@ class BoardProviders extends StatelessWidget {
         ChangeNotifierProvider<BoardUI>(
           create: (context) => BoardUI(board: board)
         ),
-
-        // ChangeNotifierProvider<SelectedPieceManagerUI>(
-        //   create: (context) => SelectedPieceManagerUI(),
-        // ),
+        ChangeNotifierProvider<BoardPieceManagerUI>(
+          create: (context) => BoardPieceManagerUI(),
+        )
       ],
       child: this.child
     );
@@ -165,7 +163,7 @@ class BoardTestBody extends StatelessWidget {
       piece: Piece.withDetails(
         rotation: PieceRotation.RIGHT,
         type: PieceType.SPATIAL,
-        shape: PieceShape.DOT,
+        shape: PieceShape.SQUARE,
         location: PieceLocation.BOARD,
       ),
       row: 4,
@@ -213,4 +211,3 @@ class BoardTestBody extends StatelessWidget {
       ),
     );
   }}
-  
