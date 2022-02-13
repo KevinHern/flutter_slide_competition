@@ -12,6 +12,10 @@ class DpadUseCases {
 
   DpadUseCases({required this.boardManagementRepository});
 
+  Piece movePiece({required BoardDirection direction, required Piece puzzlePiece}) {
+    return this.boardManagementRepository.movePiece(direction: direction, piece: puzzlePiece);
+  }
+
   Piece moveUp({required Piece puzzlePiece}) {
     log("moveUp usecase");
     return this.boardManagementRepository.movePiece(direction: BoardDirection.UP, piece: puzzlePiece);

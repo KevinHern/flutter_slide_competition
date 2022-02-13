@@ -65,6 +65,10 @@ class Piece {
   set isSelected(bool isSelected) => this._isSelected = isSelected;
   set color(Color color) => this._color = color;
 
+  String toString () {
+    return "shape: ${shape} - x: ${x} - y: ${y}";
+  }
+
   // toggle
   bool toggleSelection () {
     this._isSelected = !this._isSelected;

@@ -33,9 +33,6 @@ class SelectedPieceManager {
     int i = this.puzzlePieces.indexOf(piece);
     this.selectedIndex = i;
     this.puzzlePieces[selectedIndex].isSelected = true;
-
-    print(i);
-
     return i;
   }
 
@@ -45,8 +42,6 @@ class SelectedPieceManager {
         return updateSelectedPiece(piece: item);
       }
     }
-
-
 
     return -1;
   }
