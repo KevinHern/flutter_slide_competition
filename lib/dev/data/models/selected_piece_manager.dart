@@ -14,7 +14,12 @@ class SelectedPieceManager {
   Piece getPiece({required int index}) => this.puzzlePieces[index];
 
   // Obtiene *la pieza* seleccionada
-  Piece getSelectedPiece() => this.puzzlePieces[selectedIndex];
+  Piece getSelectedPiece() {
+    if (this.selectedIndex != -1)
+      return this.puzzlePieces[selectedIndex];
+    else
+      return Piece.createNullPiece();
+  }
 
   // Deselecciona *la pieza* seleccionada
   int unselectSelectedPiece() {
