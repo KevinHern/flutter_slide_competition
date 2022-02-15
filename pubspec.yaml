@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   provider: ^6.0.2
+  just_audio: ^0.9.20
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +91,15 @@ flutter:
     - assets/icons/L-left.png
     - assets/icons/L-right.png
     - assets/icons/square.png
+    - assets/icons/free.png
+    - assets/sounds/do.wav
+    - assets/sounds/re.wav
+    - assets/sounds/mi.wav
+    - assets/sounds/fa.wav
+    - assets/sounds/sol.wav
+    - assets/sounds/la.wav
+    - assets/sounds/si.wav
+    - assets/sounds/do8.wav
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
