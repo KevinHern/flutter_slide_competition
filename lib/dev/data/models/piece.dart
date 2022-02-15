@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:flutter_slide_competition/dev/data/models/sound.dart';
+
 enum PieceRotation { UP, DOWN, LEFT, RIGHT }
 enum PieceType { AUDIO, SPATIAL, DUMMY, FIXED, EMPTY }
-  // dummy: se mueve pero no se puede sacar
-  // fixed: no se puede mover, orilla
-  // empty: representa espacios vacíos, pseudo-null porque hay null-safety
+// dummy: se mueve pero no se puede sacar
+// fixed: no se puede mover, orilla
+// empty: representa espacios vacíos, pseudo-null porque hay null-safety
 enum PieceShape { DOT, SQUARE, LINE, L }
 enum PieceLocation { BOARD, BAG, SPATIAL_BOARD }
 
@@ -16,7 +18,8 @@ class Piece {
   late int _x;
   late int _y;
   late Color _color;
-  bool _isSelected = false;        // al momento de crearse no hay nada seleccionado
+  late MusicalNote _musicalNote;
+  bool _isSelected = false; // al momento de crearse no hay nada seleccionado
 
   // todo: sound y onTap en siguiente fase
 
@@ -29,12 +32,14 @@ class Piece {
     required PieceRotation rotation,
     required PieceType type,
     required PieceShape shape,
-    required PieceLocation location
+    required PieceLocation location,
+    MusicalNote musicalNote = MusicalNote.NONE,
   }) {
     this._rotation = rotation;
     this._type = type;
     this._shape = shape;
     this._location = location;
+    this._musicalNote = musicalNote;
   }
 
   Piece.createNullPiece() {
@@ -42,6 +47,7 @@ class Piece {
     this._location = PieceLocation.BOARD;
     this._shape = PieceShape.DOT;
     this._type = PieceType.EMPTY;
+    this._musicalNote = MusicalNote.NONE;
   }
 
   // getters
@@ -54,6 +60,7 @@ class Piece {
   bool get isSelected => this._isSelected;
   Color get color => this._color;
   bool get isNullPiece => (this._type == PieceType.EMPTY);
+  MusicalNote get musicalNote => this._musicalNote;
 
   // setters
   set rotation(PieceRotation rotation) => this._rotation = rotation;
@@ -65,12 +72,12 @@ class Piece {
   set isSelected(bool isSelected) => this._isSelected = isSelected;
   set color(Color color) => this._color = color;
 
-  String toString () {
+  String toString() {
     return "shape: ${shape} - x: ${x} - y: ${y}";
   }
 
   // toggle
-  bool toggleSelection () {
+  bool toggleSelection() {
     this._isSelected = !this._isSelected;
     return this._isSelected;
   }
