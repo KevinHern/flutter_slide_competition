@@ -21,8 +21,6 @@ class Piece {
   late MusicalNote _musicalNote;
   bool _isSelected = false; // al momento de crearse no hay nada seleccionado
 
-  // todo: sound y onTap en siguiente fase
-
   Piece({required PieceRotation rotation}) {
     this._rotation = rotation;
     this._shape = PieceShape.DOT;
@@ -73,7 +71,8 @@ class Piece {
   set color(Color color) => this._color = color;
 
   String toString() {
-    return "shape: ${shape} - x: ${x} - y: ${y}";
+    //return "shape: ${shape} - x: ${x} - y: ${y}";
+    return "shape: ${shape} type: ${type}";
   }
 
   // toggle

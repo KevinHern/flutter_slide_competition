@@ -7,6 +7,8 @@ import 'package:flutter_slide_competition/dev/domain/usecases/board_grid_usecase
 import 'package:flutter_slide_competition/dev/domain/usecases/selected_piece_usecases.dart';
 import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
+import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
+import 'package:flutter_slide_competition/dev/ui/models/toggle_buttons.dart';
 import 'package:provider/provider.dart';
 
 class BoardGrid extends StatelessWidget {
@@ -76,7 +78,9 @@ class BoardGrid extends StatelessWidget {
         crossAxisCount: 8,
         children: [
           for(var item in cuadritos) GestureDetector(
+            // Se hizo click en alguna casilla del tablero
             onTap: () {
+              // Obtener fila y columna
               int index = cuadritos.indexOf(item);
               int row = index ~/8;
               int col = index % 8;
@@ -89,10 +93,25 @@ class BoardGrid extends StatelessWidget {
                   )
               ).getBasePieceByPosition(row: row, col: col);
 
-              SelectedPieceManagementUseCases(
-                selectedPieceManagementRepository: selectedManager
-              ).selectPiece(puzzlePiece: piece);
+              if (piece.isNullPiece) {
+                // Si fue una casilla vacía
+                // Deseleccionar
+                SelectedPieceManagementUseCases(
+                  selectedPieceManagementRepository: selectedManager
+                ).unselectPiece();
+              } else {
+                // Si fue una pieza válida
+                // Seleccionar
+                SelectedPieceManagementUseCases(
+                    selectedPieceManagementRepository: selectedManager
+                ).selectPiece(puzzlePiece: piece);
+              }
 
+              // Se hizo click en tablero, desactivar rotación y selección de bag
+              Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
+              Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = piece;
+
+              // Notificar para color de pieza seleccionada
               Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
               Provider.of<BoardUI>(context, listen: false).update();
 

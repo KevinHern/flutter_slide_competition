@@ -23,7 +23,9 @@ class SelectedPieceManager {
 
   // Deselecciona *la pieza* seleccionada
   int unselectSelectedPiece() {
-    this.puzzlePieces[selectedIndex].isSelected = false;
+    if (selectedIndex != -1) {
+      this.puzzlePieces[selectedIndex].isSelected = false;
+    }
     int old = selectedIndex;
     selectedIndex = -1;
     return old;

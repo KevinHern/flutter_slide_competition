@@ -266,7 +266,6 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
     } else if (direction == BoardDirection.RIGHT && checkExit(piece: piece)) {
 
       // Movimiento válido, sacar pieza y poner en bolsa
-      // TODO: Poner pieza en bolsa
       pieceCleanup(piece: piece);
       return piece;
 

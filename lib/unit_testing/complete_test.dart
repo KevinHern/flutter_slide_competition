@@ -92,40 +92,9 @@ class CompleteTestScreen extends StatelessWidget {
       col: 1,
     );
 
-    // bagPieces.addPiece(
-    //   puzzlePiece: Piece.withDetails(
-    //       rotation: PieceRotation.LEFT,
-    //       type: PieceType.SPATIAL,
-    //       shape: PieceShape.L,
-    //       location: PieceLocation.BOARD),
-    // );
-    // bagPieces.addPiece(
-    //   puzzlePiece: Piece.withDetails(
-    //       rotation: PieceRotation.LEFT,
-    //       type: PieceType.SPATIAL,
-    //       shape: PieceShape.LINE,
-    //       location: PieceLocation.BOARD),
-    // );
-    // bagPieces.addPiece(
-    //   puzzlePiece: Piece.withDetails(
-    //       rotation: PieceRotation.LEFT,
-    //       type: PieceType.SPATIAL,
-    //       shape: PieceShape.DOT,
-    //       location: PieceLocation.BOARD),
-    // );
-    // bagPieces.addPiece(
-    //   puzzlePiece: Piece.withDetails(
-    //       rotation: PieceRotation.LEFT,
-    //       type: PieceType.SPATIAL,
-    //       shape: PieceShape.SQUARE,
-    //       location: PieceLocation.BOARD),
-    // );
-
-    // TODO: Referenciar a ambos
     // Las piezas comienzan en board pero se mueven a bag
     selectedPieceManager =
         SelectedPieceManager(puzzlePieces: board.puzzlePieces);
-    //selectedPieceManager = SelectedPieceManager(puzzlePieces: bagPieces.pieces);
 
     // Repositories Initialization
     selectedPieceManagementRepository = PieceManagementRepositoryImpl(
@@ -226,6 +195,8 @@ class CompleteTestBody extends StatelessWidget {
                 selectedPieceManagementRepository)
         .getCurrentSelectedPiece();
 
+    print("rotando $currentPiece");
+
     final int currentRotationCycleIndex =
         rotationCycle.indexOf(currentPiece.rotation);
     final int nextRotationCycleIndex =
@@ -246,6 +217,8 @@ class CompleteTestBody extends StatelessWidget {
                 selectedPieceManagementRepository)
         .getCurrentSelectedPiece();
 
+    if (piece.isNullPiece) return;
+
     final Piece outPiece =
         DpadUseCases(boardManagementRepository: boardManagementRepository)
             .movePiece(direction: direction, puzzlePiece: piece);
@@ -256,7 +229,15 @@ class CompleteTestBody extends StatelessWidget {
       BagManagementUseCases(bagManagementRepository: bagManagementRepository)
           .addToBag(puzzlePiece: outPiece);
 
+      // SelectedPieceManagementUseCases(
+      //   selectedPieceManagementRepository: selectedPieceManagementRepository
+      // ).unselectPiece();
+
       Provider.of<BagUI>(context, listen: false).update();
+
+      Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
+      print("guardando en bolsa: $outPiece");
+      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = outPiece;
     }
   }
 
@@ -322,17 +303,17 @@ class CompleteTestBody extends StatelessWidget {
                   const SizedBox(
                     height: 50,
                   ),
-                  Consumer<ToggleRotation>(
-                    builder: (_, toggleRotation, __) {
-                      return ElevatedButton(
-                        onPressed: () {
-                          toggleRotation.canRotate = false;
-                          toggleRotation.update();
-                        },
-                        child: Text('Disable Rotate Buttons'),
-                      );
-                    },
-                  ),
+                  // Consumer<ToggleRotation>(
+                  //   builder: (_, toggleRotation, __) {
+                  //     return ElevatedButton(
+                  //       onPressed: () {
+                  //         toggleRotation.canRotate = false;
+                  //         toggleRotation.update();
+                  //       },
+                  //       child: Text('Disable Rotate Buttons'),
+                  //     );
+                  //   },
+                  // ),
                 ],
               ),
             ),
