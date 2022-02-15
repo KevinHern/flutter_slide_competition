@@ -4,14 +4,21 @@ import 'package:flutter/material.dart';
 // Models
 import 'package:flutter_slide_competition/dev/data/models/bag.dart';
 import 'package:flutter_slide_competition/dev/data/models/piece.dart';
+import 'package:flutter_slide_competition/dev/data/models/sound.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece_management_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/sound_management_contract.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/selected_piece_usecases.dart';
+import 'package:flutter_slide_competition/dev/domain/usecases/sound_management_usecases.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/toggle_buttons.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/puzzle_piece_icon.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
 // State Management
 import 'package:flutter_slide_competition/dev/ui/models/bagUI.dart';
+
+enum BagType { SOUND, SPATIAL }
 
 class PieceBagTitle extends StatelessWidget {
   final Piece piece;
@@ -74,134 +81,153 @@ class PieceBagOrientation extends StatelessWidget {
   }
 }
 
-class PieceIcon extends StatelessWidget {
+class PieceBagNote extends StatelessWidget {
   final Piece piece;
-  late final String _filename;
-  static const double size = 50;
+  const PieceBagNote({required this.piece, Key? key}) : super(key: key);
 
-  PieceIcon({required this.piece, Key? key}) : super(key: key) {
-    switch (piece.shape) {
-      case PieceShape.DOT:
-        this._filename = 'dot';
-        break;
-      case PieceShape.SQUARE:
-        this._filename = 'square';
-        break;
-      case PieceShape.LINE:
-        switch (piece.rotation) {
-          case PieceRotation.UP:
-          case PieceRotation.DOWN:
-            this._filename = 'line-H';
-            break;
-          case PieceRotation.LEFT:
-          case PieceRotation.RIGHT:
-            this._filename = 'line-V';
-            break;
-          default:
-            throw Exception('Unkown Rotation detected for LINE shaped piece');
-        }
-        break;
-      case PieceShape.L:
-        switch (piece.rotation) {
-          case PieceRotation.UP:
-            this._filename = 'L-up';
-            break;
-          case PieceRotation.DOWN:
-            this._filename = 'L-down';
-            break;
-          case PieceRotation.LEFT:
-            this._filename = 'L-left';
-            break;
-          case PieceRotation.RIGHT:
-            this._filename = 'L-right';
-            break;
-          default:
-            throw Exception('Unkown Rotation detected for L shaped piece');
-        }
-        break;
+  @override
+  Widget build(BuildContext context) {
+    switch (piece.musicalNote) {
+      case MusicalNote.C:
+        return const Text('Musical Note: C (do)');
+      case MusicalNote.D:
+        return const Text('Musical Note: D (re)');
+      case MusicalNote.E:
+        return const Text('Musical Note: E (mi)');
+      case MusicalNote.F:
+        return const Text('Musical Note: F (fa)');
+      case MusicalNote.G:
+        return const Text('Musical Note: G (sol)');
+      case MusicalNote.A:
+        return const Text('Musical Note: A (la)');
+      case MusicalNote.B:
+        return const Text('Musical Note: B (si)');
+      case MusicalNote.C8:
+        return const Text('Musical Note: C-octave (do-octave)');
       default:
         throw Exception('Unkown piece shape has been detected');
     }
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.square(
-      dimension: size,
-      child: Image.asset('icons/' + this._filename + '.png'),
-    );
-  }
 }
 
-class BagWidget extends StatelessWidget {
+class BagWidget extends StatefulWidget {
+  // Mandatory Parameters
   final Bag bagOfPieces;
-  final ToggleRotation toggleRotation;
   final double height, width;
+  final BagType bagType;
   late final SelectedPieceManagementUseCases selectedPieceManagementUseCases;
-  BagWidget(
-      {required this.bagOfPieces,
-      required this.toggleRotation,
-      required this.height,
-      required SelectedPieceManagementRepository
-          selectedPieceManagementRepository,
-      this.width = double.infinity,
-      Key? key})
-      : super(key: key) {
+
+  // Optional Parameters
+  late final SoundManagementUseCases? soundManagementUseCases;
+  final ToggleRotation? toggleRotation;
+
+  BagWidget({
+    required this.bagOfPieces,
+    required this.bagType,
+    required this.height,
+    this.width = double.infinity,
+    required SelectedPieceManagementRepository
+        selectedPieceManagementRepository,
+    @required SoundManagementRepository? soundManagementRepository,
+    @required this.toggleRotation,
+    Key? key,
+  }) : super(key: key) {
+    //Initializing Use Cases
     this.selectedPieceManagementUseCases = SelectedPieceManagementUseCases(
         selectedPieceManagementRepository: selectedPieceManagementRepository);
+
+    // Initializing optional use cases
+    this.soundManagementUseCases = (soundManagementRepository == null)
+        ? null
+        : SoundManagementUseCases(
+            soundManagementRepository: soundManagementRepository);
+  }
+
+  @override
+  _BagWidgetState createState() => _BagWidgetState();
+}
+
+class _BagWidgetState extends State<BagWidget> {
+  static const double iconSize = 50;
+
+  // Self parameters
+  late final AudioPlayer player;
+
+  @override
+  void initState() {
+    super.initState();
+    this.player = AudioPlayer();
+  }
+
+  @override
+  void dispose() {
+    this.player.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: this.height,
+      height: widget.height,
       decoration: BoxDecoration(
         border: Border.all(width: 5),
         borderRadius: const BorderRadius.all(Radius.circular(5)),
       ),
-      child: (bagOfPieces.length == 0)
+      child: (widget.bagOfPieces.length == 0)
           ? Container(
               color: Colors.red,
             )
           : ListView.builder(
-              itemCount: bagOfPieces.length,
+              itemCount: widget.bagOfPieces.length,
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Card(
                     color: (Provider.of<SelectedPieceManagerUI>(context,
-                                    listen: false)
+                                    listen: true)
                                 .selectedPiece ==
-                            bagOfPieces.pieces[index])
-                        ? const Color(0xFF00AC9C)
-                        : Colors.transparent,
+                            widget.bagOfPieces.pieces[index])
+                        ? const Color(0xFFFFAC9C)
+                        : Colors.white,
                     child: ListTile(
                       leading: PieceIcon(
-                        piece: bagOfPieces.pieces[index],
+                        size: iconSize,
+                        piece: widget.bagOfPieces.pieces[index],
                       ),
                       title: PieceBagTitle(
-                        piece: bagOfPieces.pieces[index],
+                        piece: widget.bagOfPieces.pieces[index],
                       ),
-                      subtitle: PieceBagOrientation(
-                        piece: bagOfPieces.pieces[index],
-                      ),
-                      onTap: () {
+                      subtitle: (widget.bagType == BagType.SPATIAL)
+                          ? PieceBagOrientation(
+                              piece: widget.bagOfPieces.pieces[index],
+                            )
+                          : PieceBagNote(
+                              piece: widget.bagOfPieces.pieces[index],
+                            ),
+                      onTap: () async {
                         // Everytime the tile gets pressed, register the selected piece as the current piece
-                        this.selectedPieceManagementUseCases.selectPiece(
-                            puzzlePiece: bagOfPieces.pieces[index]);
+                        widget.selectedPieceManagementUseCases.selectPiece(
+                            puzzlePiece: widget.bagOfPieces.pieces[index]);
 
                         // Update the reference of the UI of which piece has been selected
                         Provider.of<SelectedPieceManagerUI>(context,
                                     listen: false)
                                 .selectPiece =
-                            this
-                                .selectedPieceManagementUseCases
+                            widget.selectedPieceManagementUseCases
                                 .getCurrentSelectedPiece();
 
-                        // Toggle the rotation buttons and update the buttons UI
-                        this.toggleRotation.canRotate = true;
-                        this.toggleRotation.update();
+                        // Execute the action depending on the current puzzle type
+                        if (widget.bagType == BagType.SPATIAL) {
+                          // Toggle the rotation buttons and update the buttons UI
+                          widget.toggleRotation!.canRotate = true;
+                          widget.toggleRotation!.update();
+                        } else {
+                          // Play piece's sound
+                          await widget.soundManagementUseCases!.playPieceSound(
+                              player: this.player,
+                              piece: widget.bagOfPieces.pieces[index]);
+                        }
                       },
                     ),
                   ),

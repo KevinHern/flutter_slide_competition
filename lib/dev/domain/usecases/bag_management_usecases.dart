@@ -1,5 +1,4 @@
 // Models
-import 'package:flutter_slide_competition/dev/data/models/bag.dart';
 import 'package:flutter_slide_competition/dev/data/models/piece.dart';
 
 // Contracts
@@ -10,18 +9,15 @@ class BagManagementUseCases {
 
   BagManagementUseCases({required this.bagManagementRepository});
 
-  void addToBag({required Piece puzzlePiece}) {
-    this.bagManagementRepository.addPiece(puzzlePiece: puzzlePiece);
-  }
+  void addToBag({required Piece puzzlePiece}) =>
+      this.bagManagementRepository.addPiece(puzzlePiece: puzzlePiece);
 
-  Piece retrieveFromBag({required int index}) {
-    return this.bagManagementRepository.removePiece(index: index);
-  }
+  bool removeFromBag({required Piece piece}) =>
+      this.bagManagementRepository.removePiece(piece: piece);
 
   void rotatePieceInBag(
-      {required Piece puzzlePiece, required PieceRotation newRotation}) {
-    this
-        .bagManagementRepository
-        .rotatePiece(puzzlePiece: puzzlePiece, newRotation: newRotation);
-  }
+          {required Piece puzzlePiece, required PieceRotation newRotation}) =>
+      this
+          .bagManagementRepository
+          .rotatePiece(puzzlePiece: puzzlePiece, newRotation: newRotation);
 }

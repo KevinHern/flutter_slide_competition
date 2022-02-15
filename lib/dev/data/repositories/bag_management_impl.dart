@@ -17,8 +17,8 @@ class BagManagementRepositoryImpl implements BagManagementRepository {
   }
 
   @override
-  Piece removePiece({required int index}) =>
-      this._bag.removePiece(index: index);
+  bool removePiece({required Piece piece}) =>
+      this._bag.erasePiece(puzzlePiece: piece);
 
   @override
   void rotatePiece(

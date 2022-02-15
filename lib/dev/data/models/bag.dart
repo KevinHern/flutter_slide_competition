@@ -10,8 +10,6 @@ class Bag {
   }
 
   Piece getPiece({required int index}) => this.puzzlePieces[index];
-
-  Piece removePiece({required int index}) => this.puzzlePieces.removeAt(index);
   bool erasePiece({required Piece puzzlePiece}) =>
       this.puzzlePieces.remove(puzzlePiece);
 
