@@ -181,6 +181,12 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
     int row = piece.y;
     int col = piece.x;
 
+    // Solo se pueden sacar piezas espaciales y de audio
+    // Dummy, empty, etc no se sacan nunca
+    if (piece.type != PieceType.SPATIAL && piece.type != PieceType.AUDIO) {
+      return false;
+    }
+
     switch (piece.shape) {
 
       case PieceShape.DOT:
@@ -217,38 +223,37 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  void createAudioLevelOne() {
+  void createAudioLevelOne({required board}) {
     // TODO: implement createAudioLevelOne
-    createSpatialLevelOne();
   }
 
   @override
-  void createAudioLevelThree() {
+  void createAudioLevelThree({required board}) {
     // TODO: implement createAudioLevelThree
-    createAudioLevelOne();
+    createAudioLevelOne(board: board);
   }
 
   @override
-  void createAudioLevelTwo() {
+  void createAudioLevelTwo({required board}) {
     // TODO: implement createAudioLevelTwo
-    createAudioLevelOne();
+    createAudioLevelOne(board: board);
   }
 
   @override
-  void createSpatialLevelOne() {
+  void createSpatialLevelOne({required board}) {
     // TODO: implement createSpatialLevelOne
   }
 
   @override
-  void createSpatialLevelThree() {
+  void createSpatialLevelThree({required board}) {
     // TODO: implement createSpatialLevelThree
-    createSpatialLevelOne();
+    createSpatialLevelOne(board: board);
   }
 
   @override
-  void createSpatialLevelTwo() {
+  void createSpatialLevelTwo({required board}) {
     // TODO: implement createSpatialLevelTwo
-    createSpatialLevelOne();
+    createSpatialLevelOne(board: board);
   }
 
   @override

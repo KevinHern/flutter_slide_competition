@@ -58,6 +58,17 @@ class CompleteTestScreen extends StatelessWidget {
     board.addPiece(
       piece: Piece.withDetails(
         rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 7,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
         type: PieceType.AUDIO,
         shape: PieceShape.LINE,
         location: PieceLocation.BOARD,
