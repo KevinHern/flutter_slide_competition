@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/data/models/board.dart';
 import 'package:flutter_slide_competition/dev/data/models/piece.dart';
 import 'package:flutter_slide_competition/dev/data/models/selected_piece_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/sound.dart';
 import 'package:flutter_slide_competition/dev/data/repositories/board_management_impl.dart';
 import 'package:flutter_slide_competition/dev/data/repositories/selected_piece_management_impl.dart';
+import 'package:flutter_slide_competition/dev/data/repositories/sound_management_impl.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/board_management_contract.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece_management_contract.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/dpad_usecases.dart';
@@ -196,6 +198,17 @@ class BoardTestBody extends StatelessWidget {
               BoardGrid(
                 board: Provider.of<BoardUI>(context, listen: true).board,
                 selectedManager: selectedPieceManagementRepository,
+                soundManagementRepository: SoundManagementRepositoryImpl(
+                  soundManager: SoundManager(
+                      soundPuzzleType: SoundType.NOTES,
+                      template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C]
+                  ),
+                ),
+                boardType: BoardType.SPATIAL,
+                moveUp: () => _moveUp(context),
+                moveRight: () => _moveRight(context),
+                moveDown: () => _moveDown(context),
+                moveLeft: () => _moveLeft(context),
               ),
               DPad(
                 scale: scale,

@@ -254,6 +254,8 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   @override
   Piece movePiece({required BoardDirection direction, required Piece piece}) {
 
+    if (piece.location != PieceLocation.BOARD) { return nullPiece; }
+
     // Es un movimiento válido dentro del tablero?
     // salir del tablero NO cae en esta categoría
     if (checkCollision(direction: direction, piece: piece)) {
@@ -564,6 +566,8 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
     // posicion actual de pieza
     int row = piece.y;
     int col = piece.x;
+
+    piece.location = PieceLocation.BAG;
 
     switch (piece.shape) {
 

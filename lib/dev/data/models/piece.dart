@@ -10,7 +10,21 @@ enum PieceType { AUDIO, SPATIAL, DUMMY, FIXED, EMPTY }
 enum PieceShape { DOT, SQUARE, LINE, L }
 enum PieceLocation { BOARD, BAG, SPATIAL_BOARD }
 
+List<Color> someColors = [
+  Color(0xFF417858),
+  Color(0xFF4F8F7D),
+  Color(0xFF5DA4A5),
+  Color(0xFF6BA2BC),
+  Color(0xFF7A9CD2),
+  Color(0xFF8991E8),
+  Color(0xFF94B5EC),
+  Color(0xFF9ED5EF),
+  Color(0xFFA9F1F2),
+  Color(0xFFB5F5E3),
+];
+
 class Piece {
+  static int totalPieces = 1;
   late PieceRotation _rotation;
   late PieceType _type;
   late PieceShape _shape;
@@ -38,6 +52,22 @@ class Piece {
     this._shape = shape;
     this._location = location;
     this._musicalNote = musicalNote;
+
+    if (type == PieceType.AUDIO) {
+      switch (musicalNote) {
+        case MusicalNote.C: _color = Color(0xFF7B912F); break;
+        case MusicalNote.D: _color = Color(0xFFA1A738); break;
+        case MusicalNote.E: _color = Color(0xFFBEAF42); break;
+        case MusicalNote.F: _color = Color(0xFFD4AD4C); break;
+        case MusicalNote.G: _color = Color(0xFFE9A656); break;
+        case MusicalNote.A: _color = Color(0xFFEF986F); break;
+        case MusicalNote.B: _color = Color(0xFFF49388); break;
+        case MusicalNote.C8: _color = Color(0xFFF8A3AD); break;
+        default: _color = Color(0xFF000000);
+      }
+    } else if (type == PieceType.SPATIAL) {
+      _color = someColors[totalPieces++ % 10];
+    }
   }
 
   Piece.createNullPiece() {

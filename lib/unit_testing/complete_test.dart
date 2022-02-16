@@ -15,15 +15,19 @@ import 'package:flutter_slide_competition/dev/domain/repositories/sound_manageme
 import 'package:flutter_slide_competition/dev/domain/usecases/bag_management_usecases.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/dpad_usecases.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/selected_piece_usecases.dart';
+import 'package:flutter_slide_competition/dev/domain/usecases/sound_management_usecases.dart';
 import 'package:flutter_slide_competition/dev/ui/models/bagUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
+import 'package:flutter_slide_competition/dev/ui/models/sound_slotUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/toggle_buttons.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/bag_widget.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/board_grid.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/dpad.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/rotation.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/sound_game.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/sound_slot.dart';
 import 'package:provider/provider.dart';
 
 import '../dev/ui/utils/my_utils.dart';
@@ -41,54 +45,47 @@ class CompleteTestScreen extends StatelessWidget {
   late final SelectedPieceManager selectedPieceManager;
   final SoundManager soundManager = SoundManager(
       soundPuzzleType: SoundType.NOTES,
-      template: const [MusicalNote.C, MusicalNote.E, MusicalNote.G]);
+      template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C]
+  );
 
   // REPOSITORIOS
   late final BoardManagementRepository boardManagementRepository;
   late final BagManagementRepository bagManagementRepository;
-  late final SelectedPieceManagementRepository
-      selectedPieceManagementRepository;
+  late final SelectedPieceManagementRepository selectedPieceManagementRepository;
   late final SoundManagementRepository soundManagementRepository;
 
   CompleteTestScreen({required this.scale, Key? key}) : super(key: key) {
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.RIGHT,
-        type: PieceType.SPATIAL,
-        shape: PieceShape.L,
+        rotation: PieceRotation.LEFT,
+        type: PieceType.AUDIO,
+        shape: PieceShape.LINE,
         location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.A,
       ),
       row: 3,
       col: 5,
     );
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.RIGHT,
-        type: PieceType.SPATIAL,
-        shape: PieceShape.SQUARE,
-        location: PieceLocation.BOARD,
-      ),
-      row: 1,
-      col: 1,
-    );
-    board.addPiece(
-      piece: Piece.withDetails(
-        rotation: PieceRotation.RIGHT,
-        type: PieceType.SPATIAL,
+        rotation: PieceRotation.LEFT,
+        type: PieceType.AUDIO,
         shape: PieceShape.LINE,
         location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.B,
       ),
-      row: 5,
+      row: 3,
       col: 3,
     );
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.RIGHT,
-        type: PieceType.SPATIAL,
-        shape: PieceShape.DOT,
+        rotation: PieceRotation.LEFT,
+        type: PieceType.AUDIO,
+        shape: PieceShape.LINE,
         location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.C,
       ),
-      row: 6,
+      row: 3,
       col: 1,
     );
 
@@ -104,8 +101,7 @@ class CompleteTestScreen extends StatelessWidget {
 
     boardManagementRepository = BoardManagementRepositoryImpl(board: board);
 
-    soundManagementRepository =
-        SoundManagementRepositoryImpl(soundManager: this.soundManager);
+    soundManagementRepository = SoundManagementRepositoryImpl(soundManager: this.soundManager);
   }
 
   @override
@@ -115,6 +111,7 @@ class CompleteTestScreen extends StatelessWidget {
         board: board,
         bagPieces: bagPieces,
         selectedPieceManager: selectedPieceManager,
+        soundModel: soundManager,
         child: CompleteTestBody(
           scale: 2.5,
           selectedPieceManagementRepository: selectedPieceManagementRepository,
@@ -131,12 +128,14 @@ class AllProviders extends StatelessWidget {
   final Board board;
   final Bag bagPieces;
   final SelectedPieceManager selectedPieceManager;
+  final SoundManager soundModel;
   final Widget child;
 
   const AllProviders(
       {required this.board,
       required this.bagPieces,
       required this.selectedPieceManager,
+      required this.soundModel,
       required this.child,
       Key? key})
       : super(key: key);
@@ -157,6 +156,9 @@ class AllProviders extends StatelessWidget {
       ),
       ChangeNotifierProvider<ToggleRotation>(
         create: (context) => ToggleRotation(canRotate: true),
+      ),
+      ChangeNotifierProvider<SoundSlotUI>(
+        create: (context) => SoundSlotUI(sound: soundModel),
       ),
     ], child: child);
   }
@@ -194,8 +196,6 @@ class CompleteTestBody extends StatelessWidget {
             selectedPieceManagementRepository:
                 selectedPieceManagementRepository)
         .getCurrentSelectedPiece();
-
-    print("rotando $currentPiece");
 
     final int currentRotationCycleIndex =
         rotationCycle.indexOf(currentPiece.rotation);
@@ -236,7 +236,6 @@ class CompleteTestBody extends StatelessWidget {
       Provider.of<BagUI>(context, listen: false).update();
 
       Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
-      print("guardando en bolsa: $outPiece");
       Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = outPiece;
     }
   }
@@ -253,6 +252,12 @@ class CompleteTestBody extends StatelessWidget {
                 BoardGrid(
                   board: Provider.of<BoardUI>(context, listen: true).board,
                   selectedManager: selectedPieceManagementRepository,
+                  soundManagementRepository: this.soundManagementRepository,
+                  boardType: BoardType.SOUND,
+                  moveUp: () => _move(context: context, direction: BoardDirection.UP),
+                  moveRight: () => _move(context: context, direction: BoardDirection.RIGHT),
+                  moveDown: () => _move(context: context, direction: BoardDirection.DOWN),
+                  moveLeft: () => _move(context: context, direction: BoardDirection.LEFT),
                 ),
                 SizedBox(
                   height: 50,
@@ -278,13 +283,11 @@ class CompleteTestBody extends StatelessWidget {
                 children: [
                   BagWidget(
                     bagOfPieces: Provider.of<BagUI>(context, listen: true).bag,
-                    toggleRotation:
-                        Provider.of<ToggleRotation>(context, listen: true),
+                    toggleRotation: Provider.of<ToggleRotation>(context, listen: true),
                     height: 500,
-                    selectedPieceManagementRepository:
-                        selectedPieceManagementRepository,
+                    selectedPieceManagementRepository: selectedPieceManagementRepository,
                     soundManagementRepository: this.soundManagementRepository,
-                    bagType: BagType.SPATIAL,
+                    bagType: BagType.SOUND,
                   ),
                   const SizedBox(
                     height: 50,
@@ -300,37 +303,21 @@ class CompleteTestBody extends StatelessWidget {
                         context: context,
                         orientation: RotationOrientation.CLOCKWISE),
                   ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  // Consumer<ToggleRotation>(
-                  //   builder: (_, toggleRotation, __) {
-                  //     return ElevatedButton(
-                  //       onPressed: () {
-                  //         toggleRotation.canRotate = false;
-                  //         toggleRotation.update();
-                  //       },
-                  //       child: Text('Disable Rotate Buttons'),
-                  //     );
-                  //   },
-                  // ),
                 ],
               ),
             ),
             const SizedBox(height: 50, width: 50),
-            Column(
-              children: [
-                Container(
-                  color: Colors.blue,
-                  width: 200,
-                  height: 200,
-                  child: const Text("Cuando crezca seré un puzzle :)",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                      )),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                children: [
+                  const   SizedBox(height: 100),
+                  SoundGameWidget(
+                      soundManagementRepository: soundManagementRepository,
+                      bagManagementRepository: bagManagementRepository,
+                      selectedPieceManagementRepository: selectedPieceManagementRepository
+                  ),
+                ],
+              ),
             ),
           ],
         ),
