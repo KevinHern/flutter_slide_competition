@@ -27,8 +27,23 @@ class UnitTestMenu extends StatelessWidget {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () => Navigator.of(context).pushNamed('/complete_test'),
+                onPressed: () => Navigator.of(context).pushNamed('/ui_test'),
+                child: Text('UI Test'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () =>
+                    Navigator.of(context).pushNamed('/complete_test'),
                 child: Text('Board + Bag Test'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pushNamed('/welcome'),
+                child: Text('Complete puzzle'),
               ),
             ],
           ),
