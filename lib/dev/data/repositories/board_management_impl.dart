@@ -1,6 +1,7 @@
 // Models
 import 'package:flutter_slide_competition/dev/data/models/piece.dart';
 import 'package:flutter_slide_competition/dev/data/models/board.dart';
+import 'package:flutter_slide_competition/dev/data/models/sound.dart';
 
 // Contracts
 import 'package:flutter_slide_competition/dev/domain/repositories/board_management_contract.dart';
@@ -14,161 +15,248 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  bool checkCollision({required BoardDirection direction, required Piece piece}) {
+  bool checkCollision(
+      {required BoardDirection direction, required Piece piece}) {
     // posicion actual de pieza
     int row = piece.y;
     int col = piece.x;
 
     switch (piece.shape) {
-      case PieceShape.DOT: {
-        switch (direction) {
-          case BoardDirection.UP: {
-            return (row > 0 && _board.board[row - 1][col].isNullPiece);
-          }
-          case BoardDirection.DOWN: {
-            return (row < 7 && _board.board[row + 1][col].isNullPiece);
-          }
-          case BoardDirection.LEFT: {
-            return (col > 0 && _board.board[row][col - 1].isNullPiece);
-          }
-          case BoardDirection.RIGHT: {
-            return (col < 7 && _board.board[row][col + 1].isNullPiece);
-          }
-        } // end switch direction
-      } // end case DOT
-
-      case PieceShape.SQUARE: {
-        switch (direction) {
-          case BoardDirection.UP:{
-            return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
-          }
-          case BoardDirection.DOWN: {
-            return (row < 6 && _board.board[row + 2][col].isNullPiece && _board.board[row + 2][col + 1].isNullPiece);
-          }
-          case BoardDirection.LEFT: {
-            return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
-          }
-          case BoardDirection.RIGHT: {
-            return (col < 6 && _board.board[row][col + 2].isNullPiece && _board.board[row + 1][col + 2].isNullPiece);
-          }
-        } // end switch direction
-      } // end case SQUARE
-
-      case PieceShape.LINE: {
-        if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
+      case PieceShape.DOT:
+        {
           switch (direction) {
-            case BoardDirection.UP:{
-              return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
-            }
-            case BoardDirection.DOWN: {
-              return (row < 7 && _board.board[row + 1][col].isNullPiece && _board.board[row + 1][col + 1].isNullPiece);
-            }
-            case BoardDirection.LEFT: {
-              return (col > 0 && _board.board[row][col - 1].isNullPiece);
-            }
-            case BoardDirection.RIGHT: {
-              return (col < 6 && _board.board[row][col + 2].isNullPiece);
-            }
-          } // end switch direction para piezas horizontales
+            case BoardDirection.UP:
+              {
+                return (row > 0 && _board.board[row - 1][col].isNullPiece);
+              }
+            case BoardDirection.DOWN:
+              {
+                return (row < 7 && _board.board[row + 1][col].isNullPiece);
+              }
+            case BoardDirection.LEFT:
+              {
+                return (col > 0 && _board.board[row][col - 1].isNullPiece);
+              }
+            case BoardDirection.RIGHT:
+              {
+                return (col < 7 && _board.board[row][col + 1].isNullPiece);
+              }
+          } // end switch direction
+        } // end case DOT
 
-        } else if (piece.rotation == PieceRotation.LEFT || piece.rotation == PieceRotation.RIGHT) {
+      case PieceShape.SQUARE:
+        {
           switch (direction) {
-            case BoardDirection.UP:{
-              return (row > 0 && _board.board[row - 1][col].isNullPiece);
-            }
-            case BoardDirection.DOWN: {
-              return (row < 6 && _board.board[row + 2][col].isNullPiece);
-            }
-            case BoardDirection.LEFT: {
-              return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
-            }
-            case BoardDirection.RIGHT: {
-              return (col < 7 && _board.board[row][col + 1].isNullPiece && _board.board[row + 1][col + 1].isNullPiece);
-            }
-          } // end switch direction para piezas verticales
+            case BoardDirection.UP:
+              {
+                return (row > 0 &&
+                    _board.board[row - 1][col].isNullPiece &&
+                    _board.board[row - 1][col + 1].isNullPiece);
+              }
+            case BoardDirection.DOWN:
+              {
+                return (row < 6 &&
+                    _board.board[row + 2][col].isNullPiece &&
+                    _board.board[row + 2][col + 1].isNullPiece);
+              }
+            case BoardDirection.LEFT:
+              {
+                return (col > 0 &&
+                    _board.board[row][col - 1].isNullPiece &&
+                    _board.board[row + 1][col - 1].isNullPiece);
+              }
+            case BoardDirection.RIGHT:
+              {
+                return (col < 6 &&
+                    _board.board[row][col + 2].isNullPiece &&
+                    _board.board[row + 1][col + 2].isNullPiece);
+              }
+          } // end switch direction
+        } // end case SQUARE
+
+      case PieceShape.LINE:
+        {
+          if (piece.rotation == PieceRotation.UP ||
+              piece.rotation == PieceRotation.DOWN) {
+            switch (direction) {
+              case BoardDirection.UP:
+                {
+                  return (row > 0 &&
+                      _board.board[row - 1][col].isNullPiece &&
+                      _board.board[row - 1][col + 1].isNullPiece);
+                }
+              case BoardDirection.DOWN:
+                {
+                  return (row < 7 &&
+                      _board.board[row + 1][col].isNullPiece &&
+                      _board.board[row + 1][col + 1].isNullPiece);
+                }
+              case BoardDirection.LEFT:
+                {
+                  return (col > 0 && _board.board[row][col - 1].isNullPiece);
+                }
+              case BoardDirection.RIGHT:
+                {
+                  return (col < 6 && _board.board[row][col + 2].isNullPiece);
+                }
+            } // end switch direction para piezas horizontales
+
+          } else if (piece.rotation == PieceRotation.LEFT ||
+              piece.rotation == PieceRotation.RIGHT) {
+            switch (direction) {
+              case BoardDirection.UP:
+                {
+                  return (row > 0 && _board.board[row - 1][col].isNullPiece);
+                }
+              case BoardDirection.DOWN:
+                {
+                  return (row < 6 && _board.board[row + 2][col].isNullPiece);
+                }
+              case BoardDirection.LEFT:
+                {
+                  return (col > 0 &&
+                      _board.board[row][col - 1].isNullPiece &&
+                      _board.board[row + 1][col - 1].isNullPiece);
+                }
+              case BoardDirection.RIGHT:
+                {
+                  return (col < 7 &&
+                      _board.board[row][col + 1].isNullPiece &&
+                      _board.board[row + 1][col + 1].isNullPiece);
+                }
+            } // end switch direction para piezas verticales
+          }
         }
-      }
-      break;
+        break;
 
-      case PieceShape.L: {
-        switch (piece.rotation) {
-          case PieceRotation.UP: {
+      case PieceShape.L:
+        {
+          switch (piece.rotation) {
+            case PieceRotation.UP:
+              {
+                switch (direction) {
+                  case BoardDirection.UP:
+                    {
+                      return (row > 0 &&
+                          _board.board[row - 1][col].isNullPiece &&
+                          _board.board[row][col + 1].isNullPiece);
+                    }
+                  case BoardDirection.DOWN:
+                    {
+                      return (row < 6 &&
+                          _board.board[row + 2][col].isNullPiece &&
+                          _board.board[row + 2][col + 1].isNullPiece);
+                    }
+                  case BoardDirection.LEFT:
+                    {
+                      return (col > 0 &&
+                          _board.board[row][col - 1].isNullPiece &&
+                          _board.board[row + 1][col - 1].isNullPiece);
+                    }
+                  case BoardDirection.RIGHT:
+                    {
+                      return (col < 6 &&
+                          _board.board[row][col + 1].isNullPiece &&
+                          _board.board[row + 1][col + 2].isNullPiece);
+                    }
+                } // end switch direction
 
-            switch (direction) {
-              case BoardDirection.UP:{
-                return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row][col + 1].isNullPiece);
-              }
-              case BoardDirection.DOWN: {
-                return (row < 6 && _board.board[row + 2][col].isNullPiece && _board.board[row + 2][col + 1].isNullPiece);
-              }
-              case BoardDirection.LEFT: {
-                return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
-              }
-              case BoardDirection.RIGHT: {
-                return (col < 6 && _board.board[row][col + 1].isNullPiece && _board.board[row + 1][col + 2].isNullPiece);
-              }
-            } // end switch direction
+              } // end case L UP
 
-          } // end case L UP
+            case PieceRotation.DOWN:
+              {
+                switch (direction) {
+                  case BoardDirection.UP:
+                    {
+                      return (row > 0 &&
+                          _board.board[row - 1][col].isNullPiece &&
+                          _board.board[row - 1][col + 1].isNullPiece);
+                    }
+                  case BoardDirection.DOWN:
+                    {
+                      return (row < 6 &&
+                          _board.board[row + 1][col].isNullPiece &&
+                          _board.board[row + 2][col + 1].isNullPiece);
+                    }
+                  case BoardDirection.LEFT:
+                    {
+                      return (col > 0 &&
+                          _board.board[row][col - 1].isNullPiece &&
+                          _board.board[row + 1][col].isNullPiece);
+                    }
+                  case BoardDirection.RIGHT:
+                    {
+                      return (col < 6 &&
+                          _board.board[row][col + 2].isNullPiece &&
+                          _board.board[row + 1][col + 2].isNullPiece);
+                    }
+                } // end switch direction
 
-          case PieceRotation.DOWN: {
+              } // end case L DOWN
 
-            switch (direction) {
-              case BoardDirection.UP:{
-                return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
-              }
-              case BoardDirection.DOWN: {
-                return (row < 6 && _board.board[row + 1][col].isNullPiece && _board.board[row + 2][col + 1].isNullPiece);
-              }
-              case BoardDirection.LEFT: {
-                return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col].isNullPiece);
-              }
-              case BoardDirection.RIGHT: {
-                return (col < 6 && _board.board[row][col + 2].isNullPiece && _board.board[row + 1][col + 2].isNullPiece);
-              }
-            } // end switch direction
+            case PieceRotation.LEFT:
+              {
+                switch (direction) {
+                  case BoardDirection.UP:
+                    {
+                      return (row > 0 &&
+                          _board.board[row][col].isNullPiece &&
+                          _board.board[row - 1][col + 1].isNullPiece);
+                    }
+                  case BoardDirection.DOWN:
+                    {
+                      return (row < 6 &&
+                          _board.board[row + 2][col].isNullPiece &&
+                          _board.board[row + 2][col + 1].isNullPiece);
+                    }
+                  case BoardDirection.LEFT:
+                    {
+                      return (col > 0 &&
+                          _board.board[row][col].isNullPiece &&
+                          _board.board[row + 1][col - 1].isNullPiece);
+                    }
+                  case BoardDirection.RIGHT:
+                    {
+                      return (col < 6 &&
+                          _board.board[row][col + 2].isNullPiece &&
+                          _board.board[row + 1][col + 2].isNullPiece);
+                    }
+                } // end switch direction
 
-          } // end case L DOWN
+              } // end case L LEFT
 
-          case PieceRotation.LEFT: {
+            case PieceRotation.RIGHT:
+              {
+                switch (direction) {
+                  case BoardDirection.UP:
+                    {
+                      return (row > 0 &&
+                          _board.board[row - 1][col].isNullPiece &&
+                          _board.board[row - 1][col + 1].isNullPiece);
+                    }
+                  case BoardDirection.DOWN:
+                    {
+                      return (row < 6 &&
+                          _board.board[row + 2][col].isNullPiece &&
+                          _board.board[row + 1][col + 1].isNullPiece);
+                    }
+                  case BoardDirection.LEFT:
+                    {
+                      return (col > 0 &&
+                          _board.board[row][col - 1].isNullPiece &&
+                          _board.board[row + 1][col - 1].isNullPiece);
+                    }
+                  case BoardDirection.RIGHT:
+                    {
+                      return (col < 6 &&
+                          _board.board[row][col + 2].isNullPiece &&
+                          _board.board[row + 1][col + 1].isNullPiece);
+                    }
+                } // end switch direction
 
-            switch (direction) {
-              case BoardDirection.UP:{
-                return (row > 0 && _board.board[row][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
-              }
-              case BoardDirection.DOWN: {
-                return (row < 6 && _board.board[row + 2][col].isNullPiece && _board.board[row + 2][col + 1].isNullPiece);
-              }
-              case BoardDirection.LEFT: {
-                return (col > 0 && _board.board[row][col].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
-              }
-              case BoardDirection.RIGHT: {
-                return (col < 6 && _board.board[row][col + 2].isNullPiece && _board.board[row + 1][col + 2].isNullPiece);
-              }
-            } // end switch direction
-
-          } // end case L LEFT
-
-          case PieceRotation.RIGHT: {
-
-            switch (direction) {
-              case BoardDirection.UP:{
-                return (row > 0 && _board.board[row - 1][col].isNullPiece && _board.board[row - 1][col + 1].isNullPiece);
-              }
-              case BoardDirection.DOWN: {
-                return (row < 6 && _board.board[row + 2][col].isNullPiece && _board.board[row + 1][col + 1].isNullPiece);
-              }
-              case BoardDirection.LEFT: {
-                return (col > 0 && _board.board[row][col - 1].isNullPiece && _board.board[row + 1][col - 1].isNullPiece);
-              }
-              case BoardDirection.RIGHT: {
-                return (col < 6 && _board.board[row][col + 2].isNullPiece && _board.board[row + 1][col + 1].isNullPiece);
-              }
-            } // end switch direction
-
-          } // end case L RIGHT
+              } // end case L RIGHT
+          }
         }
-      }
     }
 
     // Caso no esperado
@@ -188,34 +276,41 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
     }
 
     switch (piece.shape) {
-
       case PieceShape.DOT:
         return (col == 7 && (row == 3 || row == 4));
       case PieceShape.SQUARE:
         return (col == 6 && row == 3);
-      case PieceShape.LINE: {
-        // horizontal
-        if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
-          return (col == 6 && (row == 3 || row == 4));
+      case PieceShape.LINE:
+        {
+          // horizontal
+          if (piece.rotation == PieceRotation.UP ||
+              piece.rotation == PieceRotation.DOWN) {
+            return (col == 6 && (row == 3 || row == 4));
 
-          // vertical
-        } else if (piece.rotation == PieceRotation.LEFT || piece.rotation == PieceRotation.RIGHT) {
-          return (col == 7 && row == 3);
-        }
-      }
-        break;
-      case PieceShape.L: {
-        if (col == 6 && row == 3) {
-          switch (piece.rotation) {
-            case PieceRotation.UP: return (_board.board[7][3].isNullPiece);
-            case PieceRotation.DOWN: return true;
-            case PieceRotation.LEFT: return true;
-            case PieceRotation.RIGHT: return (_board.board[7][4].isNullPiece);
+            // vertical
+          } else if (piece.rotation == PieceRotation.LEFT ||
+              piece.rotation == PieceRotation.RIGHT) {
+            return (col == 7 && row == 3);
           }
-        } else {
-          return false;
         }
-      }
+        break;
+      case PieceShape.L:
+        {
+          if (col == 6 && row == 3) {
+            switch (piece.rotation) {
+              case PieceRotation.UP:
+                return (_board.board[7][3].isNullPiece);
+              case PieceRotation.DOWN:
+                return true;
+              case PieceRotation.LEFT:
+                return true;
+              case PieceRotation.RIGHT:
+                return (_board.board[7][4].isNullPiece);
+            }
+          } else {
+            return false;
+          }
+        }
     }
 
     // Caso no esperado
@@ -224,7 +319,50 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
   @override
   void createAudioLevelOne({required board}) {
-    // TODO: implement createAudioLevelOne
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 7,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.AUDIO,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.A,
+      ),
+      row: 3,
+      col: 5,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.AUDIO,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.B,
+      ),
+      row: 3,
+      col: 3,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.AUDIO,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.C8,
+      ),
+      row: 3,
+      col: 1,
+    );
   }
 
   @override
@@ -258,24 +396,22 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
   @override
   Piece movePiece({required BoardDirection direction, required Piece piece}) {
-
-    if (piece.location != PieceLocation.BOARD) { return nullPiece; }
+    if (piece.location != PieceLocation.BOARD) {
+      return nullPiece;
+    }
 
     // Es un movimiento válido dentro del tablero?
     // salir del tablero NO cae en esta categoría
     if (checkCollision(direction: direction, piece: piece)) {
-
       // Movimiento válido, mover pieza
       moveReferencesOnBoard(direction: direction, piece: piece);
       return nullPiece;
 
-    // Es un movimiento de salida del tablero?
+      // Es un movimiento de salida del tablero?
     } else if (direction == BoardDirection.RIGHT && checkExit(piece: piece)) {
-
       // Movimiento válido, sacar pieza y poner en bolsa
       pieceCleanup(piece: piece);
       return piece;
-
     }
 
     // Cualquier otro caso, no se pudo realizar el movimiento
@@ -283,286 +419,357 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  void moveReferencesOnBoard({required BoardDirection direction, required Piece piece}) {
+  void moveReferencesOnBoard(
+      {required BoardDirection direction, required Piece piece}) {
     // posicion actual de pieza
     int row = piece.y;
     int col = piece.x;
 
     switch (piece.shape) {
-      case PieceShape.DOT: {
-        switch (direction) {
-          case BoardDirection.UP: {
-            _board.board[row - 1][col] = _board.board[row][col];
-            _board.board[row][col] = nullPiece;
-          }
-          break;
-          case BoardDirection.DOWN: {
-            _board.board[row + 1][col] = _board.board[row][col];
-            _board.board[row][col] = nullPiece;
-          }
-          break;
-          case BoardDirection.LEFT: {
-            _board.board[row][col - 1] = _board.board[row][col];
-            _board.board[row][col] = nullPiece;
-          }
-          break;
-          case BoardDirection.RIGHT: {
-            _board.board[row][col + 1] = _board.board[row][col];
-            _board.board[row][col] = nullPiece;
-          }
-          break;
-        } // end switch direction
-      } // end case DOT
-      break;
-
-      case PieceShape.SQUARE: {
-        switch (direction) {
-          case BoardDirection.UP:{
-            _board.board[row - 1][col] = _board.board[row][col];
-            _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-            _board.board[row + 1][col] = nullPiece;
-            _board.board[row + 1][col + 1] = nullPiece;
-          }
-          break;
-          case BoardDirection.DOWN: {
-            _board.board[row + 2][col] = _board.board[row][col];
-            _board.board[row + 2][col + 1] = _board.board[row][col + 1];
-            _board.board[row][col] = nullPiece;
-            _board.board[row][col + 1] = nullPiece;
-          }
-          break;
-          case BoardDirection.LEFT: {
-            _board.board[row][col - 1] = _board.board[row][col];
-            _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-            _board.board[row][col + 1] = nullPiece;
-            _board.board[row + 1][col + 1] = nullPiece;
-          }
-          break;
-          case BoardDirection.RIGHT: {
-            _board.board[row][col + 2] = _board.board[row][col];
-            _board.board[row + 1][col + 2] = _board.board[row + 1][col];
-            _board.board[row][col] = nullPiece;
-            _board.board[row + 1][col] = nullPiece;
-          }
-          break;
-        } // end switch direction
-      } // end case SQUARE
-      break;
-
-      case PieceShape.LINE: {
-        if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
+      case PieceShape.DOT:
+        {
           switch (direction) {
-            case BoardDirection.UP:{
-              _board.board[row - 1][col] = _board.board[row][col];
-              _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-              _board.board[row][col] = nullPiece;
-              _board.board[row][col + 1] = nullPiece;
-            }
-            break;
-            case BoardDirection.DOWN: {
-              _board.board[row + 1][col] = _board.board[row][col];
-              _board.board[row + 1][col + 1] = _board.board[row][col + 1];
-              _board.board[row][col] = nullPiece;
-              _board.board[row][col + 1] = nullPiece;
-            }
-            break;
-            case BoardDirection.LEFT: {
-              _board.board[row][col - 1] = _board.board[row][col];
-              _board.board[row][col + 1] = nullPiece;
-            }
-            break;
-            case BoardDirection.RIGHT: {
-              _board.board[row][col + 2] = _board.board[row][col];
-              _board.board[row][col] = nullPiece;
-            }
-            break;
-          } // end switch direction
-
-        } else if (piece.rotation == PieceRotation.LEFT || piece.rotation == PieceRotation.RIGHT) {
-          switch (direction) {
-            case BoardDirection.UP:{
-              _board.board[row - 1][col] = _board.board[row][col];
-              _board.board[row + 1][col] = nullPiece;
-            }
-            break;
-            case BoardDirection.DOWN: {
-              _board.board[row + 2][col] = _board.board[row][col];
-              _board.board[row][col] = nullPiece;
-            }
-            break;
-            case BoardDirection.LEFT: {
-              _board.board[row][col - 1] = _board.board[row][col];
-              _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-              _board.board[row][col] = nullPiece;
-              _board.board[row + 1][col] = nullPiece;
-            }
-            break;
-            case BoardDirection.RIGHT: {
-              _board.board[row][col + 1] = _board.board[row][col];
-              _board.board[row + 1][col + 1] = _board.board[row + 1][col];
-              _board.board[row][col] = nullPiece;
-              _board.board[row + 1][col] = nullPiece;
-            }
-            break;
-          } // end switch direction
-        }
-      }
-      break;
-
-      case PieceShape.L: {
-        switch (piece.rotation) {
-          case PieceRotation.UP: {
-
-            switch (direction) {
-              case BoardDirection.UP:{
+            case BoardDirection.UP:
+              {
                 _board.board[row - 1][col] = _board.board[row][col];
-                _board.board[row][col + 1] = _board.board[row + 1][col + 1];
-                _board.board[row + 1][col] = nullPiece;
-                _board.board[row + 1][col + 1] = nullPiece;
-              }
-              break;
-              case BoardDirection.DOWN: {
-                _board.board[row + 2][col] = _board.board[row + 1][col];
-                _board.board[row + 2][col + 1] = _board.board[row + 1][col + 1];
                 _board.board[row][col] = nullPiece;
-                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
-              case BoardDirection.LEFT: {
-                _board.board[row][col - 1] = _board.board[row][col];
-                _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-                _board.board[row][col] = nullPiece;
-                _board.board[row + 1][col + 1] = nullPiece;
-              }
-              break;
-              case BoardDirection.RIGHT: {
-                _board.board[row][col + 1] = _board.board[row][col];
-                _board.board[row + 1][col + 2] = _board.board[row + 1][col + 1];
-                _board.board[row][col] = nullPiece;
-                _board.board[row + 1][col] = nullPiece;
-              }
-              break;
-            } // end switch direction
-
-          } // end case L UP
-          break;
-
-          case PieceRotation.DOWN: {
-
-            switch (direction) {
-              case BoardDirection.UP:{
-                _board.board[row - 1][col] = _board.board[row][col];
-                _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-                _board.board[row][col] = nullPiece;
-                _board.board[row + 1][col + 1] = nullPiece;
-              }
-              break;
-              case BoardDirection.DOWN: {
+            case BoardDirection.DOWN:
+              {
                 _board.board[row + 1][col] = _board.board[row][col];
-                _board.board[row + 2][col + 1] = _board.board[row + 1][col + 1];
                 _board.board[row][col] = nullPiece;
-                _board.board[row][col + 1] = nullPiece;
               }
               break;
-              case BoardDirection.LEFT: {
+            case BoardDirection.LEFT:
+              {
                 _board.board[row][col - 1] = _board.board[row][col];
-                _board.board[row + 1][col] = _board.board[row + 1][col + 1];
-                _board.board[row][col + 1] = nullPiece;
-                _board.board[row + 1][col + 1] = nullPiece;
-              }
-              break;
-              case BoardDirection.RIGHT: {
-                _board.board[row][col + 2] = _board.board[row][col + 1];
-                _board.board[row + 1][col + 2] = _board.board[row + 1][col + 1];
                 _board.board[row][col] = nullPiece;
-                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
-            } // end switch direction
-
-          } // end case L DOWN
-          break;
-
-          case PieceRotation.LEFT: {
-
-            switch (direction) {
-              case BoardDirection.UP:{
-                _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-                _board.board[row][col] = _board.board[row + 1][col];
-                _board.board[row + 1][col] = nullPiece;
-                _board.board[row + 1][col + 1] = nullPiece;
+            case BoardDirection.RIGHT:
+              {
+                _board.board[row][col + 1] = _board.board[row][col];
+                _board.board[row][col] = nullPiece;
               }
               break;
-              case BoardDirection.DOWN: {
-                _board.board[row + 2][col] = _board.board[row + 1][col];
-                _board.board[row + 2][col + 1] = _board.board[row + 1][col + 1];
-                _board.board[row][col + 1] = nullPiece;
-                _board.board[row + 1][col] = nullPiece;
-              }
-              break;
-              case BoardDirection.LEFT: {
-                _board.board[row][col] = _board.board[row][col + 1];
-                _board.board[row + 1][col - 1] = _board.board[row + 1][col];
-                _board.board[row][col + 1] = nullPiece;
-                _board.board[row + 1][col + 1] = nullPiece;
-              }
-              break;
-              case BoardDirection.RIGHT: {
-                _board.board[row][col + 2] = _board.board[row][col + 1];
-                _board.board[row + 1][col + 2] = _board.board[row + 1][col + 1];
-                _board.board[row][col + 1] = nullPiece;
-                _board.board[row + 1][col] = nullPiece;
-              }
-              break;
-            } // end switch direction
+          } // end switch direction
+        } // end case DOT
+        break;
 
-          } // end case L LEFT
-          break;
-
-          case PieceRotation.RIGHT: {
-
-            switch (direction) {
-              case BoardDirection.UP:{
+      case PieceShape.SQUARE:
+        {
+          switch (direction) {
+            case BoardDirection.UP:
+              {
                 _board.board[row - 1][col] = _board.board[row][col];
                 _board.board[row - 1][col + 1] = _board.board[row][col + 1];
-                _board.board[row][col + 1] = nullPiece;
                 _board.board[row + 1][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
-              case BoardDirection.DOWN: {
-                _board.board[row + 1][col + 1] = _board.board[row][col + 1];
-                _board.board[row + 2][col] = _board.board[row + 1][col];
+            case BoardDirection.DOWN:
+              {
+                _board.board[row + 2][col] = _board.board[row][col];
+                _board.board[row + 2][col + 1] = _board.board[row][col + 1];
                 _board.board[row][col] = nullPiece;
                 _board.board[row][col + 1] = nullPiece;
               }
               break;
-              case BoardDirection.LEFT: {
+            case BoardDirection.LEFT:
+              {
                 _board.board[row][col - 1] = _board.board[row][col];
                 _board.board[row + 1][col - 1] = _board.board[row + 1][col];
                 _board.board[row][col + 1] = nullPiece;
-                _board.board[row + 1][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
               }
               break;
-              case BoardDirection.RIGHT: {
-                _board.board[row][col + 2] = _board.board[row][col + 1];
-                _board.board[row + 1][col + 1] = _board.board[row + 1][col];
+            case BoardDirection.RIGHT:
+              {
+                _board.board[row][col + 2] = _board.board[row][col];
+                _board.board[row + 1][col + 2] = _board.board[row + 1][col];
                 _board.board[row][col] = nullPiece;
                 _board.board[row + 1][col] = nullPiece;
               }
               break;
+          } // end switch direction
+        } // end case SQUARE
+        break;
+
+      case PieceShape.LINE:
+        {
+          if (piece.rotation == PieceRotation.UP ||
+              piece.rotation == PieceRotation.DOWN) {
+            switch (direction) {
+              case BoardDirection.UP:
+                {
+                  _board.board[row - 1][col] = _board.board[row][col];
+                  _board.board[row - 1][col + 1] = _board.board[row][col + 1];
+                  _board.board[row][col] = nullPiece;
+                  _board.board[row][col + 1] = nullPiece;
+                }
+                break;
+              case BoardDirection.DOWN:
+                {
+                  _board.board[row + 1][col] = _board.board[row][col];
+                  _board.board[row + 1][col + 1] = _board.board[row][col + 1];
+                  _board.board[row][col] = nullPiece;
+                  _board.board[row][col + 1] = nullPiece;
+                }
+                break;
+              case BoardDirection.LEFT:
+                {
+                  _board.board[row][col - 1] = _board.board[row][col];
+                  _board.board[row][col + 1] = nullPiece;
+                }
+                break;
+              case BoardDirection.RIGHT:
+                {
+                  _board.board[row][col + 2] = _board.board[row][col];
+                  _board.board[row][col] = nullPiece;
+                }
+                break;
             } // end switch direction
 
-          } // end case L RIGHT
-          break;
+          } else if (piece.rotation == PieceRotation.LEFT ||
+              piece.rotation == PieceRotation.RIGHT) {
+            switch (direction) {
+              case BoardDirection.UP:
+                {
+                  _board.board[row - 1][col] = _board.board[row][col];
+                  _board.board[row + 1][col] = nullPiece;
+                }
+                break;
+              case BoardDirection.DOWN:
+                {
+                  _board.board[row + 2][col] = _board.board[row][col];
+                  _board.board[row][col] = nullPiece;
+                }
+                break;
+              case BoardDirection.LEFT:
+                {
+                  _board.board[row][col - 1] = _board.board[row][col];
+                  _board.board[row + 1][col - 1] = _board.board[row + 1][col];
+                  _board.board[row][col] = nullPiece;
+                  _board.board[row + 1][col] = nullPiece;
+                }
+                break;
+              case BoardDirection.RIGHT:
+                {
+                  _board.board[row][col + 1] = _board.board[row][col];
+                  _board.board[row + 1][col + 1] = _board.board[row + 1][col];
+                  _board.board[row][col] = nullPiece;
+                  _board.board[row + 1][col] = nullPiece;
+                }
+                break;
+            } // end switch direction
+          }
         }
-      }
+        break;
+
+      case PieceShape.L:
+        {
+          switch (piece.rotation) {
+            case PieceRotation.UP:
+              {
+                switch (direction) {
+                  case BoardDirection.UP:
+                    {
+                      _board.board[row - 1][col] = _board.board[row][col];
+                      _board.board[row][col + 1] =
+                          _board.board[row + 1][col + 1];
+                      _board.board[row + 1][col] = nullPiece;
+                      _board.board[row + 1][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.DOWN:
+                    {
+                      _board.board[row + 2][col] = _board.board[row + 1][col];
+                      _board.board[row + 2][col + 1] =
+                          _board.board[row + 1][col + 1];
+                      _board.board[row][col] = nullPiece;
+                      _board.board[row + 1][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.LEFT:
+                    {
+                      _board.board[row][col - 1] = _board.board[row][col];
+                      _board.board[row + 1][col - 1] =
+                          _board.board[row + 1][col];
+                      _board.board[row][col] = nullPiece;
+                      _board.board[row + 1][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.RIGHT:
+                    {
+                      _board.board[row][col + 1] = _board.board[row][col];
+                      _board.board[row + 1][col + 2] =
+                          _board.board[row + 1][col + 1];
+                      _board.board[row][col] = nullPiece;
+                      _board.board[row + 1][col] = nullPiece;
+                    }
+                    break;
+                } // end switch direction
+
+              } // end case L UP
+              break;
+
+            case PieceRotation.DOWN:
+              {
+                switch (direction) {
+                  case BoardDirection.UP:
+                    {
+                      _board.board[row - 1][col] = _board.board[row][col];
+                      _board.board[row - 1][col + 1] =
+                          _board.board[row][col + 1];
+                      _board.board[row][col] = nullPiece;
+                      _board.board[row + 1][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.DOWN:
+                    {
+                      _board.board[row + 1][col] = _board.board[row][col];
+                      _board.board[row + 2][col + 1] =
+                          _board.board[row + 1][col + 1];
+                      _board.board[row][col] = nullPiece;
+                      _board.board[row][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.LEFT:
+                    {
+                      _board.board[row][col - 1] = _board.board[row][col];
+                      _board.board[row + 1][col] =
+                          _board.board[row + 1][col + 1];
+                      _board.board[row][col + 1] = nullPiece;
+                      _board.board[row + 1][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.RIGHT:
+                    {
+                      _board.board[row][col + 2] = _board.board[row][col + 1];
+                      _board.board[row + 1][col + 2] =
+                          _board.board[row + 1][col + 1];
+                      _board.board[row][col] = nullPiece;
+                      _board.board[row + 1][col + 1] = nullPiece;
+                    }
+                    break;
+                } // end switch direction
+
+              } // end case L DOWN
+              break;
+
+            case PieceRotation.LEFT:
+              {
+                switch (direction) {
+                  case BoardDirection.UP:
+                    {
+                      _board.board[row - 1][col + 1] =
+                          _board.board[row][col + 1];
+                      _board.board[row][col] = _board.board[row + 1][col];
+                      _board.board[row + 1][col] = nullPiece;
+                      _board.board[row + 1][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.DOWN:
+                    {
+                      _board.board[row + 2][col] = _board.board[row + 1][col];
+                      _board.board[row + 2][col + 1] =
+                          _board.board[row + 1][col + 1];
+                      _board.board[row][col + 1] = nullPiece;
+                      _board.board[row + 1][col] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.LEFT:
+                    {
+                      _board.board[row][col] = _board.board[row][col + 1];
+                      _board.board[row + 1][col - 1] =
+                          _board.board[row + 1][col];
+                      _board.board[row][col + 1] = nullPiece;
+                      _board.board[row + 1][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.RIGHT:
+                    {
+                      _board.board[row][col + 2] = _board.board[row][col + 1];
+                      _board.board[row + 1][col + 2] =
+                          _board.board[row + 1][col + 1];
+                      _board.board[row][col + 1] = nullPiece;
+                      _board.board[row + 1][col] = nullPiece;
+                    }
+                    break;
+                } // end switch direction
+
+              } // end case L LEFT
+              break;
+
+            case PieceRotation.RIGHT:
+              {
+                switch (direction) {
+                  case BoardDirection.UP:
+                    {
+                      _board.board[row - 1][col] = _board.board[row][col];
+                      _board.board[row - 1][col + 1] =
+                          _board.board[row][col + 1];
+                      _board.board[row][col + 1] = nullPiece;
+                      _board.board[row + 1][col] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.DOWN:
+                    {
+                      _board.board[row + 1][col + 1] =
+                          _board.board[row][col + 1];
+                      _board.board[row + 2][col] = _board.board[row + 1][col];
+                      _board.board[row][col] = nullPiece;
+                      _board.board[row][col + 1] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.LEFT:
+                    {
+                      _board.board[row][col - 1] = _board.board[row][col];
+                      _board.board[row + 1][col - 1] =
+                          _board.board[row + 1][col];
+                      _board.board[row][col + 1] = nullPiece;
+                      _board.board[row + 1][col] = nullPiece;
+                    }
+                    break;
+                  case BoardDirection.RIGHT:
+                    {
+                      _board.board[row][col + 2] = _board.board[row][col + 1];
+                      _board.board[row + 1][col + 1] =
+                          _board.board[row + 1][col];
+                      _board.board[row][col] = nullPiece;
+                      _board.board[row + 1][col] = nullPiece;
+                    }
+                    break;
+                } // end switch direction
+
+              } // end case L RIGHT
+              break;
+          }
+        }
     }
 
     switch (direction) {
-      case BoardDirection.UP:     { piece.y = piece.y - 1; } break;
-      case BoardDirection.DOWN:   { piece.y = piece.y + 1; } break;
-      case BoardDirection.LEFT:   { piece.x = piece.x - 1; } break;
-      case BoardDirection.RIGHT:  { piece.x = piece.x + 1; } break;
+      case BoardDirection.UP:
+        {
+          piece.y = piece.y - 1;
+        }
+        break;
+      case BoardDirection.DOWN:
+        {
+          piece.y = piece.y + 1;
+        }
+        break;
+      case BoardDirection.LEFT:
+        {
+          piece.x = piece.x - 1;
+        }
+        break;
+      case BoardDirection.RIGHT:
+        {
+          piece.x = piece.x + 1;
+        }
+        break;
     }
   }
 
@@ -575,60 +782,68 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
     piece.location = PieceLocation.BAG;
 
     switch (piece.shape) {
-
-      case PieceShape.DOT: {
-        _board.board[row][col] = nullPiece;
-      }
-      break;
-      case PieceShape.SQUARE: {
-        _board.board[row][col] = nullPiece;
-        _board.board[row][col + 1] = nullPiece;
-        _board.board[row + 1][col] = nullPiece;
-        _board.board[row + 1][col + 1] = nullPiece;
-      }
-      break;
-      case PieceShape.LINE: {
-        // horizontal
-        if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
+      case PieceShape.DOT:
+        {
+          _board.board[row][col] = nullPiece;
+        }
+        break;
+      case PieceShape.SQUARE:
+        {
           _board.board[row][col] = nullPiece;
           _board.board[row][col + 1] = nullPiece;
-
-        // vertical
-        } else if (piece.rotation == PieceRotation.LEFT || piece.rotation == PieceRotation.RIGHT) {
-          _board.board[row][col] = nullPiece;
           _board.board[row + 1][col] = nullPiece;
+          _board.board[row + 1][col + 1] = nullPiece;
         }
-      }
-      break;
-      case PieceShape.L: {
-        switch (piece.rotation) {
+        break;
+      case PieceShape.LINE:
+        {
+          // horizontal
+          if (piece.rotation == PieceRotation.UP ||
+              piece.rotation == PieceRotation.DOWN) {
+            _board.board[row][col] = nullPiece;
+            _board.board[row][col + 1] = nullPiece;
 
-          case PieceRotation.UP: {
+            // vertical
+          } else if (piece.rotation == PieceRotation.LEFT ||
+              piece.rotation == PieceRotation.RIGHT) {
             _board.board[row][col] = nullPiece;
             _board.board[row + 1][col] = nullPiece;
-            _board.board[row + 1][col + 1] = nullPiece;
           }
-            break;
-          case PieceRotation.DOWN: {
-            _board.board[row][col] = nullPiece;
-            _board.board[row][col + 1] = nullPiece;
-            _board.board[row + 1][col + 1] = nullPiece;
-          }
-            break;
-          case PieceRotation.LEFT: {
-            _board.board[row][col + 1] = nullPiece;
-            _board.board[row + 1][col] = nullPiece;
-            _board.board[row + 1][col + 1] = nullPiece;
-          }
-            break;
-          case PieceRotation.RIGHT: {
-            _board.board[row][col] = nullPiece;
-            _board.board[row][col + 1] = nullPiece;
-            _board.board[row + 1][col] = nullPiece;
-          }
-            break;
         }
-      }
+        break;
+      case PieceShape.L:
+        {
+          switch (piece.rotation) {
+            case PieceRotation.UP:
+              {
+                _board.board[row][col] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
+              }
+              break;
+            case PieceRotation.DOWN:
+              {
+                _board.board[row][col] = nullPiece;
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
+              }
+              break;
+            case PieceRotation.LEFT:
+              {
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
+                _board.board[row + 1][col + 1] = nullPiece;
+              }
+              break;
+            case PieceRotation.RIGHT:
+              {
+                _board.board[row][col] = nullPiece;
+                _board.board[row][col + 1] = nullPiece;
+                _board.board[row + 1][col] = nullPiece;
+              }
+              break;
+          }
+        }
     }
   }
 

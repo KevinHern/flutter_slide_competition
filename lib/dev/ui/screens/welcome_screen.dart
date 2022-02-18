@@ -1,7 +1,7 @@
 // Basic Imports
 import 'package:flutter/material.dart';
-import 'package:flutter_slide_competition/prototype/ui/utils/my_utils.dart';
-import 'package:flutter_slide_competition/prototype/ui/utils/pretty_text.dart';
+import 'package:flutter_slide_competition/dev/ui/utils/my_utils.dart';
+import 'package:flutter_slide_competition/dev/ui/utils/pretty_text.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -52,16 +52,21 @@ class WelcomeBody extends StatelessWidget {
             "I heard some rumors about something strange happening in this abandoned mansion, so I decided to investigate...",
             size: 32,
             background: Colors.black45,
+            fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
+            horizontalPadding: 50.0,
           ),
           SizedBox(
             height: MyUtils.getTopSpacerSize(context: context) * 7,
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).popAndPushNamed('/puzzle'),
-            child: const Text("ENTER THE MANSION",
-                style: TextStyle(
-                  fontSize: 24,
-                )),
+            child: AwesomeText(
+              "ENTER THE MANSION",
+              size: 25,
+              fontFamily: Theme.of(context).textTheme.headline1!.fontFamily,
+              horizontalPadding: 4.0,
+              verticalPadding: 4.0,
+            ),
             style: ElevatedButton.styleFrom(
               primary: Colors.indigo,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
@@ -69,7 +74,10 @@ class WelcomeBody extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
               ),
             ),
-          )
+          ),
+          const SizedBox(
+            height: 50.0,
+          ),
         ]),
       ),
     );

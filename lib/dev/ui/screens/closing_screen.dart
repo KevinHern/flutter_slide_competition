@@ -1,7 +1,7 @@
 // Basic Imports
 import 'package:flutter/material.dart';
-import 'package:flutter_slide_competition/prototype/ui/utils/my_utils.dart';
-import 'package:flutter_slide_competition/prototype/ui/utils/pretty_text.dart';
+import 'package:flutter_slide_competition/dev/ui/utils/my_utils.dart';
+import 'package:flutter_slide_competition/dev/ui/utils/pretty_text.dart';
 
 class ClosingScreen extends StatelessWidget {
   const ClosingScreen({Key? key}) : super(key: key);
@@ -52,6 +52,7 @@ class ClosingBody extends StatelessWidget {
             "I didn't remember that humans were so much fun! Come to explore again whenever you want and bring your friends too!",
             size: 32,
             background: Colors.black26,
+            fontFamily: Theme.of(context).textTheme.subtitle1!.fontFamily,
           ),
           SizedBox(
             height: MyUtils.getTopSpacerSize(context: context) * 7,

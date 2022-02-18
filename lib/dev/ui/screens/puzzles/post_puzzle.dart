@@ -2,22 +2,22 @@
 import 'package:flutter/material.dart';
 
 // Models
-import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
 
 // Repositories
-import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
-import 'package:flutter_slide_competition/prototype/domain/repositories/puzzle_selection_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/level_management_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/puzzle_selection_contract.dart';
 
 // Use Cases
-import 'package:flutter_slide_competition/prototype/domain/usecases/level_management_usecases.dart';
-import 'package:flutter_slide_competition/prototype/domain/usecases/puzzle_selection_usecases.dart';
+import 'package:flutter_slide_competition/dev/domain/usecases/level_management_usecases.dart';
+import 'package:flutter_slide_competition/dev/domain/usecases/puzzle_selection_usecases.dart';
 
 // State Management
-import 'package:flutter_slide_competition/prototype/ui/models/screen_manager.dart';
+import 'package:flutter_slide_competition/dev/ui/models/screen_manager.dart';
 import 'package:provider/provider.dart';
 
 // Utils
-import 'package:flutter_slide_competition/prototype/ui/utils/pretty_text.dart';
+import 'package:flutter_slide_competition/dev/ui/utils/pretty_text.dart';
 
 class PostPuzzleScreen extends StatelessWidget {
   late final PuzzleFetchUseCase puzzleFetchUseCase;
@@ -43,6 +43,7 @@ class PostPuzzleScreen extends StatelessWidget {
             // Texto con sombra
             PrettyText(
               "Congratulations! You have finished exploring the mansion and uncovered all of its secrets. Will you tell the world about them?\n\nINFO ADICIONAL - esta pantalla solo aparece después del room 5, necesitan las demás su propia pantalla POST, aparte de la PRE que aparece antes de cada room?",
+              fontFamily: Theme.of(context).textTheme.subtitle1!.fontFamily,
             ),
 
             // Espaciador
@@ -55,10 +56,10 @@ class PostPuzzleScreen extends StatelessWidget {
               onPressed: () async {
                 Navigator.of(context).popAndPushNamed('/end');
               },
-              child: const Text("END GAME",
-                  style: TextStyle(
-                    fontSize: 24,
-                  )),
+              child: AwesomeText(
+                "END GAME",
+                fontFamily: Theme.of(context).textTheme.headline1!.fontFamily,
+              ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blueGrey,
                 padding:

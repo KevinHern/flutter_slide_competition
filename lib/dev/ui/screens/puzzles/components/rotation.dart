@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/puzzle_button.dart';
 
 class RotationButtons extends StatelessWidget {
-  final double scale;
+  final double scale, elevation;
   final double height = 40, width = 40;
   final double padding = 10;
-  final Color color;
+  final Color color, cardColor;
   final bool isActive;
   final Function rotateLeft, rotateRight;
   const RotationButtons(
@@ -15,6 +15,8 @@ class RotationButtons extends StatelessWidget {
       required this.rotateLeft,
       required this.rotateRight,
       this.color = Colors.transparent,
+      this.cardColor = const Color(0xFF138743),
+      this.elevation = 5.0,
       Key? key})
       : super(key: key);
 
@@ -27,7 +29,10 @@ class RotationButtons extends StatelessWidget {
           height: height,
           width: width,
           iconName: 'rotate_left',
-          color: Colors.transparent,
+          includeCard: true,
+          color: this.color,
+          cardColor: this.cardColor,
+          elevation: this.elevation,
           onPressed: (this.isActive) ? () => this.rotateLeft() : null,
         ),
         SizedBox(
@@ -38,7 +43,10 @@ class RotationButtons extends StatelessWidget {
           height: height,
           width: width,
           iconName: 'rotate_right',
-          color: Colors.transparent,
+          includeCard: true,
+          color: this.color,
+          cardColor: this.cardColor,
+          elevation: this.elevation,
           onPressed: (this.isActive) ? () => this.rotateRight() : null,
         ),
       ],

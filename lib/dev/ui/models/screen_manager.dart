@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Models
-import 'package:flutter_slide_competition/prototype/data/models/puzzle.dart';
+import 'package:flutter_slide_competition/dev/data/models/puzzle.dart';
 
 enum ScreenType {
   SELECT_PUZZLE,

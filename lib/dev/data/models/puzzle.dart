@@ -1,11 +1,73 @@
-class Puzzle {
-  late bool puzzleDone;
+// Models
+import 'package:flutter_slide_competition/dev/data/models/bag.dart';
+import 'package:flutter_slide_competition/dev/data/models/board.dart';
+import 'package:flutter_slide_competition/dev/data/models/selected_piece_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/sound.dart';
 
-  Puzzle() {
-    this.puzzleDone = false;
+enum PuzzleLevel { LV1, LV2, LV3 }
+
+class Puzzle {
+  // Models
+  final Board _board;
+  final Bag _bag;
+  late final SelectedPieceManager _selectedPieceManager;
+
+  // Self parameters
+  late bool puzzleDone = false;
+  final PuzzleLevel _puzzleLevel;
+
+  Puzzle({required PuzzleLevel puzzleLevel})
+      : this._puzzleLevel = puzzleLevel,
+        this._board = Board(),
+        this._bag = Bag(puzzlePieces: []) {
+    this._selectedPieceManager =
+        SelectedPieceManager(puzzlePieces: this._board.puzzlePieces);
   }
+
+  // Getters
+  Board get puzzleSlidingBoard => this._board;
+  Bag get bagOfPieces => this._bag;
+  SelectedPieceManager get selectedPieceManager => this._selectedPieceManager;
+  PuzzleLevel get puzzleLevel => this._puzzleLevel;
+
+  // Setters
 }
 
-class AuditivePuzzle extends Puzzle {}
+class AuditivePuzzle extends Puzzle {
+  late final SoundManager _soundManager;
 
-class SpatialPuzzle extends Puzzle {}
+  AuditivePuzzle(
+      {required SoundType soundType, required PuzzleLevel puzzleLevel})
+      : super(puzzleLevel: puzzleLevel) {
+    switch (puzzleLevel) {
+      case PuzzleLevel.LV1:
+        this._soundManager = SoundManager(
+            soundPuzzleType: soundType,
+            template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C8]);
+        break;
+      case PuzzleLevel.LV2:
+        this._soundManager = SoundManager(
+            soundPuzzleType: soundType,
+            template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C8]);
+        break;
+      case PuzzleLevel.LV3:
+        this._soundManager = SoundManager(
+            soundPuzzleType: soundType,
+            template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C8]);
+        break;
+      default:
+        throw Exception(
+            'Auditive Puzzle Constructor: Unknown Puzzle Level detected');
+    }
+  }
+
+  // Getters
+  SoundManager get soundManager => this._soundManager;
+
+  // Setters
+}
+
+class SpatialPuzzle extends Puzzle {
+  SpatialPuzzle({required PuzzleLevel puzzleLevel})
+      : super(puzzleLevel: puzzleLevel);
+}

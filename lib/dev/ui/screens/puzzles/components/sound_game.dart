@@ -1,193 +1,250 @@
 import 'package:flutter/material.dart';
+
+// Models
 import 'package:flutter_slide_competition/dev/data/models/piece.dart';
+
+// Repositories (Contracts)
 import 'package:flutter_slide_competition/dev/domain/repositories/bag_management_contract.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece_management_contract.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/sound_management_contract.dart';
+
+// Use Cases
 import 'package:flutter_slide_competition/dev/domain/usecases/bag_management_usecases.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/selected_piece_usecases.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/sound_management_usecases.dart';
+
+// Extra Widgets
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/puzzle_button.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/sound_slot.dart';
+
+// UI (Provider Models)
+import 'package:provider/provider.dart';
+import 'package:flutter_slide_competition/dev/ui/models/toggle_managerUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/bagUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/sound_slotUI.dart';
-import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/sound_slot.dart';
-import 'package:provider/provider.dart';
 
 class SoundGameWidget extends StatelessWidget {
   final SoundManagementRepository soundManagementRepository;
   final BagManagementRepository bagManagementRepository;
   final SelectedPieceManagementRepository selectedPieceManagementRepository;
 
-  const SoundGameWidget({
-    required this.soundManagementRepository,
-    required this.bagManagementRepository,
-    required this.selectedPieceManagementRepository,
-    Key? key
-  }) : super(key: key);
+  final double soundSlotWidth;
+
+  const SoundGameWidget(
+      {required this.soundManagementRepository,
+      required this.bagManagementRepository,
+      required this.selectedPieceManagementRepository,
+      this.soundSlotWidth = 500,
+      Key? key})
+      : super(key: key);
 
   @override
-  Widget build(BuildContext context ) {
-    return Expanded(
-      child: Column(
-        children: [
-          const SoundSlot(),
-          const SizedBox(
-            height: 20,
-          ),
-          ButtonsSound(
-            soundManagementRepository: this.soundManagementRepository,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            child: Text('Add To Slot'),
-            onPressed: Provider.of<SoundSlotUI>(context, listen: true)
-                .soundModel
-                .isUserSetComplete
-                ? null
-                : () {
-              // Initializing Use Cases
-              final selectedPieceUseCases =
-              SelectedPieceManagementUseCases(
-                  selectedPieceManagementRepository:
-                  this.selectedPieceManagementRepository);
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SoundSlot(
+          scale: 1.5,
+          width: this.soundSlotWidth,
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        ButtonsSound(
+          soundManagementRepository: this.soundManagementRepository,
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        IconPuzzleButton(
+          scale: 1.25,
+          icon: 'add',
+          text: 'Add to Slot',
+          buttonColor: const Color(0xFFDFEFCA),
+          clickColor: Colors.green,
+          shadowColor: const Color(0xFFadbd99),
+          onPressed: (Provider.of<SoundSlotUI>(context, listen: true)
+                  .soundModel
+                  .isUserSetComplete)
+              ? null
+              : () {
+                  // Initializing Use Cases
+                  final selectedPieceUseCases = SelectedPieceManagementUseCases(
+                      selectedPieceManagementRepository:
+                          this.selectedPieceManagementRepository);
 
-              final bagUseCases = BagManagementUseCases(
-                  bagManagementRepository:
-                  this.bagManagementRepository);
+                  final bagUseCases = BagManagementUseCases(
+                      bagManagementRepository: this.bagManagementRepository);
 
-              final soundUseCases = SoundManagementUseCases(
-                  soundManagementRepository:
-                  this.soundManagementRepository);
+                  final soundUseCases = SoundManagementUseCases(
+                      soundManagementRepository:
+                          this.soundManagementRepository);
 
-              // --- Actual OnTap Execuiton --- //
-              final selectedPiece =
-              selectedPieceUseCases.getCurrentSelectedPiece();
+                  // --- Actual OnTap Execuiton --- //
+                  final selectedPiece =
+                      selectedPieceUseCases.getCurrentSelectedPiece();
 
-              if (!selectedPiece.isNullPiece) {
-                // Unselecting current Piece
-                selectedPieceUseCases.unselectPiece();
+                  if (!selectedPiece.isNullPiece) {
+                    // Unselecting current Piece
+                    selectedPieceUseCases.unselectPiece();
 
-                // Remove the piece from the bag
-                if (!bagUseCases.removeFromBag(piece: selectedPiece))
-                  throw Exception('Remove Piece from Bag: Piece not found');
+                    // Remove the piece from the bag
+                    if (!bagUseCases.removeFromBag(piece: selectedPiece))
+                      throw Exception('Remove Piece from Bag: Piece not found');
 
-                // Add to slot
-                soundUseCases.addPieceToSlot(piece: selectedPiece);
+                    // Add to slot
+                    soundUseCases.addPieceToSlot(piece: selectedPiece);
 
-                // Update the reference of the UI of which piece has been selected
-                Provider.of<SelectedPieceManagerUI>(context,
-                    listen: false)
-                    .selectPiece = Piece.createNullPiece();
-                // Updating UI
-                Provider.of<SoundSlotUI>(context, listen: false)
-                    .update();
-                Provider.of<BagUI>(context, listen: false).update();
-                Provider.of<SelectedPieceManagerUI>(context,
-                    listen: false)
-                    .update();
+                    // Update the reference of the UI of which piece has been selected
+                    Provider.of<SelectedPieceManagerUI>(context, listen: false)
+                        .selectPiece = Piece.createNullPiece();
+                    // Updating UI
+                    Provider.of<SoundSlotUI>(context, listen: false).update();
+                    Provider.of<BagUI>(context, listen: false).update();
+                    Provider.of<SelectedPieceManagerUI>(context, listen: false)
+                        .update();
 
-                // Comparing if the user set is equal to the template
-                if (soundUseCases.isSoundPuzzleComplete()) {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const AlertDialog(
-                        title: Text('Yey!'),
-                        content: Text('Level complete!'),
+                    // Comparing if the user set is equal to the template
+                    if (soundUseCases.isSoundPuzzleComplete()) {
+                      Provider.of<UniversalPuzzleToggleManager>(context,
+                              listen: false)
+                          .showWinButton = true;
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(
+                              'Warning',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                            content: Text(
+                              'Level complete!',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          );
+                        },
                       );
-                    },
-                  );
-                } else {
-                  if (soundUseCases.isUserSetComplete()) {
+                    } else {
+                      if (soundUseCases.isUserSetComplete()) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                'Warning',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              content: Text(
+                                'Wrong sequence!',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    }
+                  } else {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return const AlertDialog(
-                          title: Text('Warning'),
-                          content: Text('Wrong sequence!'),
+                        return AlertDialog(
+                          title: Text(
+                            'Warning',
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                          content: Text(
+                            'You can only add pieces from the bag!',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                         );
                       },
                     );
                   }
-                }
-              }
-            },
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          ElevatedButton(
-            child: Text('Remove Last One Added'),
-            onPressed: Provider.of<SoundSlotUI>(context, listen: true)
-                .soundModel
-                .isUserSetEmpty
-                ? null
-                : () {
-              // Initializing Use Cases
+                },
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconPuzzleButton(
+              scale: 1.25,
+              icon: 'remove',
+              text: 'Remove Last One Added',
+              buttonColor: const Color(0xFFf29a94),
+              clickColor: Colors.red,
+              shadowColor: const Color(0xFFbc5b56),
+              onPressed: Provider.of<SoundSlotUI>(context, listen: true)
+                      .soundModel
+                      .isUserSetEmpty
+                  ? null
+                  : () {
+                      // Initializing Use Cases
 
-              final bagUseCases = BagManagementUseCases(
-                  bagManagementRepository:
-                  this.bagManagementRepository);
+                      final bagUseCases = BagManagementUseCases(
+                          bagManagementRepository:
+                              this.bagManagementRepository);
 
-              final soundUseCases = SoundManagementUseCases(
-                  soundManagementRepository:
-                  this.soundManagementRepository);
+                      final soundUseCases = SoundManagementUseCases(
+                          soundManagementRepository:
+                              this.soundManagementRepository);
 
-              // --- Actual OnTap Execution --- //
+                      // --- Actual OnTap Execution --- //
 
-              // Remove the last added piece to the slots
-              final Piece piece = soundUseCases.removeLastPieceAdded();
+                      // Remove the last added piece to the slots
+                      final Piece piece = soundUseCases.removeLastPieceAdded();
 
-              // Add to bag
-              bagUseCases.addToBag(puzzlePiece: piece);
+                      // Add to bag
+                      bagUseCases.addToBag(puzzlePiece: piece);
 
-              // Updating UI
-              Provider.of<SoundSlotUI>(context, listen: false).update();
-              Provider.of<BagUI>(context, listen: false).update();
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            child: Text('Remove All'),
-            onPressed: Provider.of<SoundSlotUI>(context, listen: true)
-                .soundModel
-                .isUserSetEmpty
-                ? null
-                : () {
-              // Initializing Use Cases
+                      // Updating UI
+                      Provider.of<SoundSlotUI>(context, listen: false).update();
+                      Provider.of<BagUI>(context, listen: false).update();
+                    },
+            ),
+            IconPuzzleButton(
+              scale: 1.25,
+              icon: 'remove',
+              text: 'Remove All',
+              buttonColor: const Color(0xFFf29a94),
+              clickColor: Colors.red,
+              shadowColor: const Color(0xFFbc5b56),
+              onPressed: Provider.of<SoundSlotUI>(context, listen: true)
+                      .soundModel
+                      .isUserSetEmpty
+                  ? null
+                  : () {
+                      // Initializing Use Cases
 
-              final bagUseCases = BagManagementUseCases(
-                  bagManagementRepository:
-                  this.bagManagementRepository);
+                      final bagUseCases = BagManagementUseCases(
+                          bagManagementRepository:
+                              this.bagManagementRepository);
 
-              final soundUseCases = SoundManagementUseCases(
-                  soundManagementRepository:
-                  this.soundManagementRepository);
+                      final soundUseCases = SoundManagementUseCases(
+                          soundManagementRepository:
+                              this.soundManagementRepository);
 
-              // --- Actual OnTap Execution --- //
-              final int slotsUsed = soundUseCases.getSlotsUsed();
+                      // --- Actual OnTap Execution --- //
+                      final int slotsUsed = soundUseCases.getSlotsUsed();
 
-              for (int i = 0; i < slotsUsed; i++) {
-                // Remove the last added piece to the slots
-                final Piece piece =
-                soundUseCases.removeLastPieceAdded();
+                      for (int i = 0; i < slotsUsed; i++) {
+                        // Remove the last added piece to the slots
+                        final Piece piece =
+                            soundUseCases.removeLastPieceAdded();
 
-                // Add to bag
-                bagUseCases.addToBag(puzzlePiece: piece);
-              }
+                        // Add to bag
+                        bagUseCases.addToBag(puzzlePiece: piece);
+                      }
 
-              // Updating UI
-              Provider.of<SoundSlotUI>(context, listen: false).update();
-              Provider.of<BagUI>(context, listen: false).update();
-            },
-          ),
-        ],
-      ),
+                      // Updating UI
+                      Provider.of<SoundSlotUI>(context, listen: false).update();
+                      Provider.of<BagUI>(context, listen: false).update();
+                    },
+            ),
+          ],
+        ),
+      ],
     );
   }
-
-
 }

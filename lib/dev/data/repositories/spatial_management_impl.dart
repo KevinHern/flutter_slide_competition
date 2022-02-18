@@ -53,7 +53,7 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
         // TODO: piezas L
         break;
     }
-    
+
     return false;
   }
 

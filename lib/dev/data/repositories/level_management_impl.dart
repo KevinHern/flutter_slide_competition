@@ -1,8 +1,9 @@
 // Models
-import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/puzzle.dart';
 
 // Contracts
-import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/level_management_contract.dart';
 
 class LevelManagementRepositoryImpl implements LevelManagementRepository {
   late final LevelManager _levelManager;
@@ -76,6 +77,16 @@ class LevelManagementRepositoryImpl implements LevelManagementRepository {
   void setPreviousPuzzle({required PuzzleType puzzleType}) {
     // Updates the previous puzzle tracking variable
     this._levelManager.previousPuzzle = puzzleType;
+  }
+
+  @override
+  PuzzleLevel getPuzzleLevel({required PuzzleType puzzleType}) {
+    if (puzzleType == PuzzleType.SOUND) {
+      return PuzzleLevel.values[this._levelManager.totalSound];
+    } else if (puzzleType == PuzzleType.SPATIAL) {
+      return PuzzleLevel.values[this._levelManager.totalSpatial];
+    } else
+      throw Exception('Level Management Impl: unkown puzzle type detected');
   }
 
   // Valor temporal que será usado por la pantalla PRE

@@ -1,16 +1,16 @@
 // Basic Imports
 import 'package:flutter/material.dart';
-import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
 
 // Models
-import 'package:flutter_slide_competition/prototype/data/models/puzzle.dart';
-import 'package:flutter_slide_competition/prototype/ui/models/screen_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/puzzle.dart';
+import 'package:flutter_slide_competition/dev/ui/models/screen_manager.dart';
 
 // Repositories
-import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/level_management_contract.dart';
 
 // Use Cases
-import 'package:flutter_slide_competition/prototype/domain/usecases/level_management_usecases.dart';
+import 'package:flutter_slide_competition/dev/domain/usecases/level_management_usecases.dart';
 
 // State Management
 import 'package:provider/provider.dart';
@@ -77,7 +77,8 @@ class SpatialPuzzleWidget extends StatelessWidget {
                     navigationManager.setCurrentScreen = ScreenType.PRE_PUZZLE;
 
                     // Obtain puzzle
-                    navigationManager.setPuzzle = Puzzle();
+                    navigationManager.setPuzzle =
+                        Puzzle(puzzleLevel: PuzzleLevel.LV1);
 
                     // Update Previous Puzzle
                     this

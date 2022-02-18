@@ -81,7 +81,8 @@ class SoundManagementRepositoryImpl implements SoundManagementRepository {
         filename = 'do8';
         break;
       default:
-        throw Exception('Unkown piece shape has been detected');
+        throw Exception(
+            'Sound Management Impl: Unknown piece shape has been detected');
     }
 
     return 'sounds/' + filename + '.wav';

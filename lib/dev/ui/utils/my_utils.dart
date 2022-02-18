@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'dart:developer';
+
+import '../../../dev/data/models/level_manager.dart';
 
 class MyUtils {
   static EdgeInsetsGeometry setScreenPadding({required BuildContext context}) {
@@ -9,7 +12,7 @@ class MyUtils {
 
     if (width >= 1200) {
       return EdgeInsets.symmetric(
-          horizontal: width * 0.2, vertical: width * 0.01);
+          horizontal: width * 0.05, vertical: width * 0.01);
     } else if (width >= 992) {
       return EdgeInsets.symmetric(
           horizontal: width * 0.1, vertical: width * 0.01);
@@ -85,5 +88,32 @@ class MyUtils {
     }
 
     return 20;
+  }
+
+  static String fetchRandomImage({required PuzzleType puzzleType}) {
+    const soundImages = [
+      'flute',
+      'harp',
+      'ocarina',
+      'piano',
+      'violonchelo',
+      'guitar'
+    ];
+    const spatialImages = [
+      'pattern1',
+      'pattern2',
+      'sculpture2',
+      'statue',
+      'pattern3',
+      'pattern4'
+    ];
+    switch (puzzleType) {
+      case PuzzleType.SOUND:
+        return soundImages[Random().nextInt(soundImages.length)];
+      case PuzzleType.SPATIAL:
+        return spatialImages[Random().nextInt(spatialImages.length)];
+      default:
+        throw Exception('Fetch Random Image: Unknown Puzzle Type detected');
+    }
   }
 }

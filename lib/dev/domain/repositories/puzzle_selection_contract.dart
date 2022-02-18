@@ -1,7 +1,8 @@
 // Models
-import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
-import 'package:flutter_slide_competition/prototype/data/models/puzzle.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/puzzle.dart';
 
 abstract class PuzzleRepository {
-  Future<Puzzle> fetchPuzzle(PuzzleType puzzleType);
+  Puzzle fetchPuzzle(
+      {required PuzzleType puzzleType, required PuzzleLevel puzzleLevel});
 }

@@ -2,18 +2,20 @@
 import 'package:flutter/material.dart';
 
 // Models
-import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/puzzle.dart';
 
 // Repositories
-import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
-import 'package:flutter_slide_competition/prototype/domain/repositories/puzzle_selection_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/level_management_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/puzzle_selection_contract.dart';
 
 // Use Cases
-import 'package:flutter_slide_competition/prototype/domain/usecases/level_management_usecases.dart';
-import 'package:flutter_slide_competition/prototype/domain/usecases/puzzle_selection_usecases.dart';
+import 'package:flutter_slide_competition/dev/domain/usecases/level_management_usecases.dart';
+import 'package:flutter_slide_competition/dev/domain/usecases/puzzle_selection_usecases.dart';
 
 // State Management
-import 'package:flutter_slide_competition/prototype/ui/models/screen_manager.dart';
+import 'package:flutter_slide_competition/dev/ui/models/screen_manager.dart';
+import 'package:flutter_slide_competition/dev/ui/utils/my_utils.dart';
 import 'package:provider/provider.dart';
 
 class ForcedPuzzleScreen extends StatelessWidget {
@@ -34,9 +36,14 @@ class ForcedPuzzleScreen extends StatelessWidget {
   void _fetchThisPuzzle(
       {required NavigationManager navigationManager,
       required PuzzleType puzzleType}) async {
+    // Obtain the level that the puzzle should be fetched
+    PuzzleLevel currentLevel =
+        levelManagementUseCases.getCurrentPuzzleLevel(puzzleType: puzzleType);
+
     // Get the puzzle itself
-    navigationManager.setPuzzle =
-        await this.puzzleFetchUseCase.fetchPuzzle(puzzleType: puzzleType);
+    navigationManager.setPuzzle = await this
+        .puzzleFetchUseCase
+        .fetchPuzzle(puzzleType: puzzleType, puzzleLevel: currentLevel);
 
     // Set the current screen
     navigationManager.setCurrentScreen = (puzzleType == PuzzleType.SOUND)
@@ -69,10 +76,12 @@ class ForcedPuzzleScreen extends StatelessWidget {
                     puzzleType: forcedPuzzleType);
               },
               child: Image.asset(
-                (this.levelManagementUseCases.getForcedPuzzleTypeNonFuture() ==
-                        PuzzleType.SOUND)
-                    ? 'assets/guitar.jpg'
-                    : 'assets/statue.jpg',
+                'assets/' +
+                    MyUtils.fetchRandomImage(
+                        puzzleType: this
+                            .levelManagementUseCases
+                            .getForcedPuzzleTypeNonFuture()) +
+                    '.png',
               ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.transparent,

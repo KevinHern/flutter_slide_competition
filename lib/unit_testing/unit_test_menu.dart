@@ -37,6 +37,20 @@ class UnitTestMenu extends StatelessWidget {
                 onPressed: () => Navigator.of(context).pushNamed('/spatial_test'),
                 child: Text('Spatial Game Test'),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pushNamed('/ui_test'),
+                child: Text('UI Test'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pushNamed('/welcome'),
+                child: Text('Complete puzzle'),
+              ),
             ],
           ),
         ),

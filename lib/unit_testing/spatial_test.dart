@@ -24,7 +24,6 @@ import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/spatialUI.dart';
-import 'package:flutter_slide_competition/dev/ui/models/toggle_buttons.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/bag_widget.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/board_grid.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/dpad.dart';
@@ -32,6 +31,7 @@ import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/rota
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/spatial_grid.dart';
 import 'package:provider/provider.dart';
 
+import '../dev/ui/models/toggle_managerUI.dart';
 import '../dev/ui/utils/my_utils.dart';
 
 enum RotationOrientation { CLOCKWISE, ANTICLOCKWISE }

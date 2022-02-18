@@ -4,15 +4,11 @@ import 'package:flutter_slide_competition/dev/data/models/piece.dart';
 import 'package:flutter_slide_competition/dev/data/models/spatial.dart';
 import 'package:flutter_slide_competition/dev/data/repositories/board_management_impl.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece_management_contract.dart';
-import 'package:flutter_slide_competition/dev/domain/repositories/sound_management_contract.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/board_grid_usecases.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/selected_piece_usecases.dart';
-import 'package:flutter_slide_competition/dev/domain/usecases/sound_management_usecases.dart';
 import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
-import 'package:flutter_slide_competition/dev/ui/models/toggle_buttons.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
 /* Stateless: no necesita state porque no hay nada relacionado con audio */

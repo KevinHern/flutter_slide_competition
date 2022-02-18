@@ -21,13 +21,12 @@ import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/sound_slotUI.dart';
-import 'package:flutter_slide_competition/dev/ui/models/toggle_buttons.dart';
+import 'package:flutter_slide_competition/dev/ui/models/toggle_managerUI.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/bag_widget.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/board_grid.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/dpad.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/rotation.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/sound_game.dart';
-import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/sound_slot.dart';
 import 'package:provider/provider.dart';
 
 import '../dev/ui/utils/my_utils.dart';
@@ -45,13 +44,13 @@ class CompleteTestScreen extends StatelessWidget {
   late final SelectedPieceManager selectedPieceManager;
   final SoundManager soundManager = SoundManager(
       soundPuzzleType: SoundType.NOTES,
-      template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C]
-  );
+      template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C]);
 
-  // REPOSITORIOS
+  // Repositories
   late final BoardManagementRepository boardManagementRepository;
   late final BagManagementRepository bagManagementRepository;
-  late final SelectedPieceManagementRepository selectedPieceManagementRepository;
+  late final SelectedPieceManagementRepository
+      selectedPieceManagementRepository;
   late final SoundManagementRepository soundManagementRepository;
 
   CompleteTestScreen({required this.scale, Key? key}) : super(key: key) {
@@ -112,7 +111,8 @@ class CompleteTestScreen extends StatelessWidget {
 
     boardManagementRepository = BoardManagementRepositoryImpl(board: board);
 
-    soundManagementRepository = SoundManagementRepositoryImpl(soundManager: this.soundManager);
+    soundManagementRepository =
+        SoundManagementRepositoryImpl(soundManager: this.soundManager);
   }
 
   @override
@@ -247,7 +247,8 @@ class CompleteTestBody extends StatelessWidget {
       Provider.of<BagUI>(context, listen: false).update();
 
       Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
-      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = outPiece;
+      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece =
+          outPiece;
     }
   }
 
@@ -265,10 +266,14 @@ class CompleteTestBody extends StatelessWidget {
                   selectedManager: selectedPieceManagementRepository,
                   soundManagementRepository: this.soundManagementRepository,
                   boardType: BoardType.SOUND,
-                  moveUp: () => _move(context: context, direction: BoardDirection.UP),
-                  moveRight: () => _move(context: context, direction: BoardDirection.RIGHT),
-                  moveDown: () => _move(context: context, direction: BoardDirection.DOWN),
-                  moveLeft: () => _move(context: context, direction: BoardDirection.LEFT),
+                  moveUp: () =>
+                      _move(context: context, direction: BoardDirection.UP),
+                  moveRight: () =>
+                      _move(context: context, direction: BoardDirection.RIGHT),
+                  moveDown: () =>
+                      _move(context: context, direction: BoardDirection.DOWN),
+                  moveLeft: () =>
+                      _move(context: context, direction: BoardDirection.LEFT),
                 ),
                 SizedBox(
                   height: 50,
@@ -294,9 +299,11 @@ class CompleteTestBody extends StatelessWidget {
                 children: [
                   BagWidget(
                     bagOfPieces: Provider.of<BagUI>(context, listen: true).bag,
-                    toggleRotation: Provider.of<ToggleRotation>(context, listen: true),
+                    toggleRotation:
+                        Provider.of<ToggleRotation>(context, listen: true),
                     height: 500,
-                    selectedPieceManagementRepository: selectedPieceManagementRepository,
+                    selectedPieceManagementRepository:
+                        selectedPieceManagementRepository,
                     soundManagementRepository: this.soundManagementRepository,
                     bagType: BagType.SOUND,
                   ),
@@ -321,12 +328,12 @@ class CompleteTestBody extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  const   SizedBox(height: 100),
+                  const SizedBox(height: 100),
                   SoundGameWidget(
                       soundManagementRepository: soundManagementRepository,
                       bagManagementRepository: bagManagementRepository,
-                      selectedPieceManagementRepository: selectedPieceManagementRepository
-                  ),
+                      selectedPieceManagementRepository:
+                          selectedPieceManagementRepository),
                 ],
               ),
             ),
