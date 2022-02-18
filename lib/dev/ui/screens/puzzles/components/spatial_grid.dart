@@ -1,13 +1,10 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/data/models/piece.dart';
 import 'package:flutter_slide_competition/dev/data/models/spatial.dart';
-import 'package:flutter_slide_competition/dev/data/repositories/board_management_impl.dart';
+import 'package:flutter_slide_competition/dev/data/repositories/bag_management_impl.dart';
 import 'package:flutter_slide_competition/dev/data/repositories/spatial_management_impl.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece_management_contract.dart';
-import 'package:flutter_slide_competition/dev/domain/repositories/spatial_management_contract.dart';
-import 'package:flutter_slide_competition/dev/domain/usecases/board_grid_usecases.dart';
+import 'package:flutter_slide_competition/dev/domain/usecases/bag_management_usecases.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/selected_piece_usecases.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/spatial_management_usecases.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
@@ -15,6 +12,7 @@ import 'package:flutter_slide_competition/dev/ui/models/selected_spatial_pieceUI
 import 'package:flutter_slide_competition/dev/ui/models/spatialUI.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/bagUI.dart';
 import '../../../models/boardUI.dart';
 import '../../../models/selected_pieceUI.dart';
 import '../../../models/toggle_managerUI.dart';
@@ -26,7 +24,6 @@ class SpatialGrid extends StatelessWidget {
 
   late final SpatialManagementUseCases spatialCases;
   late final SelectedPieceManagementUseCases selectedCases;
-
 
   SpatialGrid({
     required this.spatialManager,
@@ -63,17 +60,73 @@ class SpatialGrid extends StatelessWidget {
   }
 
   void updateProvidersAfterClick (BuildContext context, Piece piece) {
-    // bag
+    // Desactivar rotacion
     Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
-    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = piece;
 
-    // board
+    // Actualizar pieza seleccionada
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
     Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
-    Provider.of<BoardUI>(context, listen: false).update();
-
-    // spatial
     Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = piece;
+
+    // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
+    Provider.of<BagUI>(context, listen: false).update();
+    Provider.of<BoardUI>(context, listen: false).update();
     Provider.of<SpatialUI>(context, listen: false).update();
+  }
+
+  bool addPieceToPuzzle (BuildContext context, int row, int col) {
+    BagManagementUseCases bagCases = BagManagementUseCases(
+        bagManagementRepository: BagManagementRepositoryImpl(
+            bag: Provider.of<BagUI>(context, listen: false).bag
+        )
+    );
+
+    // obtener pieza
+    final Piece piece = selectedCases.getCurrentSelectedPiece();
+
+    // revisar si esta en bolsa
+    if (!piece.isNullPiece && piece.location == PieceLocation.BAG) {
+
+      // Si la posición está ocupada, ya no continuar
+      if (!spatialCases.checkIfValidPositionOnBoard(piece: piece, row: row, col: col)) {
+        return false;
+      }
+
+      // Remover de la bolsa
+      bagCases.removeFromBag(
+          piece: piece
+      );
+
+      // Agregar a board
+      spatialCases.addPieceToBoard(
+          piece: piece, row: row, col: col
+      );
+
+      if (spatialCases.isPuzzleCorrect()) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                'Yey',
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              content: Text(
+                'Level complete!',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            );
+          },
+        );
+      }
+
+      Provider.of<BagUI>(context, listen: false).update();
+      Provider.of<SpatialUI>(context, listen: false).update();
+
+      return true;
+    }
+
+    return false;
   }
 
   @override
@@ -90,19 +143,29 @@ class SpatialGrid extends StatelessWidget {
 
         Color c = Colors.grey;
 
+        // Primero se dibuja el tablero...
         if (targetPiece.isNullPiece) {
+          // Casilla sobrante, no se debe colocar pieza aqui
           c = Colors.blueGrey;
         } else {
-          c = Colors.lightBlueAccent;
+          // Casillas del puzzle, estas se deben llenar con piezas
+          c = Colors.white;
         }
 
+        // Y encima se dibujan las piezas que el jugador ha puesto
         if (!userPiece.isNullPiece) {
           c = userPiece.color;
         }
 
-        cuadritos[row*6 + col] = Container(height: 10, width: 10, color: c);
+        if (!userPiece.isNullPiece && targetPiece.isNullPiece) {
+          // El jugador puso una pieza en una casilla que debería quedar vacía
+          cuadritos[row*6 + col] = Container(height: 10, width: 10, color: c, child: Text("X"));
+        } else {
+          cuadritos[row*6 + col] = Container(height: 10, width: 10, color: c);
+        }
 
-        if (userPiece == selPiece) {
+        // Pieza seleccionada en color que resalte
+        if (userPiece == selPiece && !selPiece.isNullPiece) {
           cuadritos[row * 6 + col] = Container(height: 10, width: 10, color: Colors.purpleAccent);
         }
       }
@@ -125,6 +188,15 @@ class SpatialGrid extends StatelessWidget {
               int col = index % 6;
 
               print("spatial grid: x = $col - y = $row");
+
+              // Si hay una pieza seleccionada en la bolsa, colocarla
+              Piece selPiece = Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece;
+              if (selPiece.location == PieceLocation.BAG) {
+                if (addPieceToPuzzle(context, row, col)) {
+                  // Si se pudo seleccionar la pieza, terminamos
+                  return;
+                }
+              }
 
               Piece piece = selectPieceOnClick(row, col);
               updateProvidersAfterClick(context, piece);

@@ -13,6 +13,10 @@ class SpatialManagementUseCases {
     return spatialManagementRepository.addPiece(piece: piece, row: row, col: col);
   }
 
+  bool checkIfValidPositionOnBoard({required Piece piece, required int row, required int col}) {
+    return spatialManagementRepository.checkIfEmptySpace(piece: piece, row: row, col: col);
+  }
+
   Piece removePieceFromBoard({required Piece piece}) {
     return spatialManagementRepository.removePiece(piece: piece);
   }

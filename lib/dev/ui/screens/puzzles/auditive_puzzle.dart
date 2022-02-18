@@ -200,7 +200,7 @@ class AuditivePuzzleBody extends StatelessWidget {
       Provider.of<BagUI>(context, listen: false).update();
 
       Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
-      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece =
+      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece =
           outPiece;
     }
   }

@@ -10,9 +10,13 @@ import 'package:flutter_slide_competition/dev/domain/usecases/sound_management_u
 import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
+import 'package:flutter_slide_competition/dev/ui/models/selected_spatial_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/toggle_managerUI.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
+
+import '../../../models/bagUI.dart';
+import '../../../models/spatialUI.dart';
 
 enum BoardType { SOUND, SPATIAL }
 
@@ -103,13 +107,18 @@ class _BoardGridState extends State<BoardGrid> {
   }
 
   void updateProvidersAfterClick (Piece piece) {
-    // Se hizo click en tablero, desactivar rotación y selección de bag
+    // Desactivar rotacion
     Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
-    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = piece;
+
+    // Actualizar pieza seleccionada
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = piece;
 
     // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
-    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<BagUI>(context, listen: false).update();
     Provider.of<BoardUI>(context, listen: false).update();
+    Provider.of<SpatialUI>(context, listen: false).update();
   }
 
   @override

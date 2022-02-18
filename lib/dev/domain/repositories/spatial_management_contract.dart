@@ -6,6 +6,7 @@ abstract class SpatialManagementRepository {
   int checkEmptySpace ();
 
   bool addPiece ({required Piece piece, required int row, required int col});
+  bool checkIfEmptySpace ({required Piece piece, required int row, required int col});
   bool movePiece ({required Piece piece, required int row, required int col});
   Piece removePiece ({required Piece piece});
 

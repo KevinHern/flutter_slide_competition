@@ -368,7 +368,7 @@ class BagSoundTestBody extends StatelessWidget {
                         // Update the reference of the UI of which piece has been selected
                         Provider.of<SelectedPieceManagerUI>(context,
                                 listen: false)
-                            .selectPiece = Piece.createNullPiece();
+                            .selectedPiece = Piece.createNullPiece();
                         // Updating UI
                         Provider.of<SoundSlotUI>(context, listen: false)
                             .update();

@@ -268,7 +268,44 @@ class SpatialTestBody extends StatelessWidget {
 
       Provider.of<BagUI>(context, listen: false).update();
       Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
-      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = outPiece;
+      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = outPiece;
+    }
+  }
+
+  void removePieceFromPuzzle (BuildContext context) {
+    // obtener pieza
+    final Piece piece = selectedCases.getCurrentSelectedPiece();
+
+    // revisar si esta en bolsa
+    if (!piece.isNullPiece && piece.location == PieceLocation.SPATIAL_BOARD) {
+      //Piece basePiece = spatialCases.getBasePieceByPosition(row: piece.y, col: piece.x);
+      spatialCases.removePieceFromBoard(piece: piece);
+      bagCases.addToBag(puzzlePiece: piece);
+
+      if (spatialCases.isPuzzleCorrect()) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                'Yey',
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              content: Text(
+                'Level complete!',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            );
+          },
+        );
+      }
+
+      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+      Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+      Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+
+      Provider.of<BagUI>(context, listen: false).update();
+      Provider.of<SpatialUI>(context, listen: false).update();
     }
   }
 
@@ -354,98 +391,26 @@ class SpatialTestBody extends StatelessWidget {
                     height: 20,
                     width: 20,
                   ),
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       addPieceToPuzzle(context);
+                  //     },
+                  //     child: const Text(
+                  //       "Add piece to puzzle",
+                  //     )
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  //   width: 20,
+                  // ),
                   ElevatedButton(
                       onPressed: () {
-                        // obtener pieza
-                        final Piece piece = selectedCases.getCurrentSelectedPiece();
-
-                        // revisar si esta en bolsa
-                        if (!piece.isNullPiece && piece.location == PieceLocation.BAG) {
-                          print("pieza valida en lugar valido");
-
-                          // Remover de la bolsa
-                          bagCases.removeFromBag(
-                              piece: piece
-                          );
-
-                          // Agregar a board
-                          spatialCases.addPieceToBoard(
-                              piece: piece, row: 0, col: 0
-                          );
-
-                          if (spatialCases.isPuzzleCorrect()) {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text(
-                                    'Yey',
-                                    style: Theme.of(context).textTheme.subtitle1,
-                                  ),
-                                  content: Text(
-                                    'Level complete!',
-                                    style: Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                );
-                              },
-                            );
-                          }
-
-                          Provider.of<BagUI>(context, listen: false).update();
-                          Provider.of<SpatialUI>(context, listen: false).update();
-                        }
-                      },
-                      child: const Text(
-                        "Add piece to puzzle",
-                      )
-                  ),
-                  const SizedBox(
-                    height: 20,
-                    width: 20,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        // obtener pieza
-                        final Piece piece = selectedCases.getCurrentSelectedPiece();
-
-                        // revisar si esta en bolsa
-                        if (!piece.isNullPiece && piece.location == PieceLocation.SPATIAL_BOARD) {
-                          print("removiendo pieza");
-
-                          //Piece basePiece = spatialCases.getBasePieceByPosition(row: piece.y, col: piece.x);
-                          spatialCases.removePieceFromBoard(piece: piece);
-                          bagCases.addToBag(puzzlePiece: piece);
-
-                          if (spatialCases.isPuzzleCorrect()) {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text(
-                                    'Yey',
-                                    style: Theme.of(context).textTheme.subtitle1,
-                                  ),
-                                  content: Text(
-                                    'Level complete!',
-                                    style: Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                );
-                              },
-                            );
-                          }
-
-                          Provider.of<BagUI>(context, listen: false).update();
-                          Provider.of<SpatialUI>(context, listen: false).update();
-                        }
+                        removePieceFromPuzzle(context);
                       },
                       child: const Text(
                         "Remove piece from puzzle",
                       )
                   ),
-                  const SizedBox(
-                    height: 20,
-                    width: 20,
-                  )
                 ],
               ),
             ),

@@ -18,6 +18,11 @@ import 'package:provider/provider.dart';
 // State Management
 import 'package:flutter_slide_competition/dev/ui/models/bagUI.dart';
 
+import '../../../models/boardUI.dart';
+import '../../../models/selected_board_pieceUI.dart';
+import '../../../models/selected_spatial_pieceUI.dart';
+import '../../../models/spatialUI.dart';
+
 enum BagType { SOUND, SPATIAL }
 
 class PieceBagTitle extends StatelessWidget {
@@ -196,7 +201,7 @@ class BagWidget extends StatefulWidget {
     this.borderColor = const Color(0xFF8A84E2),
     this.bagTileColor = const Color(0xFFAFAFDC),
     this.shadowColor = const Color(0xFF84AFE6),
-    this.selectedTileColor = const Color(0xFF79BEEE),
+    this.selectedTileColor = const Color(0xFFEE79C3),
     Key? key,
   }) : super(key: key) {
     //Initializing Use Cases
@@ -230,6 +235,21 @@ class _BagWidgetState extends State<BagWidget> {
   void dispose() {
     this.player.dispose();
     super.dispose();
+  }
+
+  void updateProvidersAfterClick (Piece piece) {
+    // Desactivar rotacion
+    Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
+
+    // Actualizar pieza seleccionada
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = piece;
+
+    // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
+    Provider.of<BagUI>(context, listen: false).update();
+    Provider.of<BoardUI>(context, listen: false).update();
+    Provider.of<SpatialUI>(context, listen: false).update();
   }
 
   @override
@@ -312,9 +332,12 @@ class _BagWidgetState extends State<BagWidget> {
                               // Update the reference of the UI of which piece has been selected
                               Provider.of<SelectedPieceManagerUI>(context,
                                           listen: false)
-                                      .selectPiece =
+                                      .selectedPiece =
                                   widget.selectedPieceManagementUseCases
                                       .getCurrentSelectedPiece();
+
+                              // TODO: probar
+                              updateProvidersAfterClick(widget.bagOfPieces.pieces[index]);
 
                               // Execute the action depending on the current puzzle type
                               if (widget.bagType == BagType.SPATIAL) {

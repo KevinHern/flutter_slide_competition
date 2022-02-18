@@ -14,7 +14,7 @@ class SelectedPieceManagerUI extends ChangeNotifier {
   void update() => notifyListeners();
 
   // setters
-  set selectPiece(Piece piece) {
+  set selectedPiece(Piece piece) {
     //print("SelectedPieceManagerUI: selecting $piece");
     this._selectedPiece = piece;
     this.update();
