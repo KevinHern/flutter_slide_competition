@@ -74,6 +74,63 @@ class SpatialGrid extends StatelessWidget {
     Provider.of<SpatialUI>(context, listen: false).update();
   }
 
+  bool movePieceInPuzzle (BuildContext context, int row, int col) {
+    BagManagementUseCases bagCases = BagManagementUseCases(
+        bagManagementRepository: BagManagementRepositoryImpl(
+            bag: Provider.of<BagUI>(context, listen: false).bag
+        )
+    );
+
+    // obtener pieza
+    final Piece piece = selectedCases.getCurrentSelectedPiece();
+
+    // revisar si esta en spatial_board
+    if (!piece.isNullPiece && piece.location == PieceLocation.SPATIAL_BOARD) {
+
+      // Remueve del board
+      spatialCases.removePieceFromBoard(
+          piece: piece
+      );
+
+      // Si la posición está ocupada, ya no continuar
+      if (!spatialCases.checkIfValidPositionOnBoard(piece: piece, row: row, col: col)) {
+        // Agregar a board en el mismo lugar
+        spatialCases.addPieceToBoard(
+            piece: piece, row: piece.y, col: piece.x
+        );
+
+        return false;
+      }
+
+      // Agregar a board
+      spatialCases.addPieceToBoard(
+          piece: piece, row: row, col: col
+      );
+
+      if (spatialCases.isPuzzleCorrect()) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                'Yey',
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              content: Text(
+                'Level complete!',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            );
+          },
+        );
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
   bool addPieceToPuzzle (BuildContext context, int row, int col) {
     BagManagementUseCases bagCases = BagManagementUseCases(
         bagManagementRepository: BagManagementRepositoryImpl(
@@ -198,6 +255,11 @@ class SpatialGrid extends StatelessWidget {
               if (selPiece.location == PieceLocation.BAG) {
                 if (addPieceToPuzzle(context, row, col)) {
                   // Si se pudo seleccionar la pieza, terminamos
+                  updateProvidersAfterClick(context, selPiece);
+                  return;
+                }
+              } else if (selPiece.location == PieceLocation.SPATIAL_BOARD) {
+                if (movePieceInPuzzle(context, row, col)) {
                   updateProvidersAfterClick(context, selPiece);
                   return;
                 }

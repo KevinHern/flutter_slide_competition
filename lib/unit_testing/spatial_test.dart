@@ -350,13 +350,18 @@ class SpatialTestBody extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  BagWidget(
-                    bagOfPieces: Provider.of<BagUI>(context, listen: true).bag,
-                    toggleRotation: Provider.of<ToggleRotation>(context, listen: true),
-                    height: 500,
-                    selectedPieceManagementRepository: selectedPieceManagementRepository,
-                    soundManagementRepository: this.soundManagementRepository,
-                    bagType: BagType.SPATIAL,
+                  GestureDetector(
+                    child:BagWidget(
+                      bagOfPieces: Provider.of<BagUI>(context, listen: true).bag,
+                      toggleRotation: Provider.of<ToggleRotation>(context, listen: true),
+                      height: 500,
+                      selectedPieceManagementRepository: selectedPieceManagementRepository,
+                      soundManagementRepository: this.soundManagementRepository,
+                      bagType: BagType.SPATIAL,
+                    ),
+                    onTap: () {
+                      removePieceFromPuzzle(context);
+                    }
                   ),
                   const SizedBox(
                     height: 50,
