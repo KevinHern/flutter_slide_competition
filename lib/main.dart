@@ -8,6 +8,7 @@ import 'package:flutter_slide_competition/prototype/ui/screens/puzzle_screen.dar
 import 'package:flutter_slide_competition/prototype/ui/screens/welcome_screen.dart';
 import 'package:flutter_slide_competition/prototype/ui/screens/closing_screen.dart';
 import 'package:flutter_slide_competition/unit_testing/complete_test.dart';
+import 'package:flutter_slide_competition/unit_testing/spatial_test.dart';
 import 'package:flutter_slide_competition/unit_testing/unit_test_menu.dart';
 
 import 'dev/data/models/bag.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
           scale: 2,
         ),
         '/complete_test': (context) => CompleteTestScreen(
+          scale: 2,
+        ),
+        '/spatial_test': (context) => SpatialTestScreen(
           scale: 2,
         ),
         '/puzzle': (context) => const PuzzleScreen(),

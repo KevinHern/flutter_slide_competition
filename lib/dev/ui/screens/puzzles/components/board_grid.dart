@@ -59,6 +59,53 @@ class _BoardGridState extends State<BoardGrid> {
     super.dispose();
   }
 
+  Piece selectPieceOnClick(int row, int col) {
+    // Una pieza puede ocupar varias casillas
+    // Obtiene la pieza base
+    Piece piece = BoardGridUseCases(
+        boardManagementRepository: BoardManagementRepositoryImpl(
+            board:widget.board
+        )
+    ).getBasePieceByPosition(row: row, col: col);
+
+    if (piece.isNullPiece) {
+      // Si fue una casilla vacía
+      // Deseleccionar
+      SelectedPieceManagementUseCases(
+          selectedPieceManagementRepository: widget.selectedManager
+      ).unselectPiece();
+    } else {
+      // Si fue una pieza válida
+      // Seleccionar
+      SelectedPieceManagementUseCases(
+          selectedPieceManagementRepository: widget.selectedManager
+      ).selectPiece(puzzlePiece: piece);
+
+      if (widget.boardType == BoardType.SOUND) {
+        if (piece.type == PieceType.AUDIO) {
+          SoundManagementUseCases(
+              soundManagementRepository: widget.soundManagementRepository
+          ).playPieceSound(
+              player: player,
+              piece: piece
+          );
+        }
+      }
+    }
+
+    return piece;
+  }
+
+  void updateProvidersAfterClick (Piece piece) {
+    // Se hizo click en tablero, desactivar rotación y selección de bag
+    Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = piece;
+
+    // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<BoardUI>(context, listen: false).update();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Obtener la pieza seleccionada
@@ -106,52 +153,7 @@ class _BoardGridState extends State<BoardGrid> {
       }
     }
 
-    Piece selectPieceOnClick(int row, int col) {
-      // Una pieza puede ocupar varias casillas
-      // Obtiene la pieza base
-      Piece piece = BoardGridUseCases(
-          boardManagementRepository: BoardManagementRepositoryImpl(
-              board:widget.board
-          )
-      ).getBasePieceByPosition(row: row, col: col);
 
-      if (piece.isNullPiece) {
-        // Si fue una casilla vacía
-        // Deseleccionar
-        SelectedPieceManagementUseCases(
-            selectedPieceManagementRepository: widget.selectedManager
-        ).unselectPiece();
-      } else {
-        // Si fue una pieza válida
-        // Seleccionar
-        SelectedPieceManagementUseCases(
-            selectedPieceManagementRepository: widget.selectedManager
-        ).selectPiece(puzzlePiece: piece);
-
-        if (widget.boardType == BoardType.SOUND) {
-          if (piece.type == PieceType.AUDIO) {
-            SoundManagementUseCases(
-                soundManagementRepository: widget.soundManagementRepository
-            ).playPieceSound(
-                player: player,
-                piece: piece
-            );
-          }
-        }
-      }
-
-      return piece;
-    }
-
-    void updateProvidersAfterClick (Piece piece) {
-      // Se hizo click en tablero, desactivar rotación y selección de bag
-      Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
-      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = piece;
-
-      // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
-      Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
-      Provider.of<BoardUI>(context, listen: false).update();
-    }
 
     return Container(
       color: Colors.white,

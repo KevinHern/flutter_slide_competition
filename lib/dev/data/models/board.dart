@@ -9,7 +9,7 @@ class Board {
   late List<Piece> puzzlePieces;
   late List<List<Piece>> board;
 
-  Piece nullPiece = Piece.createNullPiece();
+  static Piece nullPiece = Piece.createNullPiece();
 
   // Board de 8x8 casillas
   // Se usa la clase dummy NullPiece para rellenar, por el null safety

@@ -14,7 +14,7 @@ class UnitTestMenu extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pushNamed('/bag_test'),
-                child: Text('Bag Test'),
+                child: Text('Sound Bag Test'),
               ),
               const SizedBox(
                 height: 20,
@@ -28,7 +28,14 @@ class UnitTestMenu extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pushNamed('/complete_test'),
-                child: Text('Board + Bag Test'),
+                child: Text('Sound Game Test'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pushNamed('/spatial_test'),
+                child: Text('Spatial Game Test'),
               ),
             ],
           ),

@@ -7,7 +7,7 @@ import 'package:flutter_slide_competition/dev/domain/repositories/board_manageme
 
 class BoardManagementRepositoryImpl implements BoardManagementRepository {
   late final Board _board;
-  Piece nullPiece = Piece.createNullPiece();
+  static Piece nullPiece = Piece.createNullPiece();
 
   BoardManagementRepositoryImpl({required Board board}) {
     this._board = board;
