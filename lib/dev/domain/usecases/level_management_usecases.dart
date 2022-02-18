@@ -1,8 +1,9 @@
 // Models
-import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
+import '../../data/models/puzzle.dart';
 
 // Repositories
-import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/level_management_contract.dart';
 
 class LevelManagementUseCases {
   final LevelManagementRepository levelManagementRepository;
@@ -48,6 +49,12 @@ class LevelManagementUseCases {
 
   void updatePreviousPuzzle({required PuzzleType puzzleType}) {
     this.levelManagementRepository.setPreviousPuzzle(puzzleType: puzzleType);
+  }
+
+  PuzzleLevel getCurrentPuzzleLevel({required PuzzleType puzzleType}) {
+    return this
+        .levelManagementRepository
+        .getPuzzleLevel(puzzleType: puzzleType);
   }
 
   // Valor temporal que será usado por la pantalla PRE

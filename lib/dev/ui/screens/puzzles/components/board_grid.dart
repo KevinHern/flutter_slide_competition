@@ -10,7 +10,7 @@ import 'package:flutter_slide_competition/dev/domain/usecases/sound_management_u
 import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
-import 'package:flutter_slide_competition/dev/ui/models/toggle_buttons.dart';
+import 'package:flutter_slide_competition/dev/ui/models/toggle_managerUI.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
@@ -26,17 +26,17 @@ class BoardGrid extends StatefulWidget {
 
   // TODO: Inicializar usecases
 
-  const BoardGrid({
-    required this.board,
-    required this.selectedManager,
-    required this.soundManagementRepository,
-    required this.boardType,
-    required this.moveUp,
-    required this.moveDown,
-    required this.moveLeft,
-    required this.moveRight,
-    Key? key
-  }) : super(key: key);
+  const BoardGrid(
+      {required this.board,
+      required this.selectedManager,
+      required this.soundManagementRepository,
+      required this.boardType,
+      required this.moveUp,
+      required this.moveDown,
+      required this.moveLeft,
+      required this.moveRight,
+      Key? key})
+      : super(key: key);
 
   @override
   _BoardGridState createState() => _BoardGridState();
@@ -62,7 +62,8 @@ class _BoardGridState extends State<BoardGrid> {
   @override
   Widget build(BuildContext context) {
     // Obtener la pieza seleccionada
-    Piece selPiece = Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece;
+    Piece selPiece =
+        Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece;
 
     // Lista de 64 casillas representando al board
     List<Container> cuadritos = List.generate(64, (_) => Container());
@@ -76,11 +77,13 @@ class _BoardGridState extends State<BoardGrid> {
         // Si se tiene la pieza nula (casilla vacía)
         if (piece.isNullPiece) {
           // Pintar de gris
-          cuadritos[row*8 + col] = Container(height: 10, width: 10, color: Colors.grey);
+          cuadritos[row * 8 + col] =
+              Container(height: 10, width: 10, color: Colors.grey);
 
           // O de azul si es la salida
           if (col == 7 && (row == 3 || row == 4)) {
-            cuadritos[row*8 + col] = Container(height: 10, width: 10, color: Colors.blueGrey);
+            cuadritos[row * 8 + col] =
+                Container(height: 10, width: 10, color: Colors.blueGrey);
           }
 
           // Si hay una pieza válida
@@ -90,17 +93,19 @@ class _BoardGridState extends State<BoardGrid> {
           // Elegir su color según su forma
           if (piece.type == PieceType.DUMMY) {
             c = Colors.brown;
-          } else if (piece.type == PieceType.AUDIO || piece.type == PieceType.SPATIAL) {
+          } else if (piece.type == PieceType.AUDIO ||
+              piece.type == PieceType.SPATIAL) {
             c = piece.color;
           } else {
             c = Colors.deepPurple;
           }
 
           // Y pintar el cuadro correspondiente
-          cuadritos[row*8 + col] = Container(height: 10, width: 10, color: c);
+          cuadritos[row * 8 + col] = Container(height: 10, width: 10, color: c);
 
           if (piece == selPiece) {
-            cuadritos[row*8 + col] = Container(height: 10, width: 10, color: Colors.purpleAccent);
+            cuadritos[row * 8 + col] =
+                Container(height: 10, width: 10, color: Colors.purpleAccent);
           }
         }
       }
@@ -110,32 +115,28 @@ class _BoardGridState extends State<BoardGrid> {
       // Una pieza puede ocupar varias casillas
       // Obtiene la pieza base
       Piece piece = BoardGridUseCases(
-          boardManagementRepository: BoardManagementRepositoryImpl(
-              board:widget.board
-          )
-      ).getBasePieceByPosition(row: row, col: col);
+              boardManagementRepository:
+                  BoardManagementRepositoryImpl(board: widget.board))
+          .getBasePieceByPosition(row: row, col: col);
 
       if (piece.isNullPiece) {
         // Si fue una casilla vacía
         // Deseleccionar
         SelectedPieceManagementUseCases(
-            selectedPieceManagementRepository: widget.selectedManager
-        ).unselectPiece();
+                selectedPieceManagementRepository: widget.selectedManager)
+            .unselectPiece();
       } else {
         // Si fue una pieza válida
         // Seleccionar
         SelectedPieceManagementUseCases(
-            selectedPieceManagementRepository: widget.selectedManager
-        ).selectPiece(puzzlePiece: piece);
+                selectedPieceManagementRepository: widget.selectedManager)
+            .selectPiece(puzzlePiece: piece);
 
         if (widget.boardType == BoardType.SOUND) {
           if (piece.type == PieceType.AUDIO) {
             SoundManagementUseCases(
-                soundManagementRepository: widget.soundManagementRepository
-            ).playPieceSound(
-                player: player,
-                piece: piece
-            );
+                    soundManagementRepository: widget.soundManagementRepository)
+                .playPieceSound(player: player, piece: piece);
           }
         }
       }
@@ -143,13 +144,15 @@ class _BoardGridState extends State<BoardGrid> {
       return piece;
     }
 
-    void updateProvidersAfterClick (Piece piece) {
+    void updateProvidersAfterClick(Piece piece) {
       // Se hizo click en tablero, desactivar rotación y selección de bag
       Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
-      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = piece;
+      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece =
+          piece;
 
       // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
-      Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+      Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece =
+          piece;
       Provider.of<BoardUI>(context, listen: false).update();
     }
 
@@ -160,60 +163,62 @@ class _BoardGridState extends State<BoardGrid> {
       child: GridView.count(
         crossAxisCount: 8,
         children: [
-          for(var item in cuadritos) GestureDetector(
+          for (var item in cuadritos)
+            GestureDetector(
+              // TODO: Si pieza con tipo SOUND ya esta seleccionada, no volver a reproducir audio
 
-            // TODO: Si pieza con tipo SOUND ya esta seleccionada, no volver a reproducir audio
+              onVerticalDragStart: (DragStartDetails details) {
+                // Obtener fila y columna
+                int index = cuadritos.indexOf(item);
+                int row = index ~/ 8;
+                int col = index % 8;
 
-            onVerticalDragStart: (DragStartDetails details) {
-              // Obtener fila y columna
-              int index = cuadritos.indexOf(item);
-              int row = index ~/8;
-              int col = index % 8;
+                Piece piece = selectPieceOnClick(row, col);
+                updateProvidersAfterClick(piece);
+              },
+              onVerticalDragEnd: (DragEndDetails details) {
+                print(
+                    "${details.primaryVelocity} (negativo arriba, positivo abajo)");
 
-              Piece piece = selectPieceOnClick(row, col);
-              updateProvidersAfterClick(piece);
-            },
-            onVerticalDragEnd: (DragEndDetails details) {
-              print("${details.primaryVelocity} (negativo arriba, positivo abajo)");
+                if (details.primaryVelocity! > 0) {
+                  widget.moveDown();
+                } else if (details.primaryVelocity! < 0) {
+                  widget.moveUp();
+                }
+              },
 
-              if (details.primaryVelocity! > 0) {
-                widget.moveDown();
-              } else if (details.primaryVelocity! < 0){
-                widget.moveUp();
-              }
-            },
+              onHorizontalDragStart: (DragStartDetails details) {
+                // Obtener fila y columna
+                int index = cuadritos.indexOf(item);
+                int row = index ~/ 8;
+                int col = index % 8;
 
-            onHorizontalDragStart: (DragStartDetails details) {
-              // Obtener fila y columna
-              int index = cuadritos.indexOf(item);
-              int row = index ~/8;
-              int col = index % 8;
+                Piece piece = selectPieceOnClick(row, col);
+                updateProvidersAfterClick(piece);
+              },
+              onHorizontalDragEnd: (DragEndDetails details) {
+                print(
+                    "${details.primaryVelocity} (negativo izquierda, positivo derecha)");
 
-              Piece piece = selectPieceOnClick(row, col);
-              updateProvidersAfterClick(piece);
-            },
-            onHorizontalDragEnd: (DragEndDetails details) {
-              print("${details.primaryVelocity} (negativo izquierda, positivo derecha)");
+                if (details.primaryVelocity! > 0) {
+                  widget.moveRight();
+                } else if (details.primaryVelocity! < 0) {
+                  widget.moveLeft();
+                }
+              },
 
-              if (details.primaryVelocity! > 0) {
-                widget.moveRight();
-              } else if (details.primaryVelocity! < 0){
-                widget.moveLeft();
-              }
-            },
+              // Se hizo click en alguna casilla del tablero
+              onTap: () {
+                // Obtener fila y columna
+                int index = cuadritos.indexOf(item);
+                int row = index ~/ 8;
+                int col = index % 8;
 
-            // Se hizo click en alguna casilla del tablero
-            onTap: () {
-              // Obtener fila y columna
-              int index = cuadritos.indexOf(item);
-              int row = index ~/8;
-              int col = index % 8;
-
-              Piece piece = selectPieceOnClick(row, col);
-              updateProvidersAfterClick(piece);
-            },
-            child: item,
-          )
+                Piece piece = selectPieceOnClick(row, col);
+                updateProvidersAfterClick(piece);
+              },
+              child: item,
+            )
         ],
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
