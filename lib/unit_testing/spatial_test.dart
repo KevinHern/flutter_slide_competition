@@ -23,6 +23,7 @@ import 'package:flutter_slide_competition/dev/ui/models/bagUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/boardUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
+import 'package:flutter_slide_competition/dev/ui/models/selected_spatial_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/spatialUI.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/bag_widget.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/board_grid.dart';
@@ -66,8 +67,8 @@ class SpatialTestScreen extends StatelessWidget {
           shape: PieceShape.L,
           location: PieceLocation.SPATIAL_BOARD,
         ),
-        row: 2,
-        col: 2
+        row: 0,
+        col: 0
     );
 
     board.addPiece(
@@ -179,6 +180,9 @@ class SpatialProviders extends StatelessWidget {
       ),
       ChangeNotifierProvider<SpatialUI>(
         create: (context) => SpatialUI(spatialModel: spatialModel),
+      ),
+      ChangeNotifierProvider<SpatialPieceManagerUI>(
+          create: (context) => SpatialPieceManagerUI()
       )
     ], child: child);
   }
@@ -192,6 +196,11 @@ class SpatialTestBody extends StatelessWidget {
   final SoundManagementRepository soundManagementRepository;
   final SpatialManagementRepository spatialManagementRepository;
 
+  late final SpatialManagementUseCases spatialCases;
+  late final BagManagementUseCases bagCases;
+  late final SelectedPieceManagementUseCases selectedCases;
+  late final DpadUseCases dpadCases;
+
   static const rotationCycle = [
     PieceRotation.UP,
     PieceRotation.RIGHT,
@@ -199,7 +208,7 @@ class SpatialTestBody extends StatelessWidget {
     PieceRotation.LEFT
   ];
 
-  const SpatialTestBody(
+  SpatialTestBody(
       {required this.scale,
         required this.selectedPieceManagementRepository,
         required this.boardManagementRepository,
@@ -207,25 +216,37 @@ class SpatialTestBody extends StatelessWidget {
         required this.soundManagementRepository,
         required this.spatialManagementRepository,
         Key? key})
-      : super(key: key);
+      : super(key: key) {
+    // Usecases
+    spatialCases = SpatialManagementUseCases(
+        spatialManagementRepository: spatialManagementRepository
+    );
 
-  void _rotate(
-      {required BuildContext context,
-        required RotationOrientation orientation}) {
+    bagCases = BagManagementUseCases(
+        bagManagementRepository: bagManagementRepository
+    );
+
+    selectedCases = SelectedPieceManagementUseCases(
+        selectedPieceManagementRepository: selectedPieceManagementRepository
+    );
+
+    dpadCases = DpadUseCases(
+        boardManagementRepository: boardManagementRepository
+    );
+  }
+
+  void _rotate({
+    required BuildContext context,
+    required RotationOrientation orientation
+  }) {
     int rotation = (orientation == RotationOrientation.CLOCKWISE) ? 1 : -1;
 
-    final Piece currentPiece = SelectedPieceManagementUseCases(
-        selectedPieceManagementRepository:
-        selectedPieceManagementRepository)
-        .getCurrentSelectedPiece();
+    final Piece currentPiece = selectedCases.getCurrentSelectedPiece();
 
-    final int currentRotationCycleIndex =
-    rotationCycle.indexOf(currentPiece.rotation);
-    final int nextRotationCycleIndex =
-        (currentRotationCycleIndex + rotation) % rotationCycle.length;
+    final int currentRotationCycleIndex = rotationCycle.indexOf(currentPiece.rotation);
+    final int nextRotationCycleIndex = (currentRotationCycleIndex + rotation) % rotationCycle.length;
 
-    BagManagementUseCases(bagManagementRepository: bagManagementRepository)
-        .rotatePieceInBag(
+    bagCases.rotatePieceInBag(
       puzzlePiece: currentPiece,
       newRotation: rotationCycle[nextRotationCycleIndex],
     );
@@ -234,26 +255,18 @@ class SpatialTestBody extends StatelessWidget {
 
   void _move(
       {required BuildContext context, required BoardDirection direction}) {
-    final Piece piece = SelectedPieceManagementUseCases(
-        selectedPieceManagementRepository:
-        selectedPieceManagementRepository)
-        .getCurrentSelectedPiece();
+    final Piece piece = selectedCases.getCurrentSelectedPiece();
 
     if (piece.isNullPiece) return;
 
-    final Piece outPiece =
-    DpadUseCases(boardManagementRepository: boardManagementRepository)
-        .movePiece(direction: direction, puzzlePiece: piece);
+    final Piece outPiece = dpadCases.movePiece(direction: direction, puzzlePiece: piece);
 
     Provider.of<BoardUI>(context, listen: false).update();
 
     if (!outPiece.isNullPiece) {
-      BagManagementUseCases(
-          bagManagementRepository: bagManagementRepository
-      ).addToBag(puzzlePiece: outPiece);
+      bagCases.addToBag(puzzlePiece: outPiece);
 
       Provider.of<BagUI>(context, listen: false).update();
-
       Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
       Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece = outPiece;
     }
@@ -343,39 +356,44 @@ class SpatialTestBody extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        /*
-  final double scale;
-  final SelectedPieceManagementRepository selectedPieceManagementRepository;
-  final BoardManagementRepository boardManagementRepository;
-  final BagManagementRepository bagManagementRepository;
-  final SoundManagementRepository soundManagementRepository;
-  final SpatialManagementRepository spatialManagementRepository;
-                         */
-
                         // obtener pieza
-                        final Piece piece = SelectedPieceManagementUseCases(
-                            selectedPieceManagementRepository:
-                            selectedPieceManagementRepository
-                        ).getCurrentSelectedPiece();
+                        final Piece piece = selectedCases.getCurrentSelectedPiece();
 
                         // revisar si esta en bolsa
                         if (!piece.isNullPiece && piece.location == PieceLocation.BAG) {
                           print("pieza valida en lugar valido");
 
-                          BagManagementUseCases(
-                              bagManagementRepository: bagManagementRepository
-                          ).removeFromBag(piece: piece);
+                          // Remover de la bolsa
+                          bagCases.removeFromBag(
+                              piece: piece
+                          );
 
-                          SpatialManagementUseCases(
-                            spatialManagementRepository: spatialManagementRepository
-                          ).addPieceToBoard(
+                          // Agregar a board
+                          spatialCases.addPieceToBoard(
                               piece: piece, row: 0, col: 0
                           );
 
-                          Provider.of<BagUI>(context, listen: false).update();
-                        }
+                          if (spatialCases.isPuzzleCorrect()) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Yey',
+                                    style: Theme.of(context).textTheme.subtitle1,
+                                  ),
+                                  content: Text(
+                                    'Level complete!',
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                );
+                              },
+                            );
+                          }
 
-                        // colocar
+                          Provider.of<BagUI>(context, listen: false).update();
+                          Provider.of<SpatialUI>(context, listen: false).update();
+                        }
                       },
                       child: const Text(
                         "Add piece to puzzle",
@@ -386,7 +404,40 @@ class SpatialTestBody extends StatelessWidget {
                     width: 20,
                   ),
                   ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () {
+                        // obtener pieza
+                        final Piece piece = selectedCases.getCurrentSelectedPiece();
+
+                        // revisar si esta en bolsa
+                        if (!piece.isNullPiece && piece.location == PieceLocation.SPATIAL_BOARD) {
+                          print("removiendo pieza");
+
+                          //Piece basePiece = spatialCases.getBasePieceByPosition(row: piece.y, col: piece.x);
+                          spatialCases.removePieceFromBoard(piece: piece);
+                          bagCases.addToBag(puzzlePiece: piece);
+
+                          if (spatialCases.isPuzzleCorrect()) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Yey',
+                                    style: Theme.of(context).textTheme.subtitle1,
+                                  ),
+                                  content: Text(
+                                    'Level complete!',
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                );
+                              },
+                            );
+                          }
+
+                          Provider.of<BagUI>(context, listen: false).update();
+                          Provider.of<SpatialUI>(context, listen: false).update();
+                        }
+                      },
                       child: const Text(
                         "Remove piece from puzzle",
                       )

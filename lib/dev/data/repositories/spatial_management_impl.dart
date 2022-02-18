@@ -13,14 +13,77 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
 
   @override
   bool addPiece({required Piece piece, required int row, required int col}) {
-    print("agregando pieza");
-    return false;
+    if (checkIfEmptySpace(piece: piece, row: row, col: col)) {
+
+      piece.location = PieceLocation.SPATIAL_BOARD;
+      piece.y = row;
+      piece.x = col;
+
+      switch(piece.shape) {
+        case PieceShape.DOT: {
+          _model.userBoard[row][col] = piece;
+          break;
+        }
+        case PieceShape.SQUARE: {
+          _model.userBoard[row][col] = piece;
+          _model.userBoard[row+1][col] = piece;
+          _model.userBoard[row][col+1] = piece;
+          _model.userBoard[row+1][col+1] = piece;
+          break;
+        }
+        case PieceShape.LINE: {
+          if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
+            // horizontal
+            _model.userBoard[row][col] = piece;
+            _model.userBoard[row][col+1] = piece;
+
+          } else {
+            // vertical
+            _model.userBoard[row][col] = piece;
+            _model.userBoard[row+1][col] = piece;
+          }
+          break;
+        }
+        case PieceShape.L: {
+
+          switch (piece.rotation) {
+
+            case PieceRotation.UP: {
+              _model.userBoard[row][col] = piece;
+              _model.userBoard[row+1][col] = piece;
+              _model.userBoard[row+1][col+1] = piece;
+              break;
+            }
+            case PieceRotation.DOWN: {
+              _model.userBoard[row][col] = piece;
+              _model.userBoard[row][col+1] = piece;
+              _model.userBoard[row+1][col+1] = piece;
+              break;
+            }
+            case PieceRotation.LEFT: {
+              _model.userBoard[row][col+1] = piece;
+              _model.userBoard[row+1][col] = piece;
+              _model.userBoard[row+1][col+1] = piece;
+              break;
+            }
+            case PieceRotation.RIGHT: {
+              _model.userBoard[row][col] = piece;
+              _model.userBoard[row][col+1] = piece;
+              _model.userBoard[row+1][col] = piece;
+              break;
+            }
+          }
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool checkIfEmptySpace({required Piece piece, required int row, required int col}) {
 
     switch(piece.shape) {
-
       case PieceShape.DOT:
         return _model.userBoard[row][col].isNullPiece;
       case PieceShape.SQUARE:
@@ -49,12 +112,39 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
           );
         }
       }
-      case PieceShape.L:
-        // TODO: piezas L
-        break;
-    }
+      case PieceShape.L: {
+        // Sin importar la rotación ocupa 2x2 en alguna parte
+        if (row > 6 || col > 6) return false;
 
-    return false;
+        switch (piece.rotation) {
+
+          case PieceRotation.UP:
+            return (
+                _model.userBoard[row][col].isNullPiece &&
+                    _model.userBoard[row+1][col].isNullPiece &&
+                    _model.userBoard[row+1][col+1].isNullPiece
+            );
+          case PieceRotation.DOWN:
+            return (
+                _model.userBoard[row][col].isNullPiece &&
+                    _model.userBoard[row][col+1].isNullPiece &&
+                    _model.userBoard[row+1][col+1].isNullPiece
+            );
+          case PieceRotation.LEFT:
+            return (
+                _model.userBoard[row][col+1].isNullPiece &&
+                    _model.userBoard[row+1][col].isNullPiece &&
+                    _model.userBoard[row+1][col+1].isNullPiece
+            );
+          case PieceRotation.RIGHT:
+            return (
+                _model.userBoard[row][col].isNullPiece &&
+                    _model.userBoard[row][col+1].isNullPiece &&
+                    _model.userBoard[row+1][col].isNullPiece
+            );
+        }
+      }
+    }
   }
 
   @override
@@ -62,7 +152,7 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
     int empty = 0;
 
     for (int row = 0; row < 6; row++) {
-      for (int col = 0; col < 6; row++) {
+      for (int col = 0; col < 6; col++) {
         Piece targetPiece = _model.targetBoard[row][col];
         Piece userPiece = _model.userBoard[row][col];
 
@@ -76,7 +166,7 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
   @override
   bool compareBoards() {
     for (int row = 0; row < 6; row++) {
-      for (int col = 0; col < 6; row++) {
+      for (int col = 0; col < 6; col++) {
         Piece targetPiece = _model.targetBoard[row][col];
         Piece userPiece = _model.userBoard[row][col];
 
@@ -101,8 +191,77 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
 
   @override
   Piece removePiece({required Piece piece}) {
-    // TODO: implement removePiece
-    throw UnimplementedError();
-  }
+    // posicion actual de pieza
+    int row = piece.y;
+    int col = piece.x;
 
+    piece.location = PieceLocation.BAG;
+
+    switch (piece.shape) {
+      case PieceShape.DOT:
+        {
+          _model.userBoard[row][col] = nullPiece;
+        }
+        break;
+      case PieceShape.SQUARE:
+        {
+          _model.userBoard[row][col] = nullPiece;
+          _model.userBoard[row][col + 1] = nullPiece;
+          _model.userBoard[row + 1][col] = nullPiece;
+          _model.userBoard[row + 1][col + 1] = nullPiece;
+        }
+        break;
+      case PieceShape.LINE:
+        {
+          // horizontal
+          if (piece.rotation == PieceRotation.UP ||
+              piece.rotation == PieceRotation.DOWN) {
+            _model.userBoard[row][col] = nullPiece;
+            _model.userBoard[row][col + 1] = nullPiece;
+
+            // vertical
+          } else if (piece.rotation == PieceRotation.LEFT ||
+              piece.rotation == PieceRotation.RIGHT) {
+            _model.userBoard[row][col] = nullPiece;
+            _model.userBoard[row + 1][col] = nullPiece;
+          }
+        }
+        break;
+      case PieceShape.L:
+        {
+          switch (piece.rotation) {
+            case PieceRotation.UP:
+              {
+                _model.userBoard[row][col] = nullPiece;
+                _model.userBoard[row + 1][col] = nullPiece;
+                _model.userBoard[row + 1][col + 1] = nullPiece;
+              }
+              break;
+            case PieceRotation.DOWN:
+              {
+                _model.userBoard[row][col] = nullPiece;
+                _model.userBoard[row][col + 1] = nullPiece;
+                _model.userBoard[row + 1][col + 1] = nullPiece;
+              }
+              break;
+            case PieceRotation.LEFT:
+              {
+                _model.userBoard[row][col + 1] = nullPiece;
+                _model.userBoard[row + 1][col] = nullPiece;
+                _model.userBoard[row + 1][col + 1] = nullPiece;
+              }
+              break;
+            case PieceRotation.RIGHT:
+              {
+                _model.userBoard[row][col] = nullPiece;
+                _model.userBoard[row][col + 1] = nullPiece;
+                _model.userBoard[row + 1][col] = nullPiece;
+              }
+              break;
+          }
+        }
+    }
+
+    return piece;
+  }
 }

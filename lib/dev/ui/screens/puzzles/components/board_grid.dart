@@ -24,8 +24,6 @@ class BoardGrid extends StatefulWidget {
 
   final Function moveUp, moveDown, moveLeft, moveRight;
 
-  // TODO: Inicializar usecases
-
   const BoardGrid(
       {required this.board,
       required this.selectedManager,
@@ -47,10 +45,28 @@ class _BoardGridState extends State<BoardGrid> {
   late final AudioPlayer player;
   final GlobalKey _key = GlobalKey();
 
+  late final BoardGridUseCases boardCases;
+  late final SelectedPieceManagementUseCases selectedCases;
+  late final SoundManagementUseCases soundCases;
+
   @override
   void initState() {
     super.initState();
     this.player = AudioPlayer();
+
+    boardCases = BoardGridUseCases(
+        boardManagementRepository: BoardManagementRepositoryImpl(
+            board:widget.board
+        )
+    );
+
+    selectedCases = SelectedPieceManagementUseCases(
+        selectedPieceManagementRepository: widget.selectedManager
+    );
+
+    soundCases = SoundManagementUseCases(
+        soundManagementRepository: widget.soundManagementRepository
+    );
   }
 
   @override
@@ -62,30 +78,20 @@ class _BoardGridState extends State<BoardGrid> {
   Piece selectPieceOnClick(int row, int col) {
     // Una pieza puede ocupar varias casillas
     // Obtiene la pieza base
-    Piece piece = BoardGridUseCases(
-        boardManagementRepository: BoardManagementRepositoryImpl(
-            board:widget.board
-        )
-    ).getBasePieceByPosition(row: row, col: col);
+    Piece piece = boardCases.getBasePieceByPosition(row: row, col: col);
 
     if (piece.isNullPiece) {
       // Si fue una casilla vacía
       // Deseleccionar
-      SelectedPieceManagementUseCases(
-          selectedPieceManagementRepository: widget.selectedManager
-      ).unselectPiece();
+      selectedCases.unselectPiece();
     } else {
       // Si fue una pieza válida
       // Seleccionar
-      SelectedPieceManagementUseCases(
-          selectedPieceManagementRepository: widget.selectedManager
-      ).selectPiece(puzzlePiece: piece);
+      selectedCases.selectPiece(puzzlePiece: piece);
 
       if (widget.boardType == BoardType.SOUND) {
         if (piece.type == PieceType.AUDIO) {
-          SoundManagementUseCases(
-              soundManagementRepository: widget.soundManagementRepository
-          ).playPieceSound(
+          soundCases.playPieceSound(
               player: player,
               piece: piece
           );
@@ -109,8 +115,7 @@ class _BoardGridState extends State<BoardGrid> {
   @override
   Widget build(BuildContext context) {
     // Obtener la pieza seleccionada
-    Piece selPiece =
-        Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece;
+    Piece selPiece = Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece;
 
     // Lista de 64 casillas representando al board
     List<Container> cuadritos = List.generate(64, (_) => Container());
@@ -156,51 +161,6 @@ class _BoardGridState extends State<BoardGrid> {
           }
         }
       }
-    }
-
-    Piece selectPieceOnClick(int row, int col) {
-      // Una pieza puede ocupar varias casillas
-      // Obtiene la pieza base
-      Piece piece = BoardGridUseCases(
-              boardManagementRepository:
-                  BoardManagementRepositoryImpl(board: widget.board))
-          .getBasePieceByPosition(row: row, col: col);
-
-      if (piece.isNullPiece) {
-        // Si fue una casilla vacía
-        // Deseleccionar
-        SelectedPieceManagementUseCases(
-                selectedPieceManagementRepository: widget.selectedManager)
-            .unselectPiece();
-      } else {
-        // Si fue una pieza válida
-        // Seleccionar
-        SelectedPieceManagementUseCases(
-                selectedPieceManagementRepository: widget.selectedManager)
-            .selectPiece(puzzlePiece: piece);
-
-        if (widget.boardType == BoardType.SOUND) {
-          if (piece.type == PieceType.AUDIO) {
-            SoundManagementUseCases(
-                    soundManagementRepository: widget.soundManagementRepository)
-                .playPieceSound(player: player, piece: piece);
-          }
-        }
-      }
-
-      return piece;
-    }
-
-    void updateProvidersAfterClick(Piece piece) {
-      // Se hizo click en tablero, desactivar rotación y selección de bag
-      Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
-      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectPiece =
-          piece;
-
-      // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
-      Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece =
-          piece;
-      Provider.of<BoardUI>(context, listen: false).update();
     }
 
     return Container(
