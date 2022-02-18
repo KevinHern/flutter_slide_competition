@@ -33,10 +33,16 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
+  # UI Stuff
+  google_fonts: ^2.3.1
   cupertino_icons: ^1.0.2
 
-  provider: ^6.0.2
+  # Puzzle related
   just_audio: ^0.9.20
+
+  # State Management
+  provider: ^6.0.2
 
 dev_dependencies:
   flutter_test:
@@ -66,10 +72,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   assets:
+    # Images
     - assets/mansion.jpg
     - assets/happy_ghost.jpg
-    - assets/statue.jpg
-    - assets/guitar.jpg
     - assets/creepy_room1.jpg
     - assets/creepy_room2.jpg
     - assets/creepy_room3.jpg
@@ -77,6 +82,25 @@ flutter:
     - assets/creepy_room5.jpg
     - assets/puzzle_spatial.png
     - assets/puzzle_sound.png
+    - assets/wood_texture.png
+
+    # Sound related Images
+    - assets/guitar.png
+    - assets/flute.png
+    - assets/harp.png
+    - assets/ocarina.png
+    - assets/piano.png
+    - assets/violonchelo.png
+
+    # Spatial related Images
+    - assets/pattern1.png
+    - assets/pattern2.png
+    - assets/pattern3.png
+    - assets/pattern4.png
+    - assets/sculpture2.png
+    - assets/statue.png
+
+    # Icons
     - assets/icons/up_arrow.png
     - assets/icons/right_arrow.png
     - assets/icons/down_arrow.png
@@ -92,6 +116,13 @@ flutter:
     - assets/icons/L-right.png
     - assets/icons/square.png
     - assets/icons/free.png
+    - assets/icons/add.png
+    - assets/icons/remove.png
+    - assets/icons/remove_all.png
+    - assets/icons/sound.png
+    - assets/icons/shift.png
+
+    # Sounds
     - assets/sounds/do.wav
     - assets/sounds/re.wav
     - assets/sounds/mi.wav
