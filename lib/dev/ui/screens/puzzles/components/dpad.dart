@@ -1,9 +1,10 @@
 // Basic Imports
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/puzzle_button.dart';
 
 class DPad extends StatelessWidget {
-  final double scale;
+  final double scale, elevation;
   final double height = 40, width = 40;
   final double padding = 5;
   final Color color;
@@ -16,7 +17,8 @@ class DPad extends StatelessWidget {
       required this.rightPress,
       required this.downPress,
       required this.leftPress,
-      this.color = Colors.green,
+      this.elevation = 10.0,
+      this.color = const Color(0xFF2F7AC0),
       Key? key})
       : super(key: key);
 
@@ -37,6 +39,7 @@ class DPad extends StatelessWidget {
               scale: this.scale,
               height: this.height,
               width: this.width,
+              elevation: this.elevation,
               iconName: 'left_arrow',
               color: this.color,
               onPressed: (this.isActive) ? () => this.leftPress() : null,
@@ -59,6 +62,7 @@ class DPad extends StatelessWidget {
               scale: this.scale,
               height: this.height,
               width: this.width,
+              elevation: this.elevation,
               iconName: 'up_arrow',
               color: this.color,
               onPressed: (this.isActive) ? () => this.upPress() : null,
@@ -66,9 +70,32 @@ class DPad extends StatelessWidget {
             SizedBox(
               height: this.padding * this.scale,
             ),
-            SizedBox(
-              height: this.height * this.scale,
-              width: this.width * this.scale,
+            Material(
+              elevation: this.elevation,
+              color: Colors.transparent,
+              shadowColor: this.color,
+              shape: const CircleBorder(),
+              child: SizedBox(
+                height: this.height * this.scale,
+                width: this.width * this.scale,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF9CCCFC),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      width: 1.5,
+                      color: this.color.withOpacity(0.75),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: this.color,
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               height: this.padding * this.scale,
@@ -77,6 +104,7 @@ class DPad extends StatelessWidget {
               scale: this.scale,
               height: this.height,
               width: this.width,
+              elevation: this.elevation,
               iconName: 'down_arrow',
               color: this.color,
               onPressed: (this.isActive) ? () => this.downPress() : null,
@@ -99,6 +127,7 @@ class DPad extends StatelessWidget {
               scale: this.scale,
               height: this.height,
               width: this.width,
+              elevation: this.elevation,
               iconName: 'right_arrow',
               color: this.color,
               onPressed: (this.isActive) ? () => this.rightPress() : null,

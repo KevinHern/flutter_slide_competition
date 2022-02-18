@@ -2,30 +2,30 @@
 import 'package:flutter/material.dart';
 
 // Models
-import 'package:flutter_slide_competition/prototype/data/models/level_manager.dart';
-import 'package:flutter_slide_competition/prototype/data/models/puzzle.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
+import 'package:flutter_slide_competition/dev/data/models/puzzle.dart';
 
 // Repositories
-import 'package:flutter_slide_competition/prototype/domain/repositories/level_management_contract.dart';
-import 'package:flutter_slide_competition/prototype/domain/repositories/puzzle_selection_contract.dart';
-import 'package:flutter_slide_competition/prototype/data/repositories/level_management_impl.dart';
-import 'package:flutter_slide_competition/prototype/data/repositories/puzzle_selection_impl.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/level_management_contract.dart';
+import 'package:flutter_slide_competition/dev/domain/repositories/puzzle_selection_contract.dart';
+import 'package:flutter_slide_competition/dev/data/repositories/level_management_impl.dart';
+import 'package:flutter_slide_competition/dev/data/repositories/puzzle_selection_impl.dart';
 
 // Screens
-import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/auditive_puzzle.dart';
-import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/forced_puzzle.dart';
-import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/select_puzzle.dart';
-import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/spatial_puzzle.dart';
-import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/pre_puzzle.dart';
-import 'package:flutter_slide_competition/prototype/ui/screens/puzzles/post_puzzle.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/auditive_puzzle.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/forced_puzzle.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/select_puzzle.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/spatial_puzzle.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/pre_puzzle.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/post_puzzle.dart';
 
 // State Management
-import 'package:flutter_slide_competition/prototype/ui/models/screen_manager.dart';
+import 'package:flutter_slide_competition/dev/ui/models/screen_manager.dart';
 import 'package:provider/provider.dart';
 
 // Utils
-import 'package:flutter_slide_competition/prototype/ui/utils/my_utils.dart';
-import 'package:flutter_slide_competition/prototype/ui/utils/pretty_text.dart';
+import 'package:flutter_slide_competition/dev/ui/utils/my_utils.dart';
+import 'package:flutter_slide_competition/dev/ui/utils/pretty_text.dart';
 
 List<String> texts = [
   "",
@@ -109,17 +109,12 @@ class PuzzleBody extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Espaciador
-                  SizedBox(
-                    height: MyUtils.getTopSpacerSize(context: context),
-                  ),
-
                   // Titulo del room
                   const PuzzleHeader(),
 
                   // SwitchBody (pre, select, forced, auditive, spatial)
                   SizedBox(
-                    height: MyUtils.getSwitchBodyHeight(context: context),
+                    height: MyUtils.getSwitchBodyHeight(context: context) * 1.5,
                     child: SwitchBody(
                       puzzleRepository: this.puzzleRepository,
                       levelManagementRepository: this.levelManagementRepository,
@@ -141,15 +136,16 @@ class PuzzleHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: PrettyText(
         'Room #' +
             Provider.of<ValueNotifier<int>>(context, listen: true)
                 .value
                 .toString(),
-        size: 36,
+        size: 70,
         thickness: 6,
         background: Colors.transparent,
+        fontFamily: Theme.of(context).textTheme.headline1!.fontFamily,
       ),
     );
   }

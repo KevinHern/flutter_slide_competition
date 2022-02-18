@@ -25,12 +25,13 @@ import 'package:flutter_slide_competition/dev/ui/models/sound_slotUI.dart';
 
 // Extra Widgets
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/bag_widget.dart';
+import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/puzzle_button.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/rotation.dart';
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/components/sound_slot.dart';
 
 // State Management
 import 'package:flutter_slide_competition/dev/ui/models/bagUI.dart';
-import 'package:flutter_slide_competition/dev/ui/models/toggle_buttons.dart';
+import 'package:flutter_slide_competition/dev/ui/models/toggle_managerUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
 import 'package:provider/provider.dart';
 
@@ -264,6 +265,8 @@ class BagSoundTestBody extends StatelessWidget {
   final BagManagementRepository bagManagementRepository;
   final SoundManagementRepository soundManagementRepository;
 
+  static const scaleInteractionButtons = 1.25;
+
   const BagSoundTestBody(
       {required this.scale,
       required this.selectedPieceManagementRepository,
@@ -292,7 +295,9 @@ class BagSoundTestBody extends StatelessWidget {
       children: [
         // UI widgets definitions in: components → sound_slot.dart
         // Provider UI model definition in: ui → models → sound_slotui.dar
-        const SoundSlot(),
+        const SoundSlot(
+          scale: 2.0,
+        ),
         const SizedBox(
           height: 20,
         ),
@@ -307,7 +312,7 @@ class BagSoundTestBody extends StatelessWidget {
           bagType: BagType.SOUND,
           bagOfPieces: Provider.of<BagUI>(context, listen: true).bag,
           toggleRotation: null,
-          height: 500,
+          height: 225,
           selectedPieceManagementRepository:
               this.selectedPieceManagementRepository,
           soundManagementRepository: this.soundManagementRepository,
@@ -318,8 +323,13 @@ class BagSoundTestBody extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
-              child: Text('Add To Slot'),
+            IconPuzzleButton(
+              scale: scaleInteractionButtons,
+              icon: 'add',
+              text: 'Add to Slot',
+              buttonColor: const Color(0xFFDFEFCA),
+              clickColor: Colors.green,
+              shadowColor: const Color(0xFFadbd99),
               onPressed: Provider.of<SoundSlotUI>(context, listen: true)
                       .soundModel
                       .isUserSetComplete
@@ -394,8 +404,13 @@ class BagSoundTestBody extends StatelessWidget {
                       }
                     },
             ),
-            ElevatedButton(
-              child: Text('Remove Last One Added'),
+            IconPuzzleButton(
+              scale: scaleInteractionButtons,
+              icon: 'remove',
+              text: 'Remove Last One Added',
+              buttonColor: const Color(0xFFf29a94),
+              clickColor: Colors.red,
+              shadowColor: const Color(0xFFbc5b56),
               onPressed: Provider.of<SoundSlotUI>(context, listen: true)
                       .soundModel
                       .isUserSetEmpty
@@ -424,8 +439,13 @@ class BagSoundTestBody extends StatelessWidget {
                       Provider.of<BagUI>(context, listen: false).update();
                     },
             ),
-            ElevatedButton(
-              child: Text('Remove All'),
+            IconPuzzleButton(
+              scale: scaleInteractionButtons,
+              icon: 'remove',
+              text: 'Remove All',
+              buttonColor: const Color(0xFFf29a94),
+              clickColor: Colors.red,
+              shadowColor: const Color(0xFFbc5b56),
               onPressed: Provider.of<SoundSlotUI>(context, listen: true)
                       .soundModel
                       .isUserSetEmpty
