@@ -120,9 +120,6 @@ class SpatialGrid extends StatelessWidget {
         );
       }
 
-      Provider.of<BagUI>(context, listen: false).update();
-      Provider.of<SpatialUI>(context, listen: false).update();
-
       return true;
     }
 
@@ -157,16 +154,23 @@ class SpatialGrid extends StatelessWidget {
           c = userPiece.color;
         }
 
+        Center child = const Center(child: Text(" "));
+        // Se coloco pieza en una casilla que debería estar vacía, marcarla con una X
         if (!userPiece.isNullPiece && targetPiece.isNullPiece) {
-          // El jugador puso una pieza en una casilla que debería quedar vacía
-          cuadritos[row*6 + col] = Container(height: 10, width: 10, color: c, child: Text("X"));
-        } else {
-          cuadritos[row*6 + col] = Container(height: 10, width: 10, color: c);
+          child = const Center(
+              child: Text(
+                "X",
+                style: TextStyle(fontSize: 24),
+              )
+          );
         }
+
+        cuadritos[row * 6 + col] = Container(height: 10, width: 10, color: c, child: child);
 
         // Pieza seleccionada en color que resalte
         if (userPiece == selPiece && !selPiece.isNullPiece) {
-          cuadritos[row * 6 + col] = Container(height: 10, width: 10, color: Colors.purpleAccent);
+          cuadritos[row * 6 + col] =
+              Container(height: 10, width: 10, color: Colors.purpleAccent, child: child);
         }
       }
     }
@@ -194,6 +198,7 @@ class SpatialGrid extends StatelessWidget {
               if (selPiece.location == PieceLocation.BAG) {
                 if (addPieceToPuzzle(context, row, col)) {
                   // Si se pudo seleccionar la pieza, terminamos
+                  updateProvidersAfterClick(context, selPiece);
                   return;
                 }
               }
