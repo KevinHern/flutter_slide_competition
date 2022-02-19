@@ -89,7 +89,7 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
         return _model.userBoard[row][col].isNullPiece;
       case PieceShape.SQUARE:
         return (
-          row < 7 && col < 7 &&
+          row < 5 && col < 5 &&
               _model.userBoard[row][col].isNullPiece &&
               _model.userBoard[row+1][col].isNullPiece &&
               _model.userBoard[row][col+1].isNullPiece &&
@@ -99,7 +99,7 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
         if (piece.rotation == PieceRotation.UP || piece.rotation == PieceRotation.DOWN) {
           // horizontal
           return (
-            col < 7 &&
+            col < 5 &&
                 _model.userBoard[row][col].isNullPiece &&
                 _model.userBoard[row][col+1].isNullPiece
           );
@@ -107,7 +107,7 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
         } else {
           // vertical
           return (
-              row < 7 &&
+              row < 5 &&
                   _model.userBoard[row][col].isNullPiece &&
                   _model.userBoard[row+1][col].isNullPiece
           );
@@ -115,7 +115,7 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
       }
       case PieceShape.L: {
         // Sin importar la rotación ocupa 2x2 en alguna parte
-        if (row > 6 || col > 6) return false;
+        if (row > 4 || col > 4) return false;
 
         switch (piece.rotation) {
 

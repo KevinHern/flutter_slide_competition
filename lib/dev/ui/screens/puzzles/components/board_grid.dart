@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/data/models/board.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
 import 'package:flutter_slide_competition/dev/data/models/piece.dart';
 import 'package:flutter_slide_competition/dev/data/repositories/board_management_impl.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece_management_contract.dart';
@@ -113,12 +114,26 @@ class _BoardGridState extends State<BoardGrid> {
     // Actualizar pieza seleccionada
     Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
     Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
-    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = piece;
 
     // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
     Provider.of<BagUI>(context, listen: false).update();
     Provider.of<BoardUI>(context, listen: false).update();
+
+    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = piece;
     Provider.of<SpatialUI>(context, listen: false).update();
+  }
+
+  void updateSoundProvidersAfterClick (Piece piece) {
+    // Desactivar rotacion
+    Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
+
+    // Actualizar pieza seleccionada
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+
+    // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
+    Provider.of<BagUI>(context, listen: false).update();
+    Provider.of<BoardUI>(context, listen: false).update();
   }
 
   @override
@@ -190,7 +205,11 @@ class _BoardGridState extends State<BoardGrid> {
                 int col = index % 8;
 
                 Piece piece = selectPieceOnClick(row, col);
-                updateProvidersAfterClick(piece);
+                if (widget.boardType == BoardType.SPATIAL) {
+                  updateProvidersAfterClick(piece);
+                } else {
+                  updateSoundProvidersAfterClick(piece);
+                }
               },
               onVerticalDragEnd: (DragEndDetails details) {
                 print(
@@ -231,7 +250,12 @@ class _BoardGridState extends State<BoardGrid> {
                 int col = index % 8;
 
                 Piece piece = selectPieceOnClick(row, col);
-                updateProvidersAfterClick(piece);
+
+                if (widget.boardType == BoardType.SPATIAL) {
+                  updateProvidersAfterClick(piece);
+                } else {
+                  updateSoundProvidersAfterClick(piece);
+                }
               },
               child: item,
             )

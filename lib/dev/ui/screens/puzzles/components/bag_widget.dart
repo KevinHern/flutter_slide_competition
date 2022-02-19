@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/data/models/bag.dart';
 import 'package:flutter_slide_competition/dev/data/models/piece.dart';
 import 'package:flutter_slide_competition/dev/data/models/sound.dart';
+import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/selected_piece_management_contract.dart';
 import 'package:flutter_slide_competition/dev/domain/repositories/sound_management_contract.dart';
 import 'package:flutter_slide_competition/dev/domain/usecases/selected_piece_usecases.dart';
@@ -22,6 +23,7 @@ import '../../../models/boardUI.dart';
 import '../../../models/selected_board_pieceUI.dart';
 import '../../../models/selected_spatial_pieceUI.dart';
 import '../../../models/spatialUI.dart';
+import 'board_grid.dart';
 
 enum BagType { SOUND, SPATIAL }
 
@@ -244,12 +246,28 @@ class _BagWidgetState extends State<BagWidget> {
     // Actualizar pieza seleccionada
     Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
     Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
-    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = piece;
 
     // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
     Provider.of<BagUI>(context, listen: false).update();
     Provider.of<BoardUI>(context, listen: false).update();
+
+    if (widget.bagType == PuzzleType.SOUND) return;
+
+    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = piece;
     Provider.of<SpatialUI>(context, listen: false).update();
+  }
+
+  void updateSoundProvidersAfterClick (Piece piece) {
+    // Desactivar rotacion
+    Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
+
+    // Actualizar pieza seleccionada
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+
+    // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
+    Provider.of<BagUI>(context, listen: false).update();
+    Provider.of<BoardUI>(context, listen: false).update();
   }
 
   @override
@@ -337,7 +355,17 @@ class _BagWidgetState extends State<BagWidget> {
                                       .getCurrentSelectedPiece();
 
                               // TODO: probar
-                              updateProvidersAfterClick(widget.bagOfPieces.pieces[index]);
+                              //updateProvidersAfterClick(widget.bagOfPieces.pieces[index]);
+
+                              if (widget.bagType == BoardType.SPATIAL) {
+                                updateProvidersAfterClick(
+                                    widget.bagOfPieces.pieces[index]
+                                );
+                              } else {
+                                updateSoundProvidersAfterClick(
+                                    widget.bagOfPieces.pieces[index]
+                                );
+                              }
 
                               // Execute the action depending on the current puzzle type
                               if (widget.bagType == BagType.SPATIAL) {
