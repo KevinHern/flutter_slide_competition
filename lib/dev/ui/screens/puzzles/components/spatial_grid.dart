@@ -107,23 +107,7 @@ class SpatialGrid extends StatelessWidget {
           piece: piece, row: row, col: col
       );
 
-      if (spatialCases.isPuzzleCorrect()) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(
-                'Yey',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              content: Text(
-                'Level complete!',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-            );
-          },
-        );
-      }
+      checkCorrectness(context);
 
       return true;
     }
@@ -159,28 +143,38 @@ class SpatialGrid extends StatelessWidget {
           piece: piece, row: row, col: col
       );
 
-      if (spatialCases.isPuzzleCorrect()) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(
-                'Yey',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              content: Text(
-                'Level complete!',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-            );
-          },
-        );
-      }
+      checkCorrectness(context);
 
       return true;
     }
 
     return false;
+  }
+
+  bool checkCorrectness (BuildContext context) {
+    if (spatialCases.isPuzzleCorrect()) {
+      Provider.of<UniversalPuzzleToggleManager>(
+          context, listen: false
+      ).showWinButton = true;
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Yey',
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            content: Text(
+              'Level complete!',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          );
+        },
+      );
+    }
+
+    return spatialCases.isPuzzleCorrect();
   }
 
   @override

@@ -15,8 +15,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  bool checkCollision(
-      {required BoardDirection direction, required Piece piece}) {
+  bool checkCollision({required BoardDirection direction, required Piece piece}) {
     // posicion actual de pieza
     int row = piece.y;
     int col = piece.x;
@@ -379,7 +378,38 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
   @override
   void createSpatialLevelOne({required board}) {
-    // TODO: implement createSpatialLevelOne
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 5,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.B,
+      ),
+      row: 3,
+      col: 3,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.AUDIO,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.C,
+      ),
+      row: 3,
+      col: 1,
+    );
   }
 
   @override
@@ -419,8 +449,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  void moveReferencesOnBoard(
-      {required BoardDirection direction, required Piece piece}) {
+  void moveReferencesOnBoard({required BoardDirection direction, required Piece piece}) {
     // posicion actual de pieza
     int row = piece.y;
     int col = piece.x;

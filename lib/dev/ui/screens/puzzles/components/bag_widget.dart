@@ -354,9 +354,6 @@ class _BagWidgetState extends State<BagWidget> {
                                   widget.selectedPieceManagementUseCases
                                       .getCurrentSelectedPiece();
 
-                              // TODO: probar
-                              //updateProvidersAfterClick(widget.bagOfPieces.pieces[index]);
-
                               if (widget.bagType == BoardType.SPATIAL) {
                                 updateProvidersAfterClick(
                                     widget.bagOfPieces.pieces[index]

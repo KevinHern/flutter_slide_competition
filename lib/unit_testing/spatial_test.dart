@@ -335,14 +335,10 @@ class SpatialTestBody extends StatelessWidget {
                 DPad(
                   scale: scale,
                   isActive: true,
-                  upPress: () =>
-                      _move(context: context, direction: BoardDirection.UP),
-                  rightPress: () =>
-                      _move(context: context, direction: BoardDirection.RIGHT),
-                  downPress: () =>
-                      _move(context: context, direction: BoardDirection.DOWN),
-                  leftPress: () =>
-                      _move(context: context, direction: BoardDirection.LEFT),
+                  upPress: () => _move(context: context, direction: BoardDirection.UP),
+                  rightPress: () => _move(context: context, direction: BoardDirection.RIGHT),
+                  downPress: () => _move(context: context, direction: BoardDirection.DOWN),
+                  leftPress: () => _move(context: context, direction: BoardDirection.LEFT),
                 ),
               ],
             ),

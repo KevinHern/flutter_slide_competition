@@ -185,12 +185,6 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
   }
 
   @override
-  bool movePiece({required Piece piece, required int row, required int col}) {
-    // TODO: implement movePiece
-    throw UnimplementedError();
-  }
-
-  @override
   Piece removePiece({required Piece piece}) {
     // posicion actual de pieza
     int row = piece.y;
@@ -264,5 +258,29 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
     }
 
     return piece;
+  }
+
+  @override
+  void createSpatialLevelOne({required SpatialManager spatialManager}) {
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 0,
+        col: 0
+    );
+  }
+
+  @override
+  void createSpatialLevelThree({required SpatialManager spatialManager}) {
+    createSpatialLevelOne(spatialManager: spatialManager);
+  }
+
+  @override
+  void createSpatialLevelTwo({required SpatialManager spatialManager}) {
+    createSpatialLevelOne(spatialManager: spatialManager);
   }
 }

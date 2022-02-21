@@ -19,6 +19,12 @@ class SoundManager {
       this._userNotes.add(Piece.createNullPiece());
   }
 
+  SoundManager.createDummySoundManager() {
+    this._soundPuzzleType = SoundType.NOTES;
+    this._template = const [MusicalNote.A, MusicalNote.B, MusicalNote.C];
+    this._userNotes = [];
+  }
+
   // Getters
   SoundType get soundPuzzleType => this._soundPuzzleType;
   List<MusicalNote> get templateNotes => this._template;

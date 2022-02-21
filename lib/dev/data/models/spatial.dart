@@ -92,8 +92,4 @@ class SpatialManager {
     // En caso se necesitara realizar verificaciones
     return true;
   }
-
-  // TODO: addPieceToUserBoard
-  // TODO: removePieceFromUserBoard
-  // TODO: removeAllPiecesFromUserBoard
 }

@@ -3,6 +3,7 @@ import 'package:flutter_slide_competition/dev/data/models/bag.dart';
 import 'package:flutter_slide_competition/dev/data/models/board.dart';
 import 'package:flutter_slide_competition/dev/data/models/selected_piece_manager.dart';
 import 'package:flutter_slide_competition/dev/data/models/sound.dart';
+import 'package:flutter_slide_competition/dev/data/models/spatial.dart';
 
 enum PuzzleLevel { LV1, LV2, LV3 }
 
@@ -68,6 +69,27 @@ class AuditivePuzzle extends Puzzle {
 }
 
 class SpatialPuzzle extends Puzzle {
+  final SoundManager _soundManager = SoundManager.createDummySoundManager();
+  final SpatialManager _spatialManager = SpatialManager();
+
   SpatialPuzzle({required PuzzleLevel puzzleLevel})
-      : super(puzzleLevel: puzzleLevel);
+      : super(puzzleLevel: puzzleLevel) {
+    switch (puzzleLevel) {
+      case PuzzleLevel.LV1:
+        print("spatial lv1");
+        break;
+      case PuzzleLevel.LV2:
+        print("spatial lv2");
+        break;
+      case PuzzleLevel.LV3:
+        print("spatial lv3");
+        break;
+      default:
+        throw Exception(
+            'Spatial Puzzle Constructor: Unknown Puzzle Level detected');
+    }
+  }
+
+  SoundManager get soundManager =>this._soundManager;
+  SpatialManager get spatialManager => this._spatialManager;
 }
