@@ -183,6 +183,9 @@ class SpatialProviders extends StatelessWidget {
       ),
       ChangeNotifierProvider<SpatialPieceManagerUI>(
           create: (context) => SpatialPieceManagerUI()
+      ),
+      ChangeNotifierProvider<UniversalPuzzleToggleManager>(
+          create: (context) => UniversalPuzzleToggleManager()
       )
     ], child: child);
   }
@@ -270,6 +273,24 @@ class SpatialTestBody extends StatelessWidget {
       Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
       Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = outPiece;
     }
+  }
+
+  // TODO: integrar a juego
+  void removeAllPieces (BuildContext context) {
+    List<Piece> lista = spatialCases.removeAllPiecesFromBoard();
+
+    lista.forEach(
+            (element) {
+              bagCases.addToBag(puzzlePiece: element);
+            }
+            );
+
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+
+    Provider.of<BagUI>(context, listen: false).update();
+    Provider.of<SpatialUI>(context, listen: false).update();
   }
 
   void removePieceFromPuzzle (BuildContext context) {
@@ -392,24 +413,25 @@ class SpatialTestBody extends StatelessWidget {
                     height: 20,
                     width: 20,
                   ),
-                  // ElevatedButton(
-                  //     onPressed: () {
-                  //       addPieceToPuzzle(context);
-                  //     },
-                  //     child: const Text(
-                  //       "Add piece to puzzle",
-                  //     )
-                  // ),
-                  // const SizedBox(
-                  //   height: 20,
-                  //   width: 20,
-                  // ),
                   ElevatedButton(
                       onPressed: () {
                         removePieceFromPuzzle(context);
                       },
                       child: const Text(
                         "Remove piece from puzzle",
+                      )
+                  ),
+                  const SizedBox(
+                    height: 20,
+                    width: 20,
+                  ),
+                  // TODO: Integrar a juego
+                  ElevatedButton(
+                      onPressed: () {
+                        removeAllPieces(context);
+                      },
+                      child: const Text(
+                        "Remove all pieces from puzzle",
                       )
                   ),
                 ],

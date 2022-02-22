@@ -376,6 +376,23 @@ class SpatialPuzzleBody extends StatelessWidget {
     }
   }
 
+  void removeAllPieces (BuildContext context) {
+    List<Piece> lista = spatialCases.removeAllPiecesFromBoard();
+
+    lista.forEach(
+            (element) {
+          bagCases.addToBag(puzzlePiece: element);
+        }
+    );
+
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = Piece.createNullPiece();
+
+    Provider.of<BagUI>(context, listen: false).update();
+    Provider.of<SpatialUI>(context, listen: false).update();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Provider.of<UniversalPuzzleToggleManager>(
@@ -512,10 +529,10 @@ class SpatialPuzzleBody extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      removePieceFromPuzzle(context);
+                      removeAllPieces(context);
                     },
                     child: const Text(
-                      "Remove piece from puzzle",
+                      "Clear board",
                     )
                 ),
               ],

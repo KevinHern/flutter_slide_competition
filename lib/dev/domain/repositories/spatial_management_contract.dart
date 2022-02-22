@@ -9,6 +9,7 @@ abstract class SpatialManagementRepository {
   bool addPiece ({required Piece piece, required int row, required int col});
   bool checkIfEmptySpace ({required Piece piece, required int row, required int col});
   Piece removePiece ({required Piece piece});
+  List<Piece> removeAllPieces ();
 
   Piece getBasePiece ({required int row, required int col});
 

@@ -283,4 +283,23 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
   void createSpatialLevelTwo({required SpatialManager spatialManager}) {
     createSpatialLevelOne(spatialManager: spatialManager);
   }
+
+  @override
+  List<Piece> removeAllPieces() {
+    List<Piece> lista = [];
+
+    for (int row = 0; row < 6; row++) {
+      for (int col = 0; col < 6; col++) {
+        Piece curr = getBasePiece(row: row, col: col);
+
+        if (!curr.isNullPiece) {
+          lista.add(
+              removePiece(piece: curr)
+          );
+        }
+      }
+    }
+
+    return lista;
+  }
 }

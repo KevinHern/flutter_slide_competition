@@ -32,6 +32,10 @@ class SpatialManagementUseCases {
 
   int getEmptySpaces() => spatialManagementRepository.checkEmptySpace();
 
+  List<Piece> removeAllPiecesFromBoard () {
+    return spatialManagementRepository.removeAllPieces();
+  }
+
   void initializeSpatialBoard({
     required SpatialManager spatialManager,
     required PuzzleLevel puzzleLevel,
