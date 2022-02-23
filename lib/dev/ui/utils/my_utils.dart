@@ -116,4 +116,39 @@ class MyUtils {
         throw Exception('Fetch Random Image: Unknown Puzzle Type detected');
     }
   }
+
+  static Future showMessage(
+      {required BuildContext context,
+      required String title,
+      required String message,
+      required Function onPressed}) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          content: Text(
+            message,
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                onPressed();
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Ok',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

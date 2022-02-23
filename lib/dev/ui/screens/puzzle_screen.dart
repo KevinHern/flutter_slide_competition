@@ -10,6 +10,7 @@ import 'package:flutter_slide_competition/dev/domain/repositories/level_manageme
 import 'package:flutter_slide_competition/dev/domain/repositories/puzzle_selection_contract.dart';
 import 'package:flutter_slide_competition/dev/data/repositories/level_management_impl.dart';
 import 'package:flutter_slide_competition/dev/data/repositories/puzzle_selection_impl.dart';
+import 'package:flutter_slide_competition/dev/ui/models/hint_managerUI.dart';
 
 // Screens
 import 'package:flutter_slide_competition/dev/ui/screens/puzzles/auditive_puzzle.dart';
@@ -115,9 +116,12 @@ class PuzzleBody extends StatelessWidget {
                   // SwitchBody (pre, select, forced, auditive, spatial)
                   SizedBox(
                     height: MyUtils.getSwitchBodyHeight(context: context) * 1.5,
-                    child: SwitchBody(
-                      puzzleRepository: this.puzzleRepository,
-                      levelManagementRepository: this.levelManagementRepository,
+                    child: GeneralPuzzleProviders(
+                      child: SwitchBody(
+                        puzzleRepository: this.puzzleRepository,
+                        levelManagementRepository:
+                            this.levelManagementRepository,
+                      ),
                     ),
                   )
                 ],
@@ -151,6 +155,29 @@ class PuzzleHeader extends StatelessWidget {
   }
 }
 
+class GeneralPuzzleProviders extends StatelessWidget {
+  final Widget child;
+
+  const GeneralPuzzleProviders({required this.child, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<NavigationManager>(
+          create: (context) =>
+              NavigationManager(currentScreen: ScreenType.PRE_PUZZLE),
+        ),
+        ChangeNotifierProvider<HintManager>(
+          create: (context) => HintManager(),
+        ),
+      ],
+      child: child,
+    );
+  }
+}
+
 class SwitchBody extends StatelessWidget {
   final PuzzleRepository puzzleRepository;
   final LevelManagementRepository levelManagementRepository;
@@ -162,61 +189,57 @@ class SwitchBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<NavigationManager>(
-      create: (context) =>
-          NavigationManager(currentScreen: ScreenType.PRE_PUZZLE),
-      child: Consumer<NavigationManager>(
-        builder: (_, navigationManager, __) {
-          switch (navigationManager.getCurrentScreen) {
+    return Consumer<NavigationManager>(
+      builder: (_, navigationManager, __) {
+        switch (navigationManager.getCurrentScreen) {
 
-            // Display 'select your puzzle' screen to the player
-            case ScreenType.SELECT_PUZZLE:
-              return SelectPuzzleScreen(
-                levelManagementRepository: this.levelManagementRepository,
-                puzzleRepository: this.puzzleRepository,
-              );
+          // Display 'select your puzzle' screen to the player
+          case ScreenType.SELECT_PUZZLE:
+            return SelectPuzzleScreen(
+              levelManagementRepository: this.levelManagementRepository,
+              puzzleRepository: this.puzzleRepository,
+            );
 
-            // Display the screen with the NPC that tells the player to go to the other puzzle
-            case ScreenType.FORCED_PUZZLE:
-              return ForcedPuzzleScreen(
-                levelManagementRepository: this.levelManagementRepository,
-                puzzleRepository: this.puzzleRepository,
-              );
+          // Display the screen with the NPC that tells the player to go to the other puzzle
+          case ScreenType.FORCED_PUZZLE:
+            return ForcedPuzzleScreen(
+              levelManagementRepository: this.levelManagementRepository,
+              puzzleRepository: this.puzzleRepository,
+            );
 
-            // Display the Auditive puzzle itself
-            case ScreenType.AUDITIVE_PUZZLE:
-              return AuditivePuzzleWidget(
-                puzzle: navigationManager.getPuzzle as AuditivePuzzle,
-                levelManagementRepository: this.levelManagementRepository,
-              );
+          // Display the Auditive puzzle itself
+          case ScreenType.AUDITIVE_PUZZLE:
+            return AuditivePuzzleWidget(
+              puzzle: navigationManager.getPuzzle as AuditivePuzzle,
+              levelManagementRepository: this.levelManagementRepository,
+            );
 
-            // Display the Spatial Puzzle
-            case ScreenType.SPATIAL_PUZZLE:
-              return SpatialPuzzleWidget(
-                puzzle: navigationManager.getPuzzle as SpatialPuzzle,
-                levelManagementRepository: this.levelManagementRepository,
-              );
+          // Display the Spatial Puzzle
+          case ScreenType.SPATIAL_PUZZLE:
+            return SpatialPuzzleWidget(
+              puzzle: navigationManager.getPuzzle as SpatialPuzzle,
+              levelManagementRepository: this.levelManagementRepository,
+            );
 
-            // Pantalla pre seleccion
-            case ScreenType.PRE_PUZZLE:
-              return PrePuzzleScreen(
-                puzzleRepository: this.puzzleRepository,
-                levelManagementRepository: this.levelManagementRepository,
-              );
+          // Pantalla pre seleccion
+          case ScreenType.PRE_PUZZLE:
+            return PrePuzzleScreen(
+              puzzleRepository: this.puzzleRepository,
+              levelManagementRepository: this.levelManagementRepository,
+            );
 
-            // Pantalla post juego
-            case ScreenType.POST_PUZZLE:
-              return PostPuzzleScreen(
-                puzzleRepository: this.puzzleRepository,
-                levelManagementRepository: this.levelManagementRepository,
-              );
+          // Pantalla post juego
+          case ScreenType.POST_PUZZLE:
+            return PostPuzzleScreen(
+              puzzleRepository: this.puzzleRepository,
+              levelManagementRepository: this.levelManagementRepository,
+            );
 
-            // Display an extra screen in case something breaks with the Navigation Manager
-            default:
-              return Container();
-          }
-        },
-      ),
+          // Display an extra screen in case something breaks with the Navigation Manager
+          default:
+            return Container();
+        }
+      },
     );
   }
 }

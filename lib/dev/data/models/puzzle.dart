@@ -44,7 +44,7 @@ class AuditivePuzzle extends Puzzle {
       case PuzzleLevel.LV1:
         this._soundManager = SoundManager(
             soundPuzzleType: soundType,
-            template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C8]);
+            template: const [MusicalNote.E, MusicalNote.D, MusicalNote.C]);
         break;
       case PuzzleLevel.LV2:
         this._soundManager = SoundManager(
@@ -54,7 +54,7 @@ class AuditivePuzzle extends Puzzle {
       case PuzzleLevel.LV3:
         this._soundManager = SoundManager(
             soundPuzzleType: soundType,
-            template: const [MusicalNote.A, MusicalNote.B, MusicalNote.C8]);
+            template: const [MusicalNote.C, MusicalNote.E, MusicalNote.G]);
         break;
       default:
         throw Exception(
@@ -90,6 +90,6 @@ class SpatialPuzzle extends Puzzle {
     }
   }
 
-  SoundManager get soundManager =>this._soundManager;
+  SoundManager get soundManager => this._soundManager;
   SpatialManager get spatialManager => this._spatialManager;
 }

@@ -44,6 +44,8 @@ import 'package:flutter_slide_competition/dev/ui/models/sound_slotUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/toggle_managerUI.dart';
 
 // Extra Widgets
+import '../../../../dev/ui/utils/my_utils.dart';
+import '../../models/hint_managerUI.dart';
 import 'components/bag_widget.dart';
 import 'components/board_grid.dart';
 import 'components/dpad.dart';
@@ -179,7 +181,8 @@ class AuditivePuzzleBody extends StatelessWidget {
       : super(key: key);
 
   void _move(
-      {required BuildContext context, required BoardDirection direction}) {
+      {required BuildContext context,
+      required BoardDirection direction}) async {
     final Piece piece = SelectedPieceManagementUseCases(
             selectedPieceManagementRepository:
                 selectedPieceManagementRepository)
@@ -200,13 +203,48 @@ class AuditivePuzzleBody extends StatelessWidget {
       Provider.of<BagUI>(context, listen: false).update();
 
       Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
-      Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece =
-          outPiece;
+      Provider.of<SelectedPieceManagerUI>(context, listen: false)
+          .selectedPiece = outPiece;
+
+      if (Provider.of<HintManager>(context, listen: false)
+          .showChangeToBagHint) {
+        await MyUtils.showMessage(
+          context: context,
+          title: 'Hint!',
+          message:
+              'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
+              'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
+              'After that, click one of those pieces.',
+          onPressed: () => Provider.of<HintManager>(context, listen: false)
+              .showChangeToBagHint = false,
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(
+      Duration.zero,
+      () async {
+        if (Provider.of<HintManager>(context, listen: false)
+            .showMovePieceHint) {
+          await MyUtils.showMessage(
+            context: context,
+            title: 'Hint!',
+            message:
+                'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
+                'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
+                'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
+                'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
+                'While the fixed pieces are pieces that are immovable at all!',
+            onPressed: () => Provider.of<HintManager>(context, listen: false)
+                .showMovePieceHint = false,
+          );
+        }
+      },
+    );
+
     return Provider.of<UniversalPuzzleToggleManager>(context, listen: true)
             .canShowWinButtonActive
         ? FinishButton(levelManagementUseCases: this.levelManagementUseCases)

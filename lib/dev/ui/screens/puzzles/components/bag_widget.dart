@@ -19,7 +19,9 @@ import 'package:provider/provider.dart';
 // State Management
 import 'package:flutter_slide_competition/dev/ui/models/bagUI.dart';
 
+import '../../../../../dev/ui/utils/my_utils.dart';
 import '../../../models/boardUI.dart';
+import '../../../models/hint_managerUI.dart';
 import '../../../models/selected_board_pieceUI.dart';
 import '../../../models/selected_spatial_pieceUI.dart';
 import '../../../models/spatialUI.dart';
@@ -239,13 +241,15 @@ class _BagWidgetState extends State<BagWidget> {
     super.dispose();
   }
 
-  void updateProvidersAfterClick (Piece piece) {
+  void updateProvidersAfterClick(Piece piece) {
     // Desactivar rotacion
     Provider.of<ToggleRotation>(context, listen: false).canRotate = true;
 
     // Actualizar pieza seleccionada
-    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
-    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece =
+        piece;
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece =
+        piece;
 
     // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
     Provider.of<BagUI>(context, listen: false).update();
@@ -253,17 +257,20 @@ class _BagWidgetState extends State<BagWidget> {
 
     if (widget.bagType == PuzzleType.SOUND) return;
 
-    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<SpatialPieceManagerUI>(context, listen: false).selectedPiece =
+        piece;
     Provider.of<SpatialUI>(context, listen: false).update();
   }
 
-  void updateSoundProvidersAfterClick (Piece piece) {
+  void updateSoundProvidersAfterClick(Piece piece) {
     // Desactivar rotacion
     Provider.of<ToggleRotation>(context, listen: false).canRotate = false;
 
     // Actualizar pieza seleccionada
-    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece = piece;
-    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece = piece;
+    Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece =
+        piece;
+    Provider.of<BoardPieceManagerUI>(context, listen: false).selectedPiece =
+        piece;
 
     // Se hizo click en tablero, actualizar colores para mostrar pieza seleccionada
     Provider.of<BagUI>(context, listen: false).update();
@@ -356,12 +363,10 @@ class _BagWidgetState extends State<BagWidget> {
 
                               if (widget.bagType == BoardType.SPATIAL) {
                                 updateProvidersAfterClick(
-                                    widget.bagOfPieces.pieces[index]
-                                );
+                                    widget.bagOfPieces.pieces[index]);
                               } else {
                                 updateSoundProvidersAfterClick(
-                                    widget.bagOfPieces.pieces[index]
-                                );
+                                    widget.bagOfPieces.pieces[index]);
                               }
 
                               // Execute the action depending on the current puzzle type
@@ -369,6 +374,24 @@ class _BagWidgetState extends State<BagWidget> {
                                 // Toggle the rotation buttons and update the buttons UI
                                 widget.toggleRotation!.canRotate = true;
                                 widget.toggleRotation!.update();
+
+                                if (Provider.of<HintManager>(context,
+                                        listen: false)
+                                    .showSpatialHint) {
+                                  await MyUtils.showMessage(
+                                    context: context,
+                                    title: 'Hint!',
+                                    message:
+                                        'Great! Now, about this puzzle called "Spatial Puzzle":\n\n'
+                                        'The goal of this puzzle is to try and fill the empty spaces with the pieces you have collected from the previous sliding puzzle. Try to use as much pieces as you wish!\n'
+                                        'Also, to fill up the empty spaces on the board to your right, click on any square of the board to your right, and the piece will be placed using its TOP LEFT CORNER as a reference.\n\n'
+                                        'Good luck!',
+                                    onPressed: () async =>
+                                        Provider.of<HintManager>(context,
+                                                listen: false)
+                                            .showSpatialHint = false,
+                                  );
+                                }
                               } else {
                                 // Play piece's sound
                                 await widget.soundManagementUseCases!
@@ -376,6 +399,26 @@ class _BagWidgetState extends State<BagWidget> {
                                         player: this.player,
                                         piece:
                                             widget.bagOfPieces.pieces[index]);
+
+                                if (Provider.of<HintManager>(context,
+                                        listen: false)
+                                    .showAuditiveHint) {
+                                  await MyUtils.showMessage(
+                                    context: context,
+                                    title: 'Hint!',
+                                    message:
+                                        'Great! Now, about this puzzle called "Sound Puzzle":\n\n'
+                                        'The goal of this puzzle is to try and match a sound pattern using the pieces you have collected.\n'
+                                        'As you notice, each piece has an associated note each time you click on them. Take note that the pattern is sequential so you MUST match correctly the sounds you hear!\n\n'
+                                        'To listen to the sound pattern you have to complete, click on the "Play Template!" button to hear all the notes, then click on a piece and add it to a slot.\n'
+                                        'Once you finish placing all the pieces, you will be notified if you correctly copied the pattern or not.\n\n'
+                                        'Good luck!',
+                                    onPressed: () => Provider.of<HintManager>(
+                                            context,
+                                            listen: false)
+                                        .showAuditiveHint = false,
+                                  );
+                                }
                               }
                             },
                           ),
