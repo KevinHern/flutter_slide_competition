@@ -15,7 +15,8 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  bool checkCollision({required BoardDirection direction, required Piece piece}) {
+  bool checkCollision(
+      {required BoardDirection direction, required Piece piece}) {
     // posicion actual de pieza
     int row = piece.y;
     int col = piece.x;
@@ -318,6 +319,459 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
   @override
   void createAudioLevelOne({required board}) {
+    // Adding Fixed Pieces
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 6,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 6,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 7,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 7,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 5,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 3,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 2,
+    );
+
+    // Adding Dummy Pieces
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 1,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 3,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 5,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 3,
+    );
+
+    // Adding Sound Pieces
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.AUDIO,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.C,
+      ),
+      row: 2,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.AUDIO,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.D,
+      ),
+      row: 5,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.AUDIO,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.E,
+      ),
+      row: 2,
+      col: 5,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.AUDIO,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+        musicalNote: MusicalNote.G,
+      ),
+      row: 5,
+      col: 5,
+    );
+  }
+
+  @override
+  void createAudioLevelTwo({required board}) {
+    // Adding Fixed Pieces
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 6,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 6,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 7,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 7,
+    );
+
+    // Adding Dummy Pieces
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 4,
+    );
+
     board.addPiece(
       piece: Piece.withDetails(
         rotation: PieceRotation.LEFT,
@@ -325,55 +779,401 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         shape: PieceShape.LINE,
         location: PieceLocation.BOARD,
       ),
-      row: 1,
-      col: 7,
+      row: 3,
+      col: 6,
     );
 
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.LEFT,
-        type: PieceType.AUDIO,
-        shape: PieceShape.LINE,
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
         location: PieceLocation.BOARD,
-        musicalNote: MusicalNote.A,
       ),
-      row: 3,
-      col: 5,
+      row: 1,
+      col: 2,
     );
+
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.LEFT,
-        type: PieceType.AUDIO,
-        shape: PieceShape.LINE,
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
         location: PieceLocation.BOARD,
-        musicalNote: MusicalNote.B,
       ),
+      row: 1,
+      col: 5,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 5,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 1,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 1,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 6,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 6,
+    );
+
+    // Placing Sound Pieces
+    board.addPiece(
+      piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.AUDIO,
+          shape: PieceShape.SQUARE,
+          location: PieceLocation.BOARD,
+          musicalNote: MusicalNote.C8),
       row: 3,
       col: 3,
     );
+
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.LEFT,
-        type: PieceType.AUDIO,
-        shape: PieceShape.LINE,
-        location: PieceLocation.BOARD,
-        musicalNote: MusicalNote.C8,
-      ),
-      row: 3,
+          rotation: PieceRotation.UP,
+          type: PieceType.AUDIO,
+          shape: PieceShape.DOT,
+          location: PieceLocation.BOARD,
+          musicalNote: MusicalNote.A),
+      row: 1,
       col: 1,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.AUDIO,
+          shape: PieceShape.LINE,
+          location: PieceLocation.BOARD,
+          musicalNote: MusicalNote.B),
+      row: 6,
+      col: 3,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.AUDIO,
+          shape: PieceShape.DOT,
+          location: PieceLocation.BOARD,
+          musicalNote: MusicalNote.G),
+      row: 6,
+      col: 6,
     );
   }
 
   @override
   void createAudioLevelThree({required board}) {
-    // TODO: implement createAudioLevelThree
-    createAudioLevelOne(board: board);
-  }
+    // Adding Fixed Pieces
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 0,
+    );
 
-  @override
-  void createAudioLevelTwo({required board}) {
-    // TODO: implement createAudioLevelTwo
-    createAudioLevelOne(board: board);
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 6,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 0,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 2,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.FIXED,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 6,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 7,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 7,
+    );
+
+    // Placing Dummy Pieces
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 3,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 3,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 5,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 5,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 5,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 1,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 2,
+    );
+
+    // Placing Sound Pieces
+    board.addPiece(
+      piece: Piece.withDetails(
+          rotation: PieceRotation.RIGHT,
+          type: PieceType.AUDIO,
+          shape: PieceShape.L,
+          location: PieceLocation.BOARD,
+          musicalNote: MusicalNote.C),
+      row: 1,
+      col: 1,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.AUDIO,
+          shape: PieceShape.L,
+          location: PieceLocation.BOARD,
+          musicalNote: MusicalNote.A),
+      row: 5,
+      col: 1,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.AUDIO,
+          shape: PieceShape.LINE,
+          location: PieceLocation.BOARD,
+          musicalNote: MusicalNote.G),
+      row: 6,
+      col: 4,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.AUDIO,
+          shape: PieceShape.DOT,
+          location: PieceLocation.BOARD,
+          musicalNote: MusicalNote.E),
+      row: 1,
+      col: 6,
+    );
   }
 
   @override
@@ -449,7 +1249,8 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
   }
 
   @override
-  void moveReferencesOnBoard({required BoardDirection direction, required Piece piece}) {
+  void moveReferencesOnBoard(
+      {required BoardDirection direction, required Piece piece}) {
     // posicion actual de pieza
     int row = piece.y;
     int col = piece.x;
