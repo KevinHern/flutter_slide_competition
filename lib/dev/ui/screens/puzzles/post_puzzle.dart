@@ -1,4 +1,6 @@
 // Basic Imports
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 // Models
@@ -23,6 +25,29 @@ class PostPuzzleScreen extends StatelessWidget {
   late final PuzzleFetchUseCase puzzleFetchUseCase;
   late final LevelManagementUseCases levelManagementUseCases;
 
+  static const List<String> textsDone = [
+    """
+    Congratulations! You have finished exploring the mansion and uncovered all of its secrets.
+    
+    Will you tell the world about them?
+    """,
+    """
+    Wow! You solved everything that this mansion had in store!
+    
+    Aren't you excited to tell somebody else?
+    """,
+    """
+    You for sure are gifted at solving mysteries. All the secrets of the mansion seem to be uncovered!
+    
+    Will let everyone else know about the mysteries?
+    """,
+    """
+    What an amazing job you have done! There are no mysteries safe from you, hehehe.
+    
+    What are you going to do next? Tell everyone about your experience?
+    """
+  ];
+
   PostPuzzleScreen({
     required PuzzleRepository puzzleRepository,
     required LevelManagementRepository levelManagementRepository,
@@ -42,7 +67,7 @@ class PostPuzzleScreen extends StatelessWidget {
           child: Column(children: [
             // Texto con sombra
             PrettyText(
-              "Congratulations! You have finished exploring the mansion and uncovered all of its secrets. Will you tell the world about them?\n\nINFO ADICIONAL - esta pantalla solo aparece después del room 5, necesitan las demás su propia pantalla POST, aparte de la PRE que aparece antes de cada room?",
+              textsDone[Random().nextInt(textsDone.length)],
               fontFamily: Theme.of(context).textTheme.subtitle1!.fontFamily,
             ),
 
