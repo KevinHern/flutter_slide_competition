@@ -492,7 +492,6 @@ class SpatialTestBody extends StatelessWidget {
     }
   }
 
-  // TODO: integrar a juego
   void removeAllPieces (BuildContext context) {
     List<Piece> lista = spatialCases.removeAllPiecesFromBoard();
 
@@ -642,7 +641,6 @@ class SpatialTestBody extends StatelessWidget {
                     height: 20,
                     width: 20,
                   ),
-                  // TODO: Integrar a juego
                   ElevatedButton(
                       onPressed: () {
                         removeAllPieces(context);

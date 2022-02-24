@@ -25,6 +25,8 @@ import 'package:flutter_slide_competition/dev/ui/utils/pretty_text.dart';
 class PrePuzzleScreen extends StatelessWidget {
   late final PuzzleFetchUseCase puzzleFetchUseCase;
   late final LevelManagementUseCases levelManagementUseCases;
+
+  // inicio del juego
   static const List<String> textsWelcome = [
     """
     Welcome! It has been a long time since I saw a the last person around here...
@@ -55,6 +57,7 @@ class PrePuzzleScreen extends StatelessWidget {
     """
   ];
 
+  // despues de un puzzle
   static const List<String> textsInterlude = [
     """
     You seem to love investigating as much as the owners loved their art!
@@ -90,7 +93,7 @@ class PrePuzzleScreen extends StatelessWidget {
     Solving stuff is your skill, isn't it?
     """,
     """
-    Keep those solutions coming! More clues are waiting, hehehe
+    Keep those solutions coming! More clues are waiting, hehehe.
     """,
     """
     Hanging out with you has been very fun! What is your next plan?
@@ -100,6 +103,7 @@ class PrePuzzleScreen extends StatelessWidget {
     """
   ];
 
+  // previo a ultimo nivel
   static const List<String> textsAlmostDone = [
     """
     You are almost ready to solve this mystery!
