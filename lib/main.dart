@@ -14,6 +14,7 @@ import 'package:flutter_slide_competition/unit_testing/unit_test_menu.dart';
 
 // UI stuff
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,13 +63,29 @@ class MyApp extends StatelessWidget {
         //'/': (context) => const WelcomeScreen(),
         '/': (context) => const UnitTestMenu(),
         '/bag_test': (context) => BagTestScreen(),
-        '/board_test': (context) => BoardTestScreen( scale: 2 ),
+        '/board_test': (context) => BoardTestScreen(scale: 2),
         '/ui_test': (context) => const UITestScreen(),
-        '/complete_test': (context) => CompleteTestScreen( scale: 2 ),
-        '/spatial_test': (context) => SpatialTestScreen( scale: 2 ),
+        '/complete_test': (context) => CompleteTestScreen(scale: 2),
+        '/spatial_test': (context) => SpatialTestScreen(scale: 2),
         '/welcome': (context) => const WelcomeScreen(),
-        '/puzzle': (context) => const PuzzleScreen(),
-        '/end': (context) => const ClosingScreen(),
+      },
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/puzzle':
+            return PageTransition(
+              child: const PuzzleScreen(),
+              type: PageTransitionType.fade,
+              settings: settings,
+              reverseDuration: const Duration(seconds: 3),
+            );
+          case '/end':
+            return PageTransition(
+              child: const ClosingScreen(),
+              type: PageTransitionType.rightToLeftWithFade,
+              settings: settings,
+              reverseDuration: const Duration(seconds: 3),
+            );
+        }
       },
     );
   }

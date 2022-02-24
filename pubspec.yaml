@@ -37,6 +37,8 @@ dependencies:
   # UI Stuff
   google_fonts: ^2.3.1
   cupertino_icons: ^1.0.2
+  page_transition: ^2.0.5
+  flutter_fadein: ^2.0.0
 
   # Puzzle related
   just_audio: ^0.9.20
@@ -83,6 +85,9 @@ flutter:
     - assets/puzzle_spatial.png
     - assets/puzzle_sound.png
     - assets/wood_texture.png
+
+    # Gifs
+    - assets/click.gif
 
     # Sound related Images
     - assets/guitar.png
