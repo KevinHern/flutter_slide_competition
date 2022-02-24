@@ -59,6 +59,9 @@ class _ButtonsSoundState extends State<ButtonsSound> {
             );
           },
         ),
+        const SizedBox(
+          width: 15,
+        ),
         IconPuzzleButton(
           scale: widget.scale,
           icon: 'sound',

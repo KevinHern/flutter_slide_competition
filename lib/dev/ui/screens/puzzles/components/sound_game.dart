@@ -114,7 +114,7 @@ class SoundGameWidget extends StatelessWidget {
                         builder: (context) {
                           return AlertDialog(
                             title: Text(
-                              'Warning',
+                              'Yey!',
                               style: Theme.of(context).textTheme.subtitle1,
                             ),
                             content: Text(
@@ -202,6 +202,9 @@ class SoundGameWidget extends StatelessWidget {
                       Provider.of<SoundSlotUI>(context, listen: false).update();
                       Provider.of<BagUI>(context, listen: false).update();
                     },
+            ),
+            const SizedBox(
+              width: 15,
             ),
             IconPuzzleButton(
               scale: 1.25,

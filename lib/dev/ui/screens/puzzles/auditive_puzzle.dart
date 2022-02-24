@@ -1,5 +1,4 @@
 // Basic Imports
-import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
@@ -216,13 +215,8 @@ class AuditivePuzzleBody extends StatelessWidget {
               'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
               'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
               'After that, click one of those pieces.',
-          onPressed: () {
-            Provider.of<HintManager>(context, listen: false)
-                .showChangeToBagHint = false;
-            Provider.of<HintManager>(context, listen: false)
-                .showClickOnChangeButton = true;
-            Provider.of<HintManager>(context, listen: false).update();
-          },
+          onPressed: () => Provider.of<HintManager>(context, listen: false)
+              .showChangeToBagHint = false,
         );
       }
     }
@@ -263,61 +257,36 @@ class AuditivePuzzleBody extends StatelessWidget {
                   children: [
                     Consumer<UniversalPuzzleToggleManager>(
                       builder: (_, universalPuzzleToggleManager, __) {
-                        return Stack(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                universalPuzzleToggleManager.showBag =
-                                    !universalPuzzleToggleManager.canShowBag;
-                                Provider.of<HintManager>(context, listen: false)
-                                    .showClickOnChangeButton = false;
-                                Provider.of<HintManager>(context, listen: false)
-                                    .update();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                elevation: 10,
-                                padding: const EdgeInsets.all(10.0),
-                                primary: const Color(0xFFFFC09F),
-                                onPrimary: const Color(0xFFFCF5C7),
-                                shadowColor: const Color(0xFFFFC09F),
+                        return ElevatedButton(
+                          onPressed: () =>
+                              universalPuzzleToggleManager.showBag =
+                                  !universalPuzzleToggleManager.canShowBag,
+                          style: ElevatedButton.styleFrom(
+                            elevation: 10,
+                            padding: const EdgeInsets.all(10.0),
+                            primary: const Color(0xFFFFC09F),
+                            onPrimary: const Color(0xFFFCF5C7),
+                            shadowColor: const Color(0xFFFFC09F),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'Change to ' +
+                                    ((universalPuzzleToggleManager.canShowBag)
+                                        ? 'bag'
+                                        : 'board'),
+                                style: Theme.of(context).textTheme.subtitle1,
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Change to ' +
-                                        ((universalPuzzleToggleManager
-                                                .canShowBag)
-                                            ? 'bag'
-                                            : 'board'),
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1,
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Image.asset(
-                                    'icons/shift.png',
-                                    scale: 3,
-                                  ),
-                                ],
+                              const SizedBox(
+                                width: 8,
                               ),
-                            ),
-                            Positioned(
-                              left: 50,
-                              child: Visibility(
-                                visible: Provider.of<HintManager>(context,
-                                        listen: true)
-                                    .showClickOnChangeButton,
-                                child: Image.asset(
-                                  'assets/click.gif',
-                                  height: 50,
-                                  width: 50,
-                                ),
+                              Image.asset(
+                                'icons/shift.png',
+                                scale: 3,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         );
                       },
                     ),

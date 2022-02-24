@@ -12,17 +12,17 @@ class UnitTestMenu extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pushNamed('/bag_test'),
-                child: Text('Sound Bag Test'),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pushNamed('/board_test'),
-                child: Text('Board Test'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () => Navigator.of(context).pushNamed('/bag_test'),
+              //   child: Text('Sound Bag Test'),
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // ElevatedButton(
+              //   onPressed: () => Navigator.of(context).pushNamed('/board_test'),
+              //   child: Text('Board Test'),
+              // ),
               const SizedBox(
                 height: 20,
               ),
@@ -40,13 +40,13 @@ class UnitTestMenu extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pushNamed('/ui_test'),
-                child: Text('UI Test'),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+              // ElevatedButton(
+              //   onPressed: () => Navigator.of(context).pushNamed('/ui_test'),
+              //   child: Text('UI Test'),
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pushNamed('/welcome'),
                 child: Text('Complete puzzle'),

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/data/models/sound.dart';
 
 enum PieceRotation { UP, DOWN, LEFT, RIGHT }
@@ -11,20 +12,32 @@ enum PieceShape { DOT, SQUARE, LINE, L }
 enum PieceLocation { BOARD, BAG, SPATIAL_BOARD }
 
 List<Color> someColors = [
-  Color(0xFF417858),
-  Color(0xFF4F8F7D),
-  Color(0xFF5DA4A5),
-  Color(0xFF6BA2BC),
-  Color(0xFF7A9CD2),
-  Color(0xFF8991E8),
-  Color(0xFF94B5EC),
-  Color(0xFF9ED5EF),
-  Color(0xFFA9F1F2),
-  Color(0xFFB5F5E3),
+  const Color(0xFF417858),
+  const Color(0xFF4F8F7D),
+  const Color(0xFF5DA4A5),
+  const Color(0xFF6BA2BC),
+  const Color(0xFF7A9CD2),
+  const Color(0xFF8991E8),
+  const Color(0xFF94B5EC),
+  const Color(0xFF9ED5EF),
+  const Color(0xFFA9F1F2),
+  const Color(0xFFB5F5E3),
+];
+
+List<Color> dummyColors = [
+  const Color(0xFF695309),
+  const Color(0xFF745307),
+  const Color(0xFF7F5205),
+  const Color(0xFF8A5003),
+  const Color(0xFF964B00),
+  const Color(0xFF9F4C0F),
+  const Color(0xFFA84E1F),
+  const Color(0xFFB0502E),
 ];
 
 class Piece {
-  static int totalPieces = 1;
+  static int totalPieces = 0;
+  static int dummyPieces = 0;
   late PieceRotation _rotation;
   late PieceType _type;
   late PieceShape _shape;
@@ -55,18 +68,22 @@ class Piece {
 
     if (type == PieceType.AUDIO) {
       switch (musicalNote) {
-        case MusicalNote.C: _color = Color(0xFF7B912F); break;
-        case MusicalNote.D: _color = Color(0xFFA1A738); break;
-        case MusicalNote.E: _color = Color(0xFFBEAF42); break;
-        case MusicalNote.F: _color = Color(0xFFD4AD4C); break;
-        case MusicalNote.G: _color = Color(0xFFE9A656); break;
-        case MusicalNote.A: _color = Color(0xFFEF986F); break;
-        case MusicalNote.B: _color = Color(0xFFF49388); break;
-        case MusicalNote.C8: _color = Color(0xFFF8A3AD); break;
-        default: _color = Color(0xFF000000);
+        case MusicalNote.C: _color = const Color(0xFF7B912F); break;
+        case MusicalNote.D: _color = const Color(0xFFA1A738); break;
+        case MusicalNote.E: _color = const Color(0xFFBEAF42); break;
+        case MusicalNote.F: _color = const Color(0xFFD4AD4C); break;
+        case MusicalNote.G: _color = const Color(0xFFE9A656); break;
+        case MusicalNote.A: _color = const Color(0xFFEF986F); break;
+        case MusicalNote.B: _color = const Color(0xFFF49388); break;
+        case MusicalNote.C8: _color = const Color(0xFFF8A3AD); break;
+        default: _color = const Color(0xFF000000);
       }
     } else if (type == PieceType.SPATIAL) {
       _color = someColors[totalPieces++ % 10];
+    } else if (type == PieceType.DUMMY) {
+      _color = dummyColors[dummyPieces++ % 8];
+    } else {
+      _color = Colors.deepPurple;
     }
   }
 
@@ -76,6 +93,7 @@ class Piece {
     this._shape = PieceShape.DOT;
     this._type = PieceType.EMPTY;
     this._musicalNote = MusicalNote.NONE;
+    this._color = const Color(0xFF000000);
   }
 
   // getters
@@ -101,7 +119,6 @@ class Piece {
   set color(Color color) => this._color = color;
 
   String toString() {
-    //return "shape: ${shape} - x: ${x} - y: ${y}";
     return "shape: ${shape} type: ${type}";
   }
 
@@ -111,8 +128,3 @@ class Piece {
     return this._isSelected;
   }
 }
-
-// Clase dummy para rellenar por el null safety
-// class NullPiece extends Piece {
-//   NullPiece() : super(rotation : PieceRotation.UP);
-// }
