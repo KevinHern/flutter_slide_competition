@@ -164,17 +164,7 @@ class _BoardGridState extends State<BoardGrid> {
 
           // Si hay una pieza válida
         } else {
-          Color c = Colors.grey;
-
-          // Elegir su color según su forma
-          if (piece.type == PieceType.DUMMY) {
-            c = Colors.brown;
-          } else if (piece.type == PieceType.AUDIO ||
-              piece.type == PieceType.SPATIAL) {
-            c = piece.color;
-          } else {
-            c = Colors.deepPurple;
-          }
+          Color c = piece.color;
 
           // Y pintar el cuadro correspondiente
           cuadritos[row * 8 + col] = Container(height: 10, width: 10, color: c);
@@ -229,7 +219,11 @@ class _BoardGridState extends State<BoardGrid> {
                 int col = index % 8;
 
                 Piece piece = selectPieceOnClick(row, col);
-                updateProvidersAfterClick(piece);
+                if (widget.boardType == BoardType.SPATIAL) {
+                  updateProvidersAfterClick(piece);
+                } else {
+                  updateSoundProvidersAfterClick(piece);
+                }
               },
               onHorizontalDragEnd: (DragEndDetails details) {
                 print(

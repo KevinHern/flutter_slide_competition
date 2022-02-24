@@ -64,13 +64,111 @@ class SpatialTestScreen extends StatelessWidget {
         piece: Piece.withDetails(
           rotation: PieceRotation.LEFT,
           type: PieceType.SPATIAL,
+          shape: PieceShape.LINE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 1,
+        col: 0
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.LINE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 0
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.LINE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 1,
+        col: 5
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.LINE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 5
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 1,
+        col: 1
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.DOWN,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 1
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.SPATIAL,
           shape: PieceShape.L,
           location: PieceLocation.SPATIAL_BOARD,
         ),
         row: 0,
-        col: 0
+        col: 3
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.RIGHT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 4,
+        col: 3
     );
 
+
+
+
+
+
+
+
+    // jugables - L
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 0,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 0,
+    );
     board.addPiece(
       piece: Piece.withDetails(
         rotation: PieceRotation.LEFT,
@@ -78,31 +176,150 @@ class SpatialTestScreen extends StatelessWidget {
         shape: PieceShape.L,
         location: PieceLocation.BOARD,
       ),
-      row: 3,
+      row: 4,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 2,
+    );
+    // jugables - líneas
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 1,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 1,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 6,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 6,
+    );
+
+    // dummy
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
       col: 5,
     );
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.LEFT,
-        type: PieceType.SPATIAL,
-        shape: PieceShape.SQUARE,
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
         location: PieceLocation.BOARD,
-        musicalNote: MusicalNote.B,
       ),
-      row: 3,
-      col: 3,
+      row: 5,
+      col: 5,
     );
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.LEFT,
-        type: PieceType.AUDIO,
-        shape: PieceShape.DOT,
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
         location: PieceLocation.BOARD,
-        musicalNote: MusicalNote.C,
+      ),
+      row: 5,
+      col: 4,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 4,
+    );
+
+    // fixed en el centro
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.FIXED,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
       ),
       row: 3,
       col: 1,
     );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.FIXED,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 4,
+    );
+
+
+
+
+
+
 
     // Las piezas comienzan en board pero se mueven a bag
     selectedPieceManager =

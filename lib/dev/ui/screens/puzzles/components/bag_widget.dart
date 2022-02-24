@@ -382,10 +382,16 @@ class _BagWidgetState extends State<BagWidget> {
                                     context: context,
                                     title: 'Hint!',
                                     message:
-                                        'Great! Now, about this puzzle called "Spatial Puzzle":\n\n'
-                                        'The goal of this puzzle is to try and fill the empty spaces with the pieces you have collected from the previous sliding puzzle. Try to use as much pieces as you wish!\n'
-                                        'Also, to fill up the empty spaces on the board to your right, click on any square of the board to your right, and the piece will be placed using its TOP LEFT CORNER as a reference.\n\n'
-                                        'Good luck!',
+                                        'Great! Now is time to solve the \'Spatial Puzzle\'\n\n'
+                                        'You can rotate a piece using the buttons under the bag\n\n'
+                                        'Fill the empty spaces on the board on the right, with pieces from your bag\n'
+                                        'Click a piece on the bag, then click an empty space on the board on the right\n\n'
+                                        'If you make a mistake, click a piece and then click the bag or the new position on the board to move it'
+                                    ,
+                                        // 'Great! Now, about this puzzle called "Spatial Puzzle":\n\n'
+                                        // 'The goal of this puzzle is to try and fill the empty spaces with the pieces you have collected from the previous sliding puzzle. Try to use as much pieces as you wish!\n'
+                                        // 'Also, to fill up the empty spaces on the board to your right, click on any square of the board to your right, and the piece will be placed using its TOP LEFT CORNER as a reference.\n\n'
+                                        // 'Good luck!',
                                     onPressed: () async =>
                                         Provider.of<HintManager>(context,
                                                 listen: false)
@@ -407,12 +413,18 @@ class _BagWidgetState extends State<BagWidget> {
                                     context: context,
                                     title: 'Hint!',
                                     message:
-                                        'Great! Now, about this puzzle called "Sound Puzzle":\n\n'
-                                        'The goal of this puzzle is to try and match a sound pattern using the pieces you have collected.\n'
-                                        'As you notice, each piece has an associated note each time you click on them. Take note that the pattern is sequential so you MUST match correctly the sounds you hear!\n\n'
-                                        'To listen to the sound pattern you have to complete, click on the "Play Template!" button to hear all the notes, then click on a piece and add it to a slot.\n'
-                                        'Once you finish placing all the pieces, you will be notified if you correctly copied the pattern or not.\n\n'
-                                        'Good luck!',
+                                        'Great! Now is time to solve the \'Sound Puzzle\'\n\n'
+                                        'Use the pieces in your bag to match the sound pattern, same notes, same order\n\n'
+                                        'Click on the \'Play Template!\' to listen to the pattern that you must match\n'
+                                        'Then click a note and use the buttons to add it to a slot\n\n'
+                                        'Once you fill all slots, you will know if you matched the pattern correctly',
+
+                                        // 'Great! Now, about this puzzle called "Sound Puzzle":\n\n'
+                                        // 'The goal of this puzzle is to try and match a sound pattern using the pieces you have collected.\n'
+                                        // 'As you notice, each piece has an associated note each time you click on them. Take note that the pattern is sequential so you MUST match correctly the sounds you hear!\n\n'
+                                        // 'To listen to the sound pattern you have to complete, click on the "Play Template!" button to hear all the notes, then click on a piece and add it to a slot.\n'
+                                        // 'Once you finish placing all the pieces, you will be notified if you correctly copied the pattern or not.\n\n'
+                                        // 'Good luck!',
                                     onPressed: () => Provider.of<HintManager>(
                                             context,
                                             listen: false)

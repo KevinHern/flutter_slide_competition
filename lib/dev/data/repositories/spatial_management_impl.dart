@@ -269,19 +269,177 @@ class SpatialManagementRepositoryImpl implements SpatialManagementRepository {
           shape: PieceShape.L,
           location: PieceLocation.SPATIAL_BOARD,
         ),
-        row: 0,
-        col: 0
+        row: 1,
+        col: 1
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 1,
+        col: 3
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.DOWN,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 1
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.RIGHT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 3
     );
   }
 
   @override
   void createSpatialLevelThree({required SpatialManager spatialManager}) {
-    createSpatialLevelOne(spatialManager: spatialManager);
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.LINE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 1,
+        col: 0
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.LINE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 0
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.LINE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 1,
+        col: 5
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.LINE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 5
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 1,
+        col: 1
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.DOWN,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 1
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 0,
+        col: 3
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.RIGHT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.L,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 4,
+        col: 3
+    );
   }
 
   @override
   void createSpatialLevelTwo({required SpatialManager spatialManager}) {
-    createSpatialLevelOne(spatialManager: spatialManager);
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.LEFT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.SQUARE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 1,
+        col: 1
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.UP,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.SQUARE,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 3
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.DOWN,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.DOT,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 3,
+        col: 1
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.RIGHT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.DOT,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 4,
+        col: 2
+    );
+    spatialManager.addPieceToTargetBoard(
+        piece: Piece.withDetails(
+          rotation: PieceRotation.RIGHT,
+          type: PieceType.SPATIAL,
+          shape: PieceShape.DOT,
+          location: PieceLocation.SPATIAL_BOARD,
+        ),
+        row: 2,
+        col: 3
+    );
   }
 
   @override

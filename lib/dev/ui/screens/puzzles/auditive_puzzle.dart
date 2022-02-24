@@ -212,9 +212,13 @@ class AuditivePuzzleBody extends StatelessWidget {
           context: context,
           title: 'Hint!',
           message:
-              'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
-              'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
-              'After that, click one of those pieces.',
+              'Good going! That piece went to the bag\n'
+              'Click on the orange \'Change to bag\' button to check your available pieces\n\n'
+              'Once you are in the bag, click a piece',
+
+              // 'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
+              // 'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
+              // 'After that, click one of those pieces.',
           onPressed: () => Provider.of<HintManager>(context, listen: false)
               .showChangeToBagHint = false,
         );
@@ -233,11 +237,16 @@ class AuditivePuzzleBody extends StatelessWidget {
             context: context,
             title: 'Hint!',
             message:
-                'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
-                'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
-                'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
-                'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
-                'While the fixed pieces are pieces that are immovable at all!',
+                'Click a piece and use the directional pad to move it\n'
+                'Take the pieces out of the board from the right side, on the squares colored differently\n\n'
+                'The brown pieces cannot be taken out of the board\n'
+                'The purple pieces cannot even be moved!',
+
+                // 'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
+                // 'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
+                // 'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
+                // 'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
+                // 'While the fixed pieces are pieces that are immovable at all!',
             onPressed: () => Provider.of<HintManager>(context, listen: false)
                 .showMovePieceHint = false,
           );

@@ -299,13 +299,13 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
           if (col == 6 && row == 3) {
             switch (piece.rotation) {
               case PieceRotation.UP:
-                return (_board.board[7][3].isNullPiece);
+                return (_board.board[3][7].isNullPiece);
               case PieceRotation.DOWN:
                 return true;
               case PieceRotation.LEFT:
                 return true;
               case PieceRotation.RIGHT:
-                return (_board.board[7][4].isNullPiece);
+                return (_board.board[4][7].isNullPiece);
             }
           } else {
             return false;
@@ -1178,6 +1178,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
 
   @override
   void createSpatialLevelOne({required board}) {
+    // jugables
     board.addPiece(
       piece: Piece.withDetails(
         rotation: PieceRotation.LEFT,
@@ -1185,48 +1186,521 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         shape: PieceShape.L,
         location: PieceLocation.BOARD,
       ),
-      row: 3,
-      col: 5,
+      row: 0,
+      col: 0,
     );
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.LEFT,
+        rotation: PieceRotation.UP,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 6,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 0,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 6,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
         type: PieceType.SPATIAL,
         shape: PieceShape.SQUARE,
         location: PieceLocation.BOARD,
-        musicalNote: MusicalNote.B,
       ),
       row: 3,
       col: 3,
     );
     board.addPiece(
       piece: Piece.withDetails(
-        rotation: PieceRotation.LEFT,
-        type: PieceType.AUDIO,
-        shape: PieceShape.DOT,
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
         location: PieceLocation.BOARD,
-        musicalNote: MusicalNote.C,
+      ),
+      row: 0,
+      col: 3,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 3,
+    );
+
+    // orillas
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 4,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 4,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 2,
+    );
+
+    // cuadro central
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 4,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 4,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
       ),
       row: 3,
-      col: 1,
+      col: 0,
     );
   }
 
   @override
   void createSpatialLevelThree({required board}) {
-    // TODO: implement createSpatialLevelThree
-    createSpatialLevelOne(board: board);
+    // jugables - L
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 0,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 0,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 4,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 2,
+    );
+    // jugables - líneas
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 1,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 1,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 6,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 6,
+    );
+
+    // dummy
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 5,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 5,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 4,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 4,
+    );
+
+    // fixed en el centro
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.FIXED,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 1,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.FIXED,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 4,
+    );
   }
 
   @override
   void createSpatialLevelTwo({required board}) {
-    // TODO: implement createSpatialLevelTwo
-    createSpatialLevelOne(board: board);
+    // jugables
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 0,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 0,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 4,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 2,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 4,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 7,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.SPATIAL,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 7,
+      col: 7,
+    );
+
+    // dummy
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.LEFT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 1,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 1,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 2,
+      col: 0,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.LINE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 0,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 5,
+      col: 6,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.DUMMY,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 1,
+      col: 6,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.RIGHT,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 0,
+      col: 5,
+    );
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.DUMMY,
+        shape: PieceShape.L,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
+      col: 5,
+    );
+
+    // fixed en el centro
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.DOWN,
+        type: PieceType.FIXED,
+        shape: PieceShape.SQUARE,
+        location: PieceLocation.BOARD,
+      ),
+      row: 3,
+      col: 3,
+    );
   }
 
   @override
   Piece movePiece({required BoardDirection direction, required Piece piece}) {
     if (piece.location != PieceLocation.BOARD) {
+      print("NO! Trying to move piece that is not on board");
+      return nullPiece;
+    } else if (piece.type == PieceType.FIXED) {
+      print("NO! Trying to move fixed piece");
       return nullPiece;
     }
 
