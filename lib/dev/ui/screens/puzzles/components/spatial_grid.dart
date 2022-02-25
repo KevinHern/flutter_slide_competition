@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/bagUI.dart';
 import '../../../models/boardUI.dart';
+import '../../../models/hint_managerUI.dart';
 import '../../../models/selected_pieceUI.dart';
 import '../../../models/toggle_managerUI.dart';
 
@@ -230,44 +231,66 @@ class SpatialGrid extends StatelessWidget {
       color: Colors.white,
       width: 300,
       height: 300,
-      child: GridView.count(
-        crossAxisCount: 6,
+      child: Stack(
         children: [
-          for(var item in cuadritos) GestureDetector(
+          GridView.count(
+            crossAxisCount: 6,
+            children: [
+              for(var item in cuadritos) GestureDetector(
 
-            // Se hizo click en alguna casilla del tablero
-            onTap: () {
-              // Obtener fila y columna
-              int index = cuadritos.indexOf(item);
-              int row = index ~/ 6;
-              int col = index % 6;
+                // Se hizo click en alguna casilla del tablero
+                onTap: () {
+                  Provider.of<HintManager>(context, listen: false).showClickOnSpatialBoard = false;
+                  Provider.of<HintManager>(context, listen: false).update();
 
-              print("spatial grid: x = $col - y = $row");
+                  // Obtener fila y columna
+                  int index = cuadritos.indexOf(item);
+                  int row = index ~/ 6;
+                  int col = index % 6;
 
-              // Si hay una pieza seleccionada en la bolsa, colocarla
-              Piece selPiece = Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece;
-              if (selPiece.location == PieceLocation.BAG) {
-                if (addPieceToPuzzle(context, row, col)) {
-                  // Si se pudo seleccionar la pieza, terminamos
-                  updateProvidersAfterClick(context, selPiece);
-                  return;
-                }
-              } else if (selPiece.location == PieceLocation.SPATIAL_BOARD) {
-                if (movePieceInPuzzle(context, row, col)) {
-                  updateProvidersAfterClick(context, selPiece);
-                  return;
-                }
-              }
+                  print("spatial grid: x = $col - y = $row");
 
-              Piece piece = selectPieceOnClick(row, col);
-              updateProvidersAfterClick(context, piece);
-            },
-            child: item,
-          )
-        ],
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
-      ),
+                  // Si hay una pieza seleccionada en la bolsa, colocarla
+                  Piece selPiece = Provider.of<SelectedPieceManagerUI>(context, listen: false).selectedPiece;
+                  if (selPiece.location == PieceLocation.BAG) {
+                    if (addPieceToPuzzle(context, row, col)) {
+                      // Si se pudo seleccionar la pieza, terminamos
+                      updateProvidersAfterClick(context, selPiece);
+                      return;
+                    }
+                  } else if (selPiece.location == PieceLocation.SPATIAL_BOARD) {
+                    if (movePieceInPuzzle(context, row, col)) {
+                      updateProvidersAfterClick(context, selPiece);
+                      return;
+                    }
+                  }
+
+                  Piece piece = selectPieceOnClick(row, col);
+                  updateProvidersAfterClick(context, piece);
+                },
+                child: item,
+              )
+            ],
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 2,
+          ),
+          Positioned(
+            left: 20,
+            top: 20,
+            child: Visibility(
+              // Visibilidad de la animacion controlada por el provider
+              visible: Provider.of<HintManager>(context,
+                  listen: true)
+                  .showClickOnSpatialBoard,
+              child: Image.asset(
+                'assets/click.gif',
+                height: 40,
+                width: 40,
+              ),
+            ),
+          ),
+        ]
+      )
     );
   }
 }

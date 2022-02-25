@@ -221,11 +221,10 @@ class AuditivePuzzleBody extends StatelessWidget {
           //     'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
           //     'After that, click one of those pieces.',
           onPressed: () {
-            Provider.of<HintManager>(context, listen: false)
-                .showChangeToBagHint = false;
+            Provider.of<HintManager>(context, listen: false).showChangeToBagHint = false;
             // Muestra animacion indicando que debe ir a la bolsa
-            Provider.of<HintManager>(context, listen: false)
-                .showClickOnChangeButton = true;
+            Provider.of<HintManager>(context, listen: false).showClickOnChangeButton = true;
+            Provider.of<HintManager>(context, listen: false).showClickOnBagPiece = true;
             Provider.of<HintManager>(context, listen: false).update();
           },
         );
@@ -323,8 +322,8 @@ class AuditivePuzzleBody extends StatelessWidget {
                               .showClickOnChangeButton,
                           child: Image.asset(
                             'assets/click.gif',
-                            height: 50,
-                            width: 50,
+                            height: 40,
+                            width: 40,
                           ),
                         ),
                       ),
@@ -389,18 +388,37 @@ class AuditivePuzzleBody extends StatelessWidget {
                   ),
                 ],
               )
-                  : BagWidget(
-                bagOfPieces:
-                Provider.of<BagUI>(context, listen: true).bag,
-                toggleRotation: Provider.of<ToggleRotation>(context,
-                    listen: true),
-                height: 500,
-                width: 550,
-                selectedPieceManagementRepository:
-                selectedPieceManagementRepository,
-                soundManagementRepository:
-                this.soundManagementRepository,
-                bagType: BagType.SOUND,
+                  : Stack(
+                children : [
+                  BagWidget(
+                    bagOfPieces:
+                    Provider.of<BagUI>(context, listen: true).bag,
+                    toggleRotation: Provider.of<ToggleRotation>(context,
+                        listen: true),
+                    height: 500,
+                    width: 550,
+                    selectedPieceManagementRepository:
+                    selectedPieceManagementRepository,
+                    soundManagementRepository:
+                    this.soundManagementRepository,
+                    bagType: BagType.SOUND,
+                  ),
+                  Positioned(
+                    top: 50,
+                    left: 100,
+                    child: Visibility(
+                      // Visibilidad de la animacion controlada por el provider
+                      visible: Provider.of<HintManager>(context,
+                          listen: true)
+                          .showClickOnBagPiece,
+                      child: Image.asset(
+                        'assets/click.gif',
+                        height: 40,
+                        width: 40,
+                      ),
+                    ),
+                  ),
+                ]
               ),
             ],
           ),

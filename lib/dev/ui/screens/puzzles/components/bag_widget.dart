@@ -348,6 +348,20 @@ class _BagWidgetState extends State<BagWidget> {
                                     piece: widget.bagOfPieces.pieces[index],
                                   ),
                             onTap: () async {
+                              Provider.of<HintManager>(context, listen: false)
+                                  .showClickOnBagPiece = false;
+
+                              if (widget.bagType == BagType.SOUND) {
+                                Provider.of<HintManager>(context, listen: false)
+                                    .showClickOnAddButton = true;
+                              } else {
+                                Provider.of<HintManager>(context, listen: false)
+                                    .showClickOnSpatialBoard = true;
+                              }
+
+                              Provider.of<HintManager>(context, listen: false)
+                                  .update();
+
                               // Everytime the tile gets pressed, register the selected piece as the current piece
                               widget.selectedPieceManagementUseCases
                                   .selectPiece(
