@@ -213,9 +213,13 @@ class AuditivePuzzleBody extends StatelessWidget {
           context: context,
           title: 'Hint!',
           message:
-          'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
-              'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
-              'After that, click one of those pieces.',
+              // Mensaje al sacar una pieza
+              'Good going! You can take out as many pieces as you want.\n\n'
+              'Now you can click the \'Change to bag\' button to display the bag with all the pieces you took out.\n\n'
+              'Visit the bag, click a piece, and start solving the puzzle on the right!\n\n',
+          // 'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
+          //     'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
+          //     'After that, click one of those pieces.',
           onPressed: () {
             Provider.of<HintManager>(context, listen: false)
                 .showChangeToBagHint = false;
@@ -240,11 +244,15 @@ class AuditivePuzzleBody extends StatelessWidget {
             context: context,
             title: 'Hint!',
             message:
-            'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
-                'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
-                'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
-                'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
-                'While the fixed pieces are pieces that are immovable at all!',
+                'Click on a piece on the sliding board (left) and move the piece using the directional pad below.\n\n'
+                'Take the piece out from the board by moving it towards the right side.\n\n'
+                'The brown pieces cannot be taken out of the board. The purple ones cannot even be moved!\n\n',
+
+            // 'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
+            //     'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
+            //     'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
+            //     'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
+            //     'While the fixed pieces are pieces that are immovable at all!',
             onPressed: () => Provider.of<HintManager>(context, listen: false)
                 .showMovePieceHint = false,
           );
@@ -399,12 +407,46 @@ class AuditivePuzzleBody extends StatelessWidget {
           const SizedBox(
             width: 50,
           ),
-          SoundGameWidget(
-            soundSlotWidth: 600,
-            soundManagementRepository: soundManagementRepository,
-            bagManagementRepository: bagManagementRepository,
-            selectedPieceManagementRepository:
-            selectedPieceManagementRepository,
+          Column(
+            children: [
+              SoundGameWidget(
+                soundSlotWidth: 600,
+                soundManagementRepository: soundManagementRepository,
+                bagManagementRepository: bagManagementRepository,
+                selectedPieceManagementRepository:
+                selectedPieceManagementRepository,
+              ),
+
+              const SizedBox(
+                height: 20,
+              ),
+
+              ElevatedButton(
+                child: const Text("Help?"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueGrey,
+                ),
+                onPressed: () async {
+                  await MyUtils.showMessage(
+                    context: context,
+                    title: 'Hint!',
+                    message:
+                        'Click on a piece on the sliding board (left) and move the piece using the directional pad below.\n'
+                        'Take the piece out from the board by moving it towards the right side.\n\n'
+                        'The brown pieces cannot be taken out of the board. The purple ones cannot even be moved!\n\n'
+                        'You can take out as many pieces as you want.\n\n'
+                        'Click on the \'Change to bag\' button to display the bag with all the pieces you took out.\n\n'
+                        'Click on the \'Play Template!\' button and listen carefully to the pattern.\n'
+                        'Then click a piece from your bag to select it and listen to the sound it makes.\nYou must use three notes to match the pattern: same notes, same order!\n\n'
+                        'After you select a piece from your bag, use the buttons on the right to add them to a slot.\nOnce you fill all three slots, you will know if you matched the pattern correctly!\n\n'
+                        'If you make a mistake, use the buttons on the right to return some pieces to the bag and try again.\n\n'
+                        'Good luck!',
+                    onPressed: () {
+                    },
+                  );
+                },
+              ),
+            ]
           ),
         ],
       ),

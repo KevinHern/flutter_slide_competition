@@ -221,7 +221,7 @@ class SpatialGrid extends StatelessWidget {
         // Pieza seleccionada en color que resalte
         if (userPiece == selPiece && !selPiece.isNullPiece) {
           cuadritos[row * 6 + col] =
-              Container(height: 10, width: 10, color: Colors.purpleAccent, child: child);
+              Container(height: 10, width: 10, color: Colors.yellowAccent, child: child);
         }
       }
     }

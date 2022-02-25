@@ -51,6 +51,7 @@ import '../../models/toggle_managerUI.dart';
 import 'components/bag_widget.dart';
 import 'components/board_grid.dart';
 import 'components/dpad.dart';
+import 'components/puzzle_button.dart';
 import 'components/rotation.dart';
 import 'components/spatial_grid.dart';
 
@@ -331,9 +332,13 @@ class SpatialPuzzleBody extends StatelessWidget {
           context: context,
           title: 'Hint!',
           message:
-          'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
-              'Try clicking the orange button that says \'Change to Bag\'\nand check all the available pieces you have!\n\n'
-              'After that, click one of those pieces.',
+              // Mensaje al sacar una pieza
+              'Good going! You can take out as many pieces as you want.\n\n'
+              'Now you can click the \'Change to bag\' button to display the bag with all the pieces you took out.\n\n'
+              'Visit the bag, click a piece, and start solving the puzzle on the right!\n\n',
+          // 'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
+          //     'Try clicking the orange button that says \'Change to Bag\'\nand check all the available pieces you have!\n\n'
+          //     'After that, click one of those pieces.',
           onPressed: () {
             Provider.of<HintManager>(context, listen: false)
                 .showChangeToBagHint = false;
@@ -416,11 +421,15 @@ class SpatialPuzzleBody extends StatelessWidget {
             context: context,
             title: 'Hint!',
             message:
-            'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
-                'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
-                'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
-                'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
-                'While the fixed pieces are pieces that are immovable at all!',
+                'Click on a piece on the sliding board (left) and move the piece using the directional pad below.\n\n'
+                'Take the piece out from the board by moving it towards the right side.\n\n'
+                'The brown pieces cannot be taken out of the board. The purple ones cannot even be moved!\n\n',
+
+            // 'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
+            //     'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
+            //     'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
+            //     'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
+            //     'While the fixed pieces are pieces that are immovable at all!',
             onPressed: () => Provider.of<HintManager>(context, listen: false)
                 .showMovePieceHint = false,
           );
@@ -585,7 +594,7 @@ class SpatialPuzzleBody extends StatelessWidget {
                     height: 16,
                   ),
                   RotationButtons(
-                    scale: 1.0,
+                    scale: 2.0,
                     isActive: Provider.of<ToggleRotation>(context,
                         listen: true)
                         .canRotate,
@@ -615,13 +624,58 @@ class SpatialPuzzleBody extends StatelessWidget {
                 height: 20,
                 width: 20,
               ),
+              Row(
+                children:[
+                  IconPuzzleButton(
+                    scale: 1.5,
+                    icon: 'remove',
+                    text: 'Remove piece',
+                    onPressed: () {
+                      removePieceFromPuzzle(context);
+                    },
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  IconPuzzleButton(
+                    scale: 1.5,
+                    icon: 'remove',
+                    text: 'Remove ALL pieces',
+                    onPressed: () {
+                      removeAllPieces(context);
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
-                  onPressed: () {
-                    removeAllPieces(context);
-                  },
-                  child: const Text(
-                    "Clear board",
-                  )),
+                child: const Text("Help?"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueGrey,
+                ),
+                onPressed: () async {
+                  await MyUtils.showMessage(
+                    context: context,
+                    title: 'Hint!',
+                    message:
+                    'Click on a piece on the sliding board (left) and move the piece using the directional pad below.\n'
+                        'Take the piece out from the board by moving it towards the right side.\n\n'
+                        'The brown pieces cannot be taken out of the board. The purple ones cannot even be moved!\n\n'
+                        'You can take out as many pieces as you want.\n\n'
+                        'Click on the \'Change to bag\' button to display the bag with all the pieces you took out.\n\n'
+                        'You must fill the empty space on the spatial board (right) using pieces from your bag.\n\n'
+                        'Click on a piece to select it.\n'
+                        'You can use the buttons below the bag to rotate the piece before placing it.\n\n'
+                        'Once you are happy with the rotation, click the spatial board (right) to place the piece.\n\n'
+                        'If you make a mistake, you can click on an empty spot on the board to reposition the piece,\nor you can use the buttons below to return it to the bag.\n\n'
+                        'Good luck!',
+                    onPressed: () {
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ],

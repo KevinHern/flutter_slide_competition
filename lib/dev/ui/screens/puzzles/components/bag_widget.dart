@@ -205,7 +205,7 @@ class BagWidget extends StatefulWidget {
     this.borderColor = const Color(0xFF8A84E2),
     this.bagTileColor = const Color(0xFFAFAFDC),
     this.shadowColor = const Color(0xFF84AFE6),
-    this.selectedTileColor = const Color(0xFFEE79C3),
+    this.selectedTileColor = const Color(0xFFEEDE79),
     Key? key,
   }) : super(key: key) {
     //Initializing Use Cases
@@ -382,12 +382,14 @@ class _BagWidgetState extends State<BagWidget> {
                                     context: context,
                                     title: 'Hint!',
                                     message:
-                                        'Great! Now is time to solve the \'Spatial Puzzle\'\n\n'
-                                        'You can rotate a piece using the buttons under the bag\n\n'
-                                        'Fill the empty spaces on the board on the right, with pieces from your bag\n'
-                                        'Click a piece on the bag, then click an empty space on the board on the right\n\n'
-                                        'If you make a mistake, click a piece and then click the bag or the new position on the board to move it'
-                                    ,
+                                        'Great! Now it is time to solve the \'Spatial Puzzle\'!\n\n'
+                                        'You must fill the empty space on the spatial board (right) using pieces from your bag.\n\n'
+                                        'Click on a piece to select it.\n\n'
+                                        'You can use the buttons below the bag to rotate the piece before placing it.\n\n'
+                                        'Once you are happy with the rotation, click the spatial board (right) to place the piece.\n\n'
+                                        'If you make a mistake, you can click on an empty spot on the board to reposition the piece,\nor you can use the buttons below to return it to the bag.\n\n'
+                                        'Good luck!',
+
                                         // 'Great! Now, about this puzzle called "Spatial Puzzle":\n\n'
                                         // 'The goal of this puzzle is to try and fill the empty spaces with the pieces you have collected from the previous sliding puzzle. Try to use as much pieces as you wish!\n'
                                         // 'Also, to fill up the empty spaces on the board to your right, click on any square of the board to your right, and the piece will be placed using its TOP LEFT CORNER as a reference.\n\n'
@@ -413,11 +415,12 @@ class _BagWidgetState extends State<BagWidget> {
                                     context: context,
                                     title: 'Hint!',
                                     message:
-                                        'Great! Now is time to solve the \'Sound Puzzle\'\n\n'
-                                        'Use the pieces in your bag to match the sound pattern, same notes, same order\n\n'
-                                        'Click on the \'Play Template!\' to listen to the pattern that you must match\n'
-                                        'Then click a note and use the buttons to add it to a slot\n\n'
-                                        'Once you fill all slots, you will know if you matched the pattern correctly',
+                                        'Great! Now it is time to solve the \'Sound Puzzle\'.\n\n'
+                                        'Click on the \'Play Template!\' button and listen carefully to the pattern.\n\n'
+                                        'Then click a piece from your bag to select it and listen to the sound it makes.\nYou must use three notes to match the pattern: same notes, same order!\n\n'
+                                        'After you select a piece, use the buttons on the right to add them to a slot.\nOnce you fill all three slots, you will know if you matched the pattern correctly!\n\n'
+                                        'If you make a mistake, use the buttons on the right to return some pieces to the bag and try again.\n\n'
+                                        'Good luck!',
 
                                         // 'Great! Now, about this puzzle called "Sound Puzzle":\n\n'
                                         // 'The goal of this puzzle is to try and match a sound pattern using the pieces you have collected.\n'
