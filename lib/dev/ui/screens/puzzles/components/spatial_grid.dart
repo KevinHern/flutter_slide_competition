@@ -208,10 +208,10 @@ class SpatialGrid extends StatelessWidget {
 
         Center child = const Center(child: Text(" "));
         // Se coloco pieza en una casilla que debería estar vacía, marcarla con una X
-        if (!userPiece.isNullPiece && targetPiece.isNullPiece) {
+        if (!userPiece.isNullPiece && !targetPiece.isNullPiece) {
           child = const Center(
               child: Text(
-                "X",
+                "✔",
                 style: TextStyle(fontSize: 24),
               )
           );

@@ -14,6 +14,7 @@ import 'package:flutter_slide_competition/dev/ui/models/selected_board_pieceUI.d
 import 'package:flutter_slide_competition/dev/ui/models/selected_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/selected_spatial_pieceUI.dart';
 import 'package:flutter_slide_competition/dev/ui/models/toggle_managerUI.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
@@ -164,10 +165,12 @@ class _BoardGridState extends State<BoardGrid> {
                     height: 10,
                     width: 10,
                     color: CupertinoColors.systemGrey4,
-                    child: const Center(
+                    child: Center(
                         child: Text(
-                          "->",
-                          style: TextStyle(fontSize: 24),
+                          "⏩",
+                          style: GoogleFonts.notoSansMath(
+                            fontSize: 28
+                          ),
                         )
                     )
                 );

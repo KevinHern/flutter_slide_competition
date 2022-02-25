@@ -12,11 +12,7 @@ enum PieceShape { DOT, SQUARE, LINE, L }
 enum PieceLocation { BOARD, BAG, SPATIAL_BOARD }
 
 List<Color> someColors = [
-  const Color(0xFF417858),
-  const Color(0xFF4F8F7D),
   const Color(0xFF5DA4A5),
-  const Color(0xFF6BA2BC),
-  const Color(0xFF7A9CD2),
   const Color(0xFF8991E8),
   const Color(0xFF94B5EC),
   const Color(0xFF9ED5EF),
@@ -24,15 +20,21 @@ List<Color> someColors = [
   const Color(0xFFB5F5E3),
 ];
 
+// List<Color> dummyColors = [
+//   const Color(0xFF695309),
+//   const Color(0xFF745307),
+//   const Color(0xFF7F5205),
+//   const Color(0xFF8A5003),
+//   const Color(0xFF964B00),
+//   const Color(0xFF9F4C0F),
+//   const Color(0xFFA84E1F),
+//   const Color(0xFFB0502E),
+// ];
 List<Color> dummyColors = [
-  const Color(0xFF695309),
-  const Color(0xFF745307),
-  const Color(0xFF7F5205),
-  const Color(0xFF8A5003),
-  const Color(0xFF964B00),
-  const Color(0xFF9F4C0F),
-  const Color(0xFFA84E1F),
-  const Color(0xFFB0502E),
+const Color(0xFF502722),
+const Color(0xFF602918),
+const Color(0xFF70320D),
+const Color(0xFF824200),
 ];
 
 class Piece {
@@ -79,11 +81,11 @@ class Piece {
         default: _color = const Color(0xFF000000);
       }
     } else if (type == PieceType.SPATIAL) {
-      _color = someColors[totalPieces++ % 10];
+      _color = someColors[totalPieces++ % 6];
     } else if (type == PieceType.DUMMY) {
-      _color = dummyColors[dummyPieces++ % 8];
+      _color = dummyColors[dummyPieces++ % 4];
     } else {
-      _color = Colors.deepPurple;
+      _color = const Color(0xFF343434);
     }
   }
 
