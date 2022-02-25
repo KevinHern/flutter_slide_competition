@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/data/models/board.dart';
 import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
@@ -154,12 +155,22 @@ class _BoardGridState extends State<BoardGrid> {
         if (piece.isNullPiece) {
           // Pintar de gris
           cuadritos[row * 8 + col] =
-              Container(height: 10, width: 10, color: Colors.grey);
+              Container(height: 10, width: 10, color: CupertinoColors.systemGrey2);
 
           // O de azul si es la salida
           if (col == 7 && (row == 3 || row == 4)) {
             cuadritos[row * 8 + col] =
-                Container(height: 10, width: 10, color: Colors.blueGrey);
+                Container(
+                    height: 10,
+                    width: 10,
+                    color: CupertinoColors.systemGrey4,
+                    child: const Center(
+                        child: Text(
+                          "->",
+                          style: TextStyle(fontSize: 24),
+                        )
+                    )
+                );
           }
 
           // Si hay una pieza válida
@@ -171,7 +182,7 @@ class _BoardGridState extends State<BoardGrid> {
 
           if (piece == selPiece) {
             cuadritos[row * 8 + col] =
-                Container(height: 10, width: 10, color: Colors.purpleAccent);
+                Container(height: 10, width: 10, color: Colors.yellowAccent);
           }
         }
       }

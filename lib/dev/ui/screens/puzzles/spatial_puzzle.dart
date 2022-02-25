@@ -63,7 +63,7 @@ class SpatialPuzzleWidget extends StatelessWidget {
   late final BoardManagementRepository boardManagementRepository;
   late final BagManagementRepository bagManagementRepository;
   late final SelectedPieceManagementRepository
-      selectedPieceManagementRepository;
+  selectedPieceManagementRepository;
   late final SoundManagementRepository soundManagementRepository;
   late final SpatialManagementRepository spatialManagerRepository;
 
@@ -104,105 +104,105 @@ class SpatialPuzzleWidget extends StatelessWidget {
     );
 
     SpatialManagementUseCases(
-            spatialManagementRepository: spatialManagerRepository)
+        spatialManagementRepository: spatialManagerRepository)
         .initializeSpatialBoard(
-            spatialManager: puzzle.spatialManager,
-            puzzleLevel: puzzle.puzzleLevel);
+        spatialManager: puzzle.spatialManager,
+        puzzleLevel: puzzle.puzzleLevel);
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: SpatialProviders(
-      puzzle: this.puzzle,
-      child: Column(
-        children: [
-          Card(
-            color: Colors.white.withOpacity(0.50),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Center(
-                child: SpatialPuzzleBody(
-                  selectedPieceManagementRepository:
+          puzzle: this.puzzle,
+          child: Column(
+            children: [
+              Card(
+                color: Colors.white.withOpacity(0.50),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: SpatialPuzzleBody(
+                      selectedPieceManagementRepository:
                       this.selectedPieceManagementRepository,
-                  boardManagementRepository: this.boardManagementRepository,
-                  bagManagementRepository: this.bagManagementRepository,
-                  soundManagementRepository: this.soundManagementRepository,
-                  spatialManagementRepository: this.spatialManagerRepository,
-                  levelManagementUseCases: this.levelManagementUseCases,
+                      boardManagementRepository: this.boardManagementRepository,
+                      bagManagementRepository: this.bagManagementRepository,
+                      soundManagementRepository: this.soundManagementRepository,
+                      spatialManagementRepository: this.spatialManagerRepository,
+                      levelManagementUseCases: this.levelManagementUseCases,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    )
-        // child: Column(
-        //   children: [
-        //     Container(
-        //       color: Colors.blueGrey,
-        //       height: 400,
-        //       width: 600,
-        //       child: PrettyText("Placeholder - Espacial"),
-        //       // child: Image.asset(
-        //       //     'assets/puzzle_sound.png'
-        //       // ),
-        //     ),
-        //     const SizedBox(
-        //       height: 15,
-        //     ),
-        //     Consumer<NavigationManager>(
-        //       builder: (_, navigationManager, __) {
-        //         return ElevatedButton(
-        //           child: const Text(
-        //             "NEXT LEVEL",
-        //             style: TextStyle(
-        //               fontSize: 24,
-        //             ),
-        //           ),
-        //           style: ElevatedButton.styleFrom(
-        //             primary: Colors.blueGrey,
-        //             padding:
-        //                 const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-        //             shape: RoundedRectangleBorder(
-        //               borderRadius: BorderRadius.circular(12.0),
-        //             ),
-        //           ),
-        //           onPressed: () async {
-        //             // Check if they already completed 5 puzzles
-        //             if (await levelManagementUseCases.isGameComplete()) {
-        //               // Jump to End Screen
-        //               navigationManager.setCurrentScreen = ScreenType.POST_PUZZLE;
-        //               navigationManager.update();
-        //             } else {
-        //               navigationManager.setCurrentScreen = ScreenType.PRE_PUZZLE;
-        //
-        //               // Obtain puzzle
-        //               navigationManager.setPuzzle =
-        //                   Puzzle(puzzleLevel: PuzzleLevel.LV1);
-        //
-        //               // Update Previous Puzzle
-        //               this
-        //                   .levelManagementUseCases
-        //                   .updatePreviousPuzzle(puzzleType: PuzzleType.SPATIAL);
-        //
-        //               // Guarda un valor temporal que será usado por la pantalla PRE
-        //               this
-        //                   .levelManagementUseCases
-        //                   .updateTempType(puzzleType: PuzzleType.SPATIAL);
-        //
-        //               // Update UI
-        //               navigationManager.update();
-        //               Provider.of<ValueNotifier<int>>(context, listen: false)
-        //                   .value++;
-        //             }
-        //           },
-        //         );
-        //       },
-        //     ),
-        //   ],
-        // ),
-        );
+        )
+      // child: Column(
+      //   children: [
+      //     Container(
+      //       color: Colors.blueGrey,
+      //       height: 400,
+      //       width: 600,
+      //       child: PrettyText("Placeholder - Espacial"),
+      //       // child: Image.asset(
+      //       //     'assets/puzzle_sound.png'
+      //       // ),
+      //     ),
+      //     const SizedBox(
+      //       height: 15,
+      //     ),
+      //     Consumer<NavigationManager>(
+      //       builder: (_, navigationManager, __) {
+      //         return ElevatedButton(
+      //           child: const Text(
+      //             "NEXT LEVEL",
+      //             style: TextStyle(
+      //               fontSize: 24,
+      //             ),
+      //           ),
+      //           style: ElevatedButton.styleFrom(
+      //             primary: Colors.blueGrey,
+      //             padding:
+      //                 const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+      //             shape: RoundedRectangleBorder(
+      //               borderRadius: BorderRadius.circular(12.0),
+      //             ),
+      //           ),
+      //           onPressed: () async {
+      //             // Check if they already completed 5 puzzles
+      //             if (await levelManagementUseCases.isGameComplete()) {
+      //               // Jump to End Screen
+      //               navigationManager.setCurrentScreen = ScreenType.POST_PUZZLE;
+      //               navigationManager.update();
+      //             } else {
+      //               navigationManager.setCurrentScreen = ScreenType.PRE_PUZZLE;
+      //
+      //               // Obtain puzzle
+      //               navigationManager.setPuzzle =
+      //                   Puzzle(puzzleLevel: PuzzleLevel.LV1);
+      //
+      //               // Update Previous Puzzle
+      //               this
+      //                   .levelManagementUseCases
+      //                   .updatePreviousPuzzle(puzzleType: PuzzleType.SPATIAL);
+      //
+      //               // Guarda un valor temporal que será usado por la pantalla PRE
+      //               this
+      //                   .levelManagementUseCases
+      //                   .updateTempType(puzzleType: PuzzleType.SPATIAL);
+      //
+      //               // Update UI
+      //               navigationManager.update();
+      //               Provider.of<ValueNotifier<int>>(context, listen: false)
+      //                   .value++;
+      //             }
+      //           },
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
+    );
   }
 }
 
@@ -265,12 +265,12 @@ class SpatialPuzzleBody extends StatelessWidget {
 
   SpatialPuzzleBody(
       {required this.selectedPieceManagementRepository,
-      required this.boardManagementRepository,
-      required this.bagManagementRepository,
-      required this.soundManagementRepository,
-      required this.spatialManagementRepository,
-      required this.levelManagementUseCases,
-      Key? key})
+        required this.boardManagementRepository,
+        required this.bagManagementRepository,
+        required this.soundManagementRepository,
+        required this.spatialManagementRepository,
+        required this.levelManagementUseCases,
+        Key? key})
       : super(key: key) {
     // Usecases
     spatialCases = SpatialManagementUseCases(
@@ -288,13 +288,13 @@ class SpatialPuzzleBody extends StatelessWidget {
 
   void _rotate(
       {required BuildContext context,
-      required RotationOrientation orientation}) {
+        required RotationOrientation orientation}) {
     int rotation = (orientation == RotationOrientation.CLOCKWISE) ? 1 : -1;
 
     final Piece currentPiece = selectedCases.getCurrentSelectedPiece();
 
     final int currentRotationCycleIndex =
-        rotationCycle.indexOf(currentPiece.rotation);
+    rotationCycle.indexOf(currentPiece.rotation);
     final int nextRotationCycleIndex =
         (currentRotationCycleIndex + rotation) % rotationCycle.length;
 
@@ -307,13 +307,13 @@ class SpatialPuzzleBody extends StatelessWidget {
 
   void _move(
       {required BuildContext context,
-      required BoardDirection direction}) async {
+        required BoardDirection direction}) async {
     final Piece piece = selectedCases.getCurrentSelectedPiece();
 
     if (piece.isNullPiece) return;
 
     final Piece outPiece =
-        dpadCases.movePiece(direction: direction, puzzlePiece: piece);
+    dpadCases.movePiece(direction: direction, puzzlePiece: piece);
 
     Provider.of<BoardUI>(context, listen: false).update();
 
@@ -331,11 +331,17 @@ class SpatialPuzzleBody extends StatelessWidget {
           context: context,
           title: 'Hint!',
           message:
-              'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
-              'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
+          'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
+              'Try clicking the orange button that says \'Change to Bag\'\nand check all the available pieces you have!\n\n'
               'After that, click one of those pieces.',
-          onPressed: () => Provider.of<HintManager>(context, listen: false)
-              .showChangeToBagHint = false,
+          onPressed: () {
+            Provider.of<HintManager>(context, listen: false)
+                .showChangeToBagHint = false;
+            // Muestra animacion indicando que debe ir a la bolsa
+            Provider.of<HintManager>(context, listen: false)
+                .showClickOnChangeButton = true;
+            Provider.of<HintManager>(context, listen: false).update();
+          },
         );
       }
     }
@@ -403,14 +409,14 @@ class SpatialPuzzleBody extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(
       Duration.zero,
-      () async {
+          () async {
         if (Provider.of<HintManager>(context, listen: false)
             .showMovePieceHint) {
           await MyUtils.showMessage(
             context: context,
             title: 'Hint!',
             message:
-                'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
+            'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
                 'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
                 'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
                 'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
@@ -423,178 +429,204 @@ class SpatialPuzzleBody extends StatelessWidget {
     );
 
     return Provider.of<UniversalPuzzleToggleManager>(context, listen: true)
-            .canShowWinButtonActive
+        .canShowWinButtonActive
         ? FinishButton(levelManagementUseCases: this.levelManagementUseCases)
         : SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    Consumer<UniversalPuzzleToggleManager>(
-                      builder: (_, universalPuzzleToggleManager, __) {
-                        return ElevatedButton(
-                          onPressed: () {
-                            universalPuzzleToggleManager.showBag =
-                                !universalPuzzleToggleManager.canShowBag;
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 10,
-                            padding: const EdgeInsets.all(10.0),
-                            primary: const Color(0xFFFFC09F),
-                            onPrimary: const Color(0xFFFCF5C7),
-                            shadowColor: const Color(0xFFFFC09F),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                'Change to ' +
-                                    ((universalPuzzleToggleManager.canShowBag)
-                                        ? 'bag'
-                                        : 'board'),
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Image.asset(
-                                'icons/shift.png',
-                                scale: 3,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    (Provider.of<UniversalPuzzleToggleManager>(
-                                // operador ternario
-                                context,
-                                listen: true)
-                            .canShowBag)
-                        ? Column(
-                            // consecuencia del operador ternario
-                            children: [
-                              Card(
-                                elevation: 10,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: BoardGrid(
-                                    board: Provider.of<BoardUI>(context,
-                                            listen: true)
-                                        .board,
-                                    selectedManager:
-                                        selectedPieceManagementRepository,
-                                    soundManagementRepository:
-                                        soundManagementRepository,
-                                    boardType: BoardType.SPATIAL,
-                                    moveUp: () => _move(
-                                        context: context,
-                                        direction: BoardDirection.UP),
-                                    moveRight: () => _move(
-                                        context: context,
-                                        direction: BoardDirection.RIGHT),
-                                    moveDown: () => _move(
-                                        context: context,
-                                        direction: BoardDirection.DOWN),
-                                    moveLeft: () => _move(
-                                        context: context,
-                                        direction: BoardDirection.LEFT),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              DPad(
-                                scale: 1.5,
-                                isActive: true,
-                                upPress: () => _move(
-                                    context: context,
-                                    direction: BoardDirection.UP),
-                                rightPress: () => _move(
-                                    context: context,
-                                    direction: BoardDirection.RIGHT),
-                                downPress: () => _move(
-                                    context: context,
-                                    direction: BoardDirection.DOWN),
-                                leftPress: () => _move(
-                                    context: context,
-                                    direction: BoardDirection.LEFT),
-                              ),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              GestureDetector(
-                                  child: BagWidget(
-                                    bagOfPieces: Provider.of<BagUI>(context,
-                                            listen: true)
-                                        .bag,
-                                    toggleRotation: Provider.of<ToggleRotation>(
-                                        context,
-                                        listen: true),
-                                    height: 500,
-                                    width: 550,
-                                    selectedPieceManagementRepository:
-                                        selectedPieceManagementRepository,
-                                    soundManagementRepository:
-                                        soundManagementRepository,
-                                    bagType: BagType.SPATIAL,
-                                  ),
-                                  onTap: () {
-                                    removePieceFromPuzzle(context);
-                                  }),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              RotationButtons(
-                                scale: 1.0,
-                                isActive: Provider.of<ToggleRotation>(context,
-                                        listen: true)
-                                    .canRotate,
-                                rotateLeft: () => _rotate(
-                                    context: context,
-                                    orientation:
-                                        RotationOrientation.ANTICLOCKWISE),
-                                rotateRight: () => _rotate(
-                                    context: context,
-                                    orientation: RotationOrientation.CLOCKWISE),
-                              ),
-                            ],
-                          ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                Column(
-                  children: [
-                    SpatialGrid(
-                        spatialManager:
-                            Provider.of<SpatialUI>(context, listen: true)
-                                .spatialModel,
-                        selectedManager: selectedPieceManagementRepository),
-                    const SizedBox(
-                      height: 20,
-                      width: 20,
-                    ),
-                    ElevatedButton(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            children: [
+              Consumer<UniversalPuzzleToggleManager>(
+                builder: (_, universalPuzzleToggleManager, __) {
+                  return Stack(
+                    children: [
+                      ElevatedButton(
                         onPressed: () {
-                          removeAllPieces(context);
+                          universalPuzzleToggleManager.showBag =
+                          !universalPuzzleToggleManager.canShowBag;
+                          // Inicialmente no muestra animacion
+                          Provider.of<HintManager>(context, listen: false)
+                              .showClickOnChangeButton = false;
+                          Provider.of<HintManager>(context, listen: false)
+                              .update();
                         },
-                        child: const Text(
-                          "Clear board",
-                        )),
-                  ],
-                ),
-              ],
-            ),
-          );
+                        style: ElevatedButton.styleFrom(
+                          elevation: 10,
+                          padding: const EdgeInsets.all(10.0),
+                          primary: const Color(0xFFFFC09F),
+                          onPrimary: const Color(0xFFFCF5C7),
+                          shadowColor: const Color(0xFFFFC09F),
+                        ),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              'Change to ' +
+                                  ((universalPuzzleToggleManager
+                                      .canShowBag)
+                                      ? 'bag'
+                                      : 'board'),
+                              style:
+                              Theme.of(context).textTheme.subtitle1,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Image.asset(
+                              'icons/shift.png',
+                              scale: 3,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        left: 50,
+                        child: Visibility(
+                          // Visibilidad de la animacion controlada por el provider
+                          visible: Provider.of<HintManager>(context,
+                              listen: true)
+                              .showClickOnChangeButton,
+                          child: Image.asset(
+                            'assets/click.gif',
+                            height: 50,
+                            width: 50,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              (Provider.of<UniversalPuzzleToggleManager>(
+                // operador ternario
+                  context,
+                  listen: true)
+                  .canShowBag)
+                  ? Column(
+                // consecuencia del operador ternario
+                children: [
+                  Card(
+                    elevation: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BoardGrid(
+                        board: Provider.of<BoardUI>(context,
+                            listen: true)
+                            .board,
+                        selectedManager:
+                        selectedPieceManagementRepository,
+                        soundManagementRepository:
+                        soundManagementRepository,
+                        boardType: BoardType.SPATIAL,
+                        moveUp: () => _move(
+                            context: context,
+                            direction: BoardDirection.UP),
+                        moveRight: () => _move(
+                            context: context,
+                            direction: BoardDirection.RIGHT),
+                        moveDown: () => _move(
+                            context: context,
+                            direction: BoardDirection.DOWN),
+                        moveLeft: () => _move(
+                            context: context,
+                            direction: BoardDirection.LEFT),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  DPad(
+                    scale: 1.5,
+                    isActive: true,
+                    upPress: () => _move(
+                        context: context,
+                        direction: BoardDirection.UP),
+                    rightPress: () => _move(
+                        context: context,
+                        direction: BoardDirection.RIGHT),
+                    downPress: () => _move(
+                        context: context,
+                        direction: BoardDirection.DOWN),
+                    leftPress: () => _move(
+                        context: context,
+                        direction: BoardDirection.LEFT),
+                  ),
+                ],
+              )
+                  : Column(
+                children: [
+                  GestureDetector(
+                      child: BagWidget(
+                        bagOfPieces: Provider.of<BagUI>(context,
+                            listen: true)
+                            .bag,
+                        toggleRotation: Provider.of<ToggleRotation>(
+                            context,
+                            listen: true),
+                        height: 500,
+                        width: 550,
+                        selectedPieceManagementRepository:
+                        selectedPieceManagementRepository,
+                        soundManagementRepository:
+                        soundManagementRepository,
+                        bagType: BagType.SPATIAL,
+                      ),
+                      onTap: () {
+                        removePieceFromPuzzle(context);
+                      }),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  RotationButtons(
+                    scale: 1.0,
+                    isActive: Provider.of<ToggleRotation>(context,
+                        listen: true)
+                        .canRotate,
+                    rotateLeft: () => _rotate(
+                        context: context,
+                        orientation:
+                        RotationOrientation.ANTICLOCKWISE),
+                    rotateRight: () => _rotate(
+                        context: context,
+                        orientation: RotationOrientation.CLOCKWISE),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 50,
+          ),
+          Column(
+            children: [
+              SpatialGrid(
+                  spatialManager:
+                  Provider.of<SpatialUI>(context, listen: true)
+                      .spatialModel,
+                  selectedManager: selectedPieceManagementRepository),
+              const SizedBox(
+                height: 20,
+                width: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    removeAllPieces(context);
+                  },
+                  child: const Text(
+                    "Clear board",
+                  )),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 

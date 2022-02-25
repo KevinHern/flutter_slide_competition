@@ -1,4 +1,5 @@
 // Basic Imports
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_competition/dev/data/models/level_manager.dart';
@@ -59,7 +60,7 @@ class AuditivePuzzleWidget extends StatelessWidget {
   late final BoardManagementRepository boardManagementRepository;
   late final BagManagementRepository bagManagementRepository;
   late final SelectedPieceManagementRepository
-      selectedPieceManagementRepository;
+  selectedPieceManagementRepository;
   late final SoundManagementRepository soundManagementRepository;
 
   // Use Cases
@@ -110,7 +111,7 @@ class AuditivePuzzleWidget extends StatelessWidget {
                 child: Center(
                   child: AuditivePuzzleBody(
                     selectedPieceManagementRepository:
-                        this.selectedPieceManagementRepository,
+                    this.selectedPieceManagementRepository,
                     boardManagementRepository: this.boardManagementRepository,
                     bagManagementRepository: this.bagManagementRepository,
                     soundManagementRepository: this.soundManagementRepository,
@@ -173,26 +174,26 @@ class AuditivePuzzleBody extends StatelessWidget {
 
   const AuditivePuzzleBody(
       {required this.selectedPieceManagementRepository,
-      required this.boardManagementRepository,
-      required this.bagManagementRepository,
-      required this.soundManagementRepository,
-      required this.levelManagementUseCases,
-      Key? key})
+        required this.boardManagementRepository,
+        required this.bagManagementRepository,
+        required this.soundManagementRepository,
+        required this.levelManagementUseCases,
+        Key? key})
       : super(key: key);
 
   void _move(
       {required BuildContext context,
-      required BoardDirection direction}) async {
+        required BoardDirection direction}) async {
     final Piece piece = SelectedPieceManagementUseCases(
-            selectedPieceManagementRepository:
-                selectedPieceManagementRepository)
+        selectedPieceManagementRepository:
+        selectedPieceManagementRepository)
         .getCurrentSelectedPiece();
 
     if (piece.isNullPiece) return;
 
     final Piece outPiece =
-        DpadUseCases(boardManagementRepository: boardManagementRepository)
-            .movePiece(direction: direction, puzzlePiece: piece);
+    DpadUseCases(boardManagementRepository: boardManagementRepository)
+        .movePiece(direction: direction, puzzlePiece: piece);
 
     Provider.of<BoardUI>(context, listen: false).update();
 
@@ -212,11 +213,17 @@ class AuditivePuzzleBody extends StatelessWidget {
           context: context,
           title: 'Hint!',
           message:
-              'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
+          'Good going! All the pieces you take out from the sliding puzzle are placed in a special bag you have.\n'
               'Try clicking the orange button that says \'Change to Bag\' and check all the available pieces you have!\n\n'
               'After that, click one of those pieces.',
-          onPressed: () => Provider.of<HintManager>(context, listen: false)
-              .showChangeToBagHint = false,
+          onPressed: () {
+            Provider.of<HintManager>(context, listen: false)
+                .showChangeToBagHint = false;
+            // Muestra animacion indicando que debe ir a la bolsa
+            Provider.of<HintManager>(context, listen: false)
+                .showClickOnChangeButton = true;
+            Provider.of<HintManager>(context, listen: false).update();
+          },
         );
       }
     }
@@ -226,14 +233,14 @@ class AuditivePuzzleBody extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(
       Duration.zero,
-      () async {
+          () async {
         if (Provider.of<HintManager>(context, listen: false)
             .showMovePieceHint) {
           await MyUtils.showMessage(
             context: context,
             title: 'Hint!',
             message:
-                'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
+            'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
                 'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
                 'Take into consideration that there are movable pieces, dummy pieces and fixed pieces.\n'
                 'The first 2 can be moved anywhere within the board but the dummy pieces can\'t be taken out form the board.\n'
@@ -246,135 +253,162 @@ class AuditivePuzzleBody extends StatelessWidget {
     );
 
     return Provider.of<UniversalPuzzleToggleManager>(context, listen: true)
-            .canShowWinButtonActive
+        .canShowWinButtonActive
         ? FinishButton(levelManagementUseCases: this.levelManagementUseCases)
         : SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    Consumer<UniversalPuzzleToggleManager>(
-                      builder: (_, universalPuzzleToggleManager, __) {
-                        return ElevatedButton(
-                          onPressed: () =>
-                              universalPuzzleToggleManager.showBag =
-                                  !universalPuzzleToggleManager.canShowBag,
-                          style: ElevatedButton.styleFrom(
-                            elevation: 10,
-                            padding: const EdgeInsets.all(10.0),
-                            primary: const Color(0xFFFFC09F),
-                            onPrimary: const Color(0xFFFCF5C7),
-                            shadowColor: const Color(0xFFFFC09F),
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            children: [
+              Consumer<UniversalPuzzleToggleManager>(
+                builder: (_, universalPuzzleToggleManager, __) {
+                  return Stack(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          universalPuzzleToggleManager.showBag =
+                          !universalPuzzleToggleManager.canShowBag;
+                          // Inicialmente no muestra animacion
+                          Provider.of<HintManager>(context, listen: false)
+                              .showClickOnChangeButton = false;
+                          Provider.of<HintManager>(context, listen: false)
+                              .update();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 10,
+                          padding: const EdgeInsets.all(10.0),
+                          primary: const Color(0xFFFFC09F),
+                          onPrimary: const Color(0xFFFCF5C7),
+                          shadowColor: const Color(0xFFFFC09F),
+                        ),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              'Change to ' +
+                                  ((universalPuzzleToggleManager
+                                      .canShowBag)
+                                      ? 'bag'
+                                      : 'board'),
+                              style:
+                              Theme.of(context).textTheme.subtitle1,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Image.asset(
+                              'icons/shift.png',
+                              scale: 3,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        left: 50,
+                        child: Visibility(
+                          // Visibilidad de la animacion controlada por el provider
+                          visible: Provider.of<HintManager>(context,
+                              listen: true)
+                              .showClickOnChangeButton,
+                          child: Image.asset(
+                            'assets/click.gif',
+                            height: 50,
+                            width: 50,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                'Change to ' +
-                                    ((universalPuzzleToggleManager.canShowBag)
-                                        ? 'bag'
-                                        : 'board'),
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Image.asset(
-                                'icons/shift.png',
-                                scale: 3,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              (Provider.of<UniversalPuzzleToggleManager>(context,
+                  listen: true)
+                  .canShowBag)
+                  ? Column(
+                children: [
+                  Card(
+                    elevation: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BoardGrid(
+                        board: Provider.of<BoardUI>(context,
+                            listen: true)
+                            .board,
+                        selectedManager:
+                        selectedPieceManagementRepository,
+                        soundManagementRepository:
+                        this.soundManagementRepository,
+                        boardType: BoardType.SOUND,
+                        moveUp: () => _move(
+                            context: context,
+                            direction: BoardDirection.UP),
+                        moveRight: () => _move(
+                            context: context,
+                            direction: BoardDirection.RIGHT),
+                        moveDown: () => _move(
+                            context: context,
+                            direction: BoardDirection.DOWN),
+                        moveLeft: () => _move(
+                            context: context,
+                            direction: BoardDirection.LEFT),
+                      ),
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    (Provider.of<UniversalPuzzleToggleManager>(context,
-                                listen: true)
-                            .canShowBag)
-                        ? Column(
-                            children: [
-                              Card(
-                                elevation: 10,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: BoardGrid(
-                                    board: Provider.of<BoardUI>(context,
-                                            listen: true)
-                                        .board,
-                                    selectedManager:
-                                        selectedPieceManagementRepository,
-                                    soundManagementRepository:
-                                        this.soundManagementRepository,
-                                    boardType: BoardType.SOUND,
-                                    moveUp: () => _move(
-                                        context: context,
-                                        direction: BoardDirection.UP),
-                                    moveRight: () => _move(
-                                        context: context,
-                                        direction: BoardDirection.RIGHT),
-                                    moveDown: () => _move(
-                                        context: context,
-                                        direction: BoardDirection.DOWN),
-                                    moveLeft: () => _move(
-                                        context: context,
-                                        direction: BoardDirection.LEFT),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              DPad(
-                                scale: 1.5,
-                                isActive: true,
-                                upPress: () => _move(
-                                    context: context,
-                                    direction: BoardDirection.UP),
-                                rightPress: () => _move(
-                                    context: context,
-                                    direction: BoardDirection.RIGHT),
-                                downPress: () => _move(
-                                    context: context,
-                                    direction: BoardDirection.DOWN),
-                                leftPress: () => _move(
-                                    context: context,
-                                    direction: BoardDirection.LEFT),
-                              ),
-                            ],
-                          )
-                        : BagWidget(
-                            bagOfPieces:
-                                Provider.of<BagUI>(context, listen: true).bag,
-                            toggleRotation: Provider.of<ToggleRotation>(context,
-                                listen: true),
-                            height: 500,
-                            width: 550,
-                            selectedPieceManagementRepository:
-                                selectedPieceManagementRepository,
-                            soundManagementRepository:
-                                this.soundManagementRepository,
-                            bagType: BagType.SOUND,
-                          ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                SoundGameWidget(
-                  soundSlotWidth: 600,
-                  soundManagementRepository: soundManagementRepository,
-                  bagManagementRepository: bagManagementRepository,
-                  selectedPieceManagementRepository:
-                      selectedPieceManagementRepository,
-                ),
-              ],
-            ),
-          );
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  DPad(
+                    scale: 1.5,
+                    isActive: true,
+                    upPress: () => _move(
+                        context: context,
+                        direction: BoardDirection.UP),
+                    rightPress: () => _move(
+                        context: context,
+                        direction: BoardDirection.RIGHT),
+                    downPress: () => _move(
+                        context: context,
+                        direction: BoardDirection.DOWN),
+                    leftPress: () => _move(
+                        context: context,
+                        direction: BoardDirection.LEFT),
+                  ),
+                ],
+              )
+                  : BagWidget(
+                bagOfPieces:
+                Provider.of<BagUI>(context, listen: true).bag,
+                toggleRotation: Provider.of<ToggleRotation>(context,
+                    listen: true),
+                height: 500,
+                width: 550,
+                selectedPieceManagementRepository:
+                selectedPieceManagementRepository,
+                soundManagementRepository:
+                this.soundManagementRepository,
+                bagType: BagType.SOUND,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 50,
+          ),
+          SoundGameWidget(
+            soundSlotWidth: 600,
+            soundManagementRepository: soundManagementRepository,
+            bagManagementRepository: bagManagementRepository,
+            selectedPieceManagementRepository:
+            selectedPieceManagementRepository,
+          ),
+        ],
+      ),
+    );
   }
 }
 
