@@ -217,13 +217,59 @@ class SpatialGrid extends StatelessWidget {
           );
         }
 
-        cuadritos[row * 6 + col] = Container(height: 10, width: 10, color: c, child: child);
+        Color borderColor = Color(0xA0FFFFFF);
 
+        BorderSide top = BorderSide(width: 2.0, color: borderColor);
+        BorderSide bottom = BorderSide(width: 2.0, color: borderColor);
+        BorderSide left = BorderSide(width: 2.0, color: borderColor);
+        BorderSide right = BorderSide(width: 2.0, color: borderColor);
+        BorderSide empty = const BorderSide(width: 0.0, color: Color(0x00000000));
+
+        if (row > 0 && userPiece == spatialManager.userBoard[row-1][col]) {
+          top = empty;
+        }
+
+        if (row < 5 && userPiece == spatialManager.userBoard[row+1][col]) {
+          bottom = empty;
+        }
+
+        if (col > 0 && userPiece == spatialManager.userBoard[row][col-1]) {
+          left = empty;
+        }
+
+        if (col < 5 && userPiece == spatialManager.userBoard[row][col+1]) {
+          right = empty;
+        }
+
+        if (userPiece == selPiece && !selPiece.isNullPiece) {
+          c = Colors.yellowAccent;
+        }
+
+        BoxDecoration boxDecoration = BoxDecoration(
+            border: Border(
+              top: top,
+              bottom: bottom,
+              left: left,
+              right: right,
+            ),
+            color: c
+        );
+
+        if (userPiece.isNullPiece) {
+          boxDecoration = BoxDecoration(
+            color: c,
+          );
+        }
+
+        cuadritos[row * 6 + col] = Container(height: 10, width: 10, decoration: boxDecoration, child: child);
+
+        /*
         // Pieza seleccionada en color que resalte
         if (userPiece == selPiece && !selPiece.isNullPiece) {
           cuadritos[row * 6 + col] =
               Container(height: 10, width: 10, color: Colors.yellowAccent, child: child);
         }
+        */
       }
     }
 
@@ -271,8 +317,8 @@ class SpatialGrid extends StatelessWidget {
                 child: item,
               )
             ],
-            crossAxisSpacing: 2,
-            mainAxisSpacing: 2,
+            crossAxisSpacing: 0.5,
+            mainAxisSpacing: 0.5,
           ),
           Positioned(
             left: 20,

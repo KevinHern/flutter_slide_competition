@@ -245,7 +245,7 @@ class AuditivePuzzleBody extends StatelessWidget {
             message:
                 'Click on a piece on the sliding board (left) and move the piece using the directional pad below.\n\n'
                 'Take the piece out from the board by moving it towards the right side.\n\n'
-                'The brown pieces cannot be taken out of the board. The purple ones cannot even be moved!\n\n',
+                'The brown pieces cannot be taken out of the board. The black ones cannot even be moved!\n\n',
 
             // 'Click a piece on the sliding board (left) and try to move it using the Dpad found below.\n'
             //     'Try to take the piece out by moving it towards the squares that are painted differently!\n\n'
@@ -451,7 +451,7 @@ class AuditivePuzzleBody extends StatelessWidget {
                     message:
                         'Click on a piece on the sliding board (left) and move the piece using the directional pad below.\n'
                         'Take the piece out from the board by moving it towards the right side.\n\n'
-                        'The brown pieces cannot be taken out of the board. The purple ones cannot even be moved!\n\n'
+                        'The brown pieces cannot be taken out of the board. The black ones cannot even be moved!\n\n'
                         'You can take out as many pieces as you want.\n\n'
                         'Click on the \'Change to bag\' button to display the bag with all the pieces you took out.\n\n'
                         'Click on the \'Play Template!\' button and listen carefully to the pattern.\n'

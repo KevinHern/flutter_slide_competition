@@ -56,6 +56,10 @@ class MyApp extends StatelessWidget {
             fontSize: 16,
             color: Colors.black,
           ),
+          bodyText2: GoogleFonts.notoSansMath(
+            fontSize: 28,
+            color: Colors.black,
+          ),
         ),
       ),
       initialRoute: '/',

@@ -168,9 +168,8 @@ class _BoardGridState extends State<BoardGrid> {
                     child: Center(
                         child: Text(
                           "⏩",
-                          style: GoogleFonts.notoSansMath(
-                            fontSize: 28
-                          ),
+                          // TODO: emoji se muestra un par de segundos después
+                          style: Theme.of(context).textTheme.bodyText2,
                         )
                     )
                 );
@@ -178,15 +177,53 @@ class _BoardGridState extends State<BoardGrid> {
 
           // Si hay una pieza válida
         } else {
-          Color c = piece.color;
+          Color pieceColor = piece.color;
+          Color borderColor = Color(0xA0FFFFFF);
 
-          // Y pintar el cuadro correspondiente
-          cuadritos[row * 8 + col] = Container(height: 10, width: 10, color: c);
+          BorderSide top = BorderSide(width: 2.0, color: borderColor);
+          BorderSide bottom = BorderSide(width: 2.0, color: borderColor);
+          BorderSide left = BorderSide(width: 2.0, color: borderColor);
+          BorderSide right = BorderSide(width: 2.0, color: borderColor);
+          BorderSide empty = const BorderSide(width: 0.0, color: Color(0x00000000));
+
+          if (row > 0 && piece == widget.board.board[row-1][col]) {
+            top = empty;
+          }
+
+          if (row < 7 && piece == widget.board.board[row+1][col]) {
+            bottom = empty;
+          }
+
+          if (col > 0 && piece == widget.board.board[row][col-1]) {
+            left = empty;
+          }
+
+          if (col < 7 && piece == widget.board.board[row][col+1]) {
+            right = empty;
+          }
 
           if (piece == selPiece) {
-            cuadritos[row * 8 + col] =
-                Container(height: 10, width: 10, color: Colors.yellowAccent);
+            pieceColor = Colors.yellowAccent;
           }
+
+          BoxDecoration boxDecoration = BoxDecoration(
+            border: Border(
+              top: top,
+              bottom: bottom,
+              left: left,
+              right: right,
+            ),
+            color: pieceColor
+          );
+
+          if (piece.type == PieceType.FIXED) {
+            boxDecoration = BoxDecoration(
+              color: piece.color,
+            );
+          }
+
+          // Y pintar el cuadro correspondiente
+          cuadritos[row * 8 + col] = Container(height: 10, width: 10, decoration: boxDecoration);
         }
       }
     }
@@ -216,9 +253,6 @@ class _BoardGridState extends State<BoardGrid> {
                 }
               },
               onVerticalDragEnd: (DragEndDetails details) {
-                print(
-                    "${details.primaryVelocity} (negativo arriba, positivo abajo)");
-
                 if (details.primaryVelocity! > 0) {
                   widget.moveDown();
                 } else if (details.primaryVelocity! < 0) {
@@ -240,9 +274,6 @@ class _BoardGridState extends State<BoardGrid> {
                 }
               },
               onHorizontalDragEnd: (DragEndDetails details) {
-                print(
-                    "${details.primaryVelocity} (negativo izquierda, positivo derecha)");
-
                 if (details.primaryVelocity! > 0) {
                   widget.moveRight();
                 } else if (details.primaryVelocity! < 0) {
@@ -268,8 +299,8 @@ class _BoardGridState extends State<BoardGrid> {
               child: item,
             )
         ],
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
+        crossAxisSpacing: 0.5,
+        mainAxisSpacing: 0.5,
       ),
     );
   }
