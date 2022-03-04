@@ -459,7 +459,18 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         shape: PieceShape.DOT,
         location: PieceLocation.BOARD,
       ),
-      row: 2,
+      row: 1,
+      col: 3,
+    );
+
+    board.addPiece(
+      piece: Piece.withDetails(
+        rotation: PieceRotation.UP,
+        type: PieceType.FIXED,
+        shape: PieceShape.DOT,
+        location: PieceLocation.BOARD,
+      ),
+      row: 6,
       col: 4,
     );
 
@@ -471,18 +482,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         location: PieceLocation.BOARD,
       ),
       row: 4,
-      col: 5,
-    );
-
-    board.addPiece(
-      piece: Piece.withDetails(
-        rotation: PieceRotation.UP,
-        type: PieceType.FIXED,
-        shape: PieceShape.DOT,
-        location: PieceLocation.BOARD,
-      ),
-      row: 5,
-      col: 3,
+      col: 1,
     );
 
     board.addPiece(
@@ -493,7 +493,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         location: PieceLocation.BOARD,
       ),
       row: 3,
-      col: 2,
+      col: 6,
     );
 
     // Adding Dummy Pieces
@@ -505,7 +505,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         location: PieceLocation.BOARD,
       ),
       row: 3,
-      col: 1,
+      col: 5,
     );
 
     board.addPiece(
@@ -515,7 +515,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         shape: PieceShape.L,
         location: PieceLocation.BOARD,
       ),
-      row: 1,
+      row: 5,
       col: 3,
     );
 
@@ -527,7 +527,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         location: PieceLocation.BOARD,
       ),
       row: 3,
-      col: 5,
+      col: 1,
     );
 
     board.addPiece(
@@ -537,7 +537,7 @@ class BoardManagementRepositoryImpl implements BoardManagementRepository {
         shape: PieceShape.L,
         location: PieceLocation.BOARD,
       ),
-      row: 5,
+      row: 1,
       col: 3,
     );
 
