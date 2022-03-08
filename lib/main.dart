@@ -64,8 +64,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        //'/': (context) => const WelcomeScreen(),
-        '/': (context) => const UnitTestMenu(),
+        '/': (context) => const WelcomeScreen(),
+        //'/': (context) => const UnitTestMenu(),
         '/bag_test': (context) => BagTestScreen(),
         '/board_test': (context) => BoardTestScreen(scale: 2),
         '/ui_test': (context) => const UITestScreen(),

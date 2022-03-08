@@ -46,7 +46,7 @@ class PuzzleScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black38,
         title: const Text(
-          'The Cursed Journal Entry',
+          'Journal Entry',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
