@@ -178,7 +178,7 @@ class _BoardGridState extends State<BoardGrid> {
           // Si hay una pieza válida
         } else {
           Color pieceColor = piece.color;
-          Color borderColor = Color(0xA0FFFFFF);
+          Color borderColor = Color(0xB0FFFFFF);
 
           BorderSide top = BorderSide(width: 2.0, color: borderColor);
           BorderSide bottom = BorderSide(width: 2.0, color: borderColor);

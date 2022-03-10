@@ -25,6 +25,10 @@ class LevelManagementUseCases {
         .isForced(currentPuzzle: currentPuzzle);
   }
 
+  bool isNextLevelForcedPuzzleNonFuture({required PuzzleType currentPuzzle}) {
+    return this.levelManagementRepository.isForcedNonFuture(currentPuzzle: currentPuzzle);
+  }
+
   Future<bool> isGameComplete() async {
     int totalLevels =
         await this.levelManagementRepository.totalCompletedLevels();

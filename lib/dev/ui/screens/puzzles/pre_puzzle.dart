@@ -29,7 +29,7 @@ class PrePuzzleScreen extends StatelessWidget {
   // inicio del juego
   static const List<String> textsWelcome = [
     """
-    Welcome! It has been a long time since I saw a the last person around here...
+    Welcome! It has been a long time since I saw the last person around here...
       
     Oh, you're investigating a mystery? I haven't seen anything unusual around here, but I'm a ghost, maybe our perceptions of 'unusual' are a little different, hehehe.
       
@@ -40,9 +40,9 @@ class PrePuzzleScreen extends StatelessWidget {
     """
     Hello hello! What do we have here?
     
-    Oh!! It is another human! You may be asking why I am so excited... well, lets say I haven't had a visitor in ages!
+    Oh!! It is another human! You may be asking why I am so excited... Well, lets say I haven't had a visitor in ages!
     
-    You had a reason to come here so feel free to look around. Perhaps things might be... a little interesting hehehe.
+    You had a reason to come here right? Feel free to look around. Perhaps things might be... a little interesting hehehe.
     
     I hope you figure out things, this is only the beginning!
     """,
@@ -69,7 +69,7 @@ class PrePuzzleScreen extends StatelessWidget {
     """
     Wow, you made it look super easy! You remind me of the owners that found anything related to art super easy to understand and interpret.
     
-    I have been living here for a while and I didn't notice you could do such feats, but you showed there are more things to discover in this humble mansion.
+    I have been living here for a while and I didn't notice you could do such feats, but you showed there are many things to discover in this humble mansion.
     
     Keep it up! You are interesting, indeed, so I'll follow you for a while...
     """,
@@ -103,26 +103,59 @@ class PrePuzzleScreen extends StatelessWidget {
     """
   ];
 
-  // previo a ultimo nivel
-  static const List<String> textsAlmostDone = [
+  static const List<String> textsGenericForced = [
     """
-    You are almost ready to solve this mystery!
+    Why don't we try something different now!
     """,
     """
-    You got this! You are near the end.
+    Can you keep up if the puzzles change a little bit?
     """,
     """
-    Another day, another mystery, eh? It seems you are almost done!
+    You're really skilled at that! Let's see how good are you at this...
     """,
     """
-    Wow! It seems you are about to solve this mystery!
-    """,
-    """
-    You are so clever, but can you finish this last one?
+    Maybe you should try to find some different clues this time...
     """
   ];
 
-  String _getText({required int stage}) {
+  // previo a ultimo nivel
+  static const List<String> textsAlmostDone = [
+    """
+    You are almost ready to solve this mystery! I wonder who can be behind all these puzzles? Hehehe.
+    """,
+    """
+    You got this! You are near the end. Who might be responsible for all these fun puzzles? Hehehe.
+    """,
+    """
+    Another day, another mystery, eh? It seems you are almost done! Let's find who created these marvelous puzzles! Hehehe.
+    """,
+    """
+    Wow! It seems you are about to solve this mystery! Who might be responsible for all these fun puzzles? Hehehe.
+    """,
+    """
+    You are so clever, but can you finish this last one? We might find who made up all these puzzles. Hehehe.
+    """
+  ];
+
+  static const List<String> textsAlmostDoneForced = [
+    """
+    The next one is the last puzzle I made... I mean, that SOMEONE made. Yeah, that someone made... 
+    
+    It is extra difficult, perfect for you!
+    """,
+    """
+    You have solved all my puzzles... I mean, all THE puzzles so far.
+    
+    The next one is the last one! Hope you find it challenging!
+    """,
+    """
+    Hey! It took a lot of effort to set all those puzzles! I mean... for someone, hehe.
+    
+    Hope you find the last one very challenging!
+    """,
+  ];
+
+  String _getText({required int stage, bool forced = false}) {
     switch (stage) {
       case 0:
         return textsWelcome[Random().nextInt(textsWelcome.length)];
@@ -130,9 +163,17 @@ class PrePuzzleScreen extends StatelessWidget {
         return textsInterlude[Random().nextInt(textsInterlude.length)];
       case 2:
       case 3:
-        return textsGeneric[Random().nextInt(textsGeneric.length)];
+        if (forced) {
+          return textsGenericForced[Random().nextInt(textsGenericForced.length)];
+        } else {
+          return textsGeneric[Random().nextInt(textsGeneric.length)];
+        }
       case 4:
-        return textsAlmostDone[Random().nextInt(textsAlmostDone.length)];
+        if (forced) {
+          return textsAlmostDoneForced[Random().nextInt(textsAlmostDoneForced.length)];
+        } else {
+          return textsAlmostDone[Random().nextInt(textsAlmostDone.length)];
+        }
       default:
         throw Exception(
             'Get Text at Pre Puzzle: Unknown phase of the puzzle detected.');
@@ -154,6 +195,10 @@ class PrePuzzleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double fontSize = MyUtils.getPrettyTextFontSize(context: context);
 
+    PuzzleType tempType = levelManagementUseCases.getTempType();
+    // Elegir entre SELECT o FORCED
+    bool nextLevelForced = this.levelManagementUseCases.isNextLevelForcedPuzzleNonFuture(currentPuzzle: tempType);
+
     return Consumer<NavigationManager>(
       builder: (_, navigationManager, __) {
         return SingleChildScrollView(
@@ -164,6 +209,8 @@ class PrePuzzleScreen extends StatelessWidget {
                   this._getText(
                     stage:
                         levelManagementUseCases.getCompletedLevelsNonFuture(),
+                    forced:
+                        nextLevelForced,
                   ),
               size: fontSize,
               fontFamily: Theme.of(context).textTheme.subtitle1!.fontFamily,

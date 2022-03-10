@@ -4,6 +4,7 @@ import '../../data/models/puzzle.dart';
 
 abstract class LevelManagementRepository {
   Future<bool> isForced({required PuzzleType currentPuzzle});
+  bool isForcedNonFuture({required PuzzleType currentPuzzle});
 
   Future<PuzzleType> obtainForcedPuzzle();
   PuzzleType obtainForcedPuzzleNonFuture();

@@ -146,7 +146,7 @@ class PuzzleHeader extends StatelessWidget {
             Provider.of<ValueNotifier<int>>(context, listen: true)
                 .value
                 .toString(),
-        size: 70,
+        size: 60,
         thickness: 6,
         background: Colors.transparent,
         fontFamily: Theme.of(context).textTheme.headline1!.fontFamily,

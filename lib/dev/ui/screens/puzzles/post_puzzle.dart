@@ -29,22 +29,30 @@ class PostPuzzleScreen extends StatelessWidget {
     """
     Congratulations! You have finished exploring the mansion and uncovered all of its secrets.
     
-    Will you tell the world about them?
+    It took a really long time to set them all up, but it was all worth it.
+    
+    Will you tell the world about the mansion? If so, I will prepare some more puzzles!
     """,
     """
     Wow! You solved everything that this mansion had in store!
     
-    Aren't you excited to tell somebody else?
+    Aren't you excited to tell somebody else? Please do!
+    
+    I want to play some more, so I'll start preparing more puzzles for the next visitors!
     """,
     """
     You for sure are gifted at solving mysteries. All the secrets of the mansion seem to be uncovered!
     
-    Will let everyone else know about the mysteries?
+    Will you let everyone else know about the mysteries?
+    
+    Tell everyone and bring your friends! I will prepare some more puzzles in the meantime.
     """,
     """
     What an amazing job you have done! There are no mysteries safe from you, hehehe.
     
     What are you going to do next? Tell everyone about your experience?
+    
+    Please do, and bring many friends! I want everyone to know about my puzzles!
     """
   ];
 
@@ -67,7 +75,7 @@ class PostPuzzleScreen extends StatelessWidget {
           child: Column(children: [
             // Texto con sombra
             PrettyText(
-              textsDone[Random().nextInt(textsDone.length)],
+              'A very friendly ghostly voice: ' + textsDone[Random().nextInt(textsDone.length)],
               fontFamily: Theme.of(context).textTheme.subtitle1!.fontFamily,
             ),
 

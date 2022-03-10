@@ -265,7 +265,7 @@ class SpatialPuzzleBody extends StatelessWidget {
           .showChangeToBagHint) {
         await MyUtils.showMessage(
           context: context,
-          title: 'Hint!',
+          title: 'Instructions:',
           message:
               // Mensaje al sacar una pieza
               'Good going! You can take out as many pieces as you want.\n\n'
@@ -353,7 +353,7 @@ class SpatialPuzzleBody extends StatelessWidget {
             .showMovePieceHint) {
           await MyUtils.showMessage(
             context: context,
-            title: 'Hint!',
+            title: 'Instructions:',
             message:
                 'Click on a piece on the sliding board (left) and move the piece using the directional pad below.\n\n'
                 'Take the piece out from the board by moving it towards the right side.\n\n'
@@ -613,7 +613,7 @@ class SpatialPuzzleBody extends StatelessWidget {
                 onPressed: () async {
                   await MyUtils.showMessage(
                     context: context,
-                    title: 'Hint!',
+                    title: 'Instructions:',
                     message:
                     'Click on a piece on the sliding board (left) and move the piece using the directional pad below.\n'
                         'Take the piece out from the board by moving it towards the right side.\n\n'

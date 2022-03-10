@@ -23,6 +23,11 @@ class LevelManagementRepositoryImpl implements LevelManagementRepository {
   }
 
   @override
+  bool isForcedNonFuture({required PuzzleType currentPuzzle}) {
+    return this._levelManager.totalSound == 3 || this._levelManager.totalSpatial == 3 || this._levelManager.previousPuzzle == currentPuzzle;
+  }
+
+  @override
   Future<PuzzleType> obtainForcedPuzzle() {
     // If we ran out of puzzles (== 3) or the previous Puzzle is the same type,
     // then return the opposite puzzle
